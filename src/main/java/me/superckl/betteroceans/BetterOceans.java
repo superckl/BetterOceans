@@ -1,26 +1,33 @@
 package me.superckl.betteroceans;
 
 import lombok.Getter;
+import me.superckl.betteroceans.proxy.IProxy;
+import me.superckl.betteroceans.reference.ModData;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid="BetterOceans", name="Better Oceans", version="1.0")
+@Mod(modid=ModData.MOD_ID, name=ModData.MOD_NAME, version=ModData.VERSION)
 public class BetterOceans {
 	
-	@Instance("BetterOceans")
+	@Instance(ModData.MOD_ID)
 	@Getter
 	private static BetterOceans instance;
+	
+	@SidedProxy(clientSide=ModData.CLIENT_PROXY, serverSide=ModData.SERVER_PROXY)
+	@Getter
+	private static IProxy proxy;
 	
 	@Getter
 	private Config config;
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e){
-		this.config = new Config();
+		this.config = new Config(e.getSuggestedConfigurationFile());
 	}
 	
 	@EventHandler
