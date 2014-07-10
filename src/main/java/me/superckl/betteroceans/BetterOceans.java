@@ -1,8 +1,14 @@
 package me.superckl.betteroceans;
 
 import lombok.Getter;
+import me.superckl.betteroceans.gen.SeaweedDecorator;
+import me.superckl.betteroceans.gen.TrenchGenerator;
 import me.superckl.betteroceans.proxy.IProxy;
+import me.superckl.betteroceans.reference.ModBlocks;
 import me.superckl.betteroceans.reference.ModData;
+import me.superckl.betteroceans.reference.ModItems;
+import me.superckl.betteroceans.utility.NumberUtil;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -10,8 +16,9 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid=ModData.MOD_ID, name=ModData.MOD_NAME, version=ModData.VERSION)
+@Mod(modid=ModData.MOD_ID, name=ModData.MOD_NAME, version=ModData.VERSION, guiFactory = ModData.GUI_FACTORY)
 public class BetterOceans {
 	
 	@Instance(ModData.MOD_ID)
@@ -28,6 +35,12 @@ public class BetterOceans {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e){
 		this.config = new Config(e.getSuggestedConfigurationFile());
+		this.config.loadValues();
+		ModItems.init();
+		ModBlocks.init();
+		FMLCommonHandler.instance().bus().register(this.config);
+		GameRegistry.registerWorldGenerator(new SeaweedDecorator(), 100);
+		GameRegistry.registerWorldGenerator(new TrenchGenerator(), 10);
 	}
 	
 	@EventHandler
