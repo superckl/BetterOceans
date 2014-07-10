@@ -24,7 +24,7 @@ public class SeaweedDecorator implements IWorldGenerator{
 		if(!BetterOceans.getInstance().getConfig().isGenSeaweed())
 			return;
 		Block block = null;
-		int tries = 20;
+		int tries = BetterOceans.getInstance().getConfig().getSeaweedWaterBlockTries();
 		int baseX = chunkX, baseZ = chunkZ;
 		while(block != Blocks.water && tries-- > 0){
 			baseX = chunkX*16 + random.nextInt(16)+8;
@@ -34,7 +34,7 @@ public class SeaweedDecorator implements IWorldGenerator{
 		}
 		if(block != Blocks.water)
 			return;
-		for (int i = 0; i < 5; ++i)
+		for (int i = 0; i < BetterOceans.getInstance().getConfig().getSeaweedTries(); ++i)
         {
             int newX = baseX + random.nextInt(8) - random.nextInt(8);
             int newZ = baseZ + random.nextInt(8) - random.nextInt(8);
@@ -57,8 +57,5 @@ public class SeaweedDecorator implements IWorldGenerator{
             	toStack--;
             }
         }
-		
 	}
-
-	
 }

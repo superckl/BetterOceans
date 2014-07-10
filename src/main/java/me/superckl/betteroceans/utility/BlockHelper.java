@@ -34,4 +34,19 @@ public class BlockHelper {
 		return count;
 	}
 	
+	public static int getMinHeightInChunk(World world, int chunkX, int chunkZ, Block block){
+		int baseX = chunkX*16; int baseZ = chunkZ*16;
+		int minHeight = 256;
+		for(int i = 0; i <= 15; i++){
+			int x = baseX+i; int z = baseZ+i;
+			int y = world.getTopSolidOrLiquidBlock(x, z);
+			if(world.getBlock(x, y, z) != block)
+				return 0;
+			int height = getHeight(world, x, y, z, false);
+			if(height < minHeight)
+				minHeight = height;
+		}
+		return minHeight;
+	}
+	
 }
