@@ -1,54 +1,55 @@
 package me.superckl.betteroceans.utility;
 
-import cpw.mods.fml.common.FMLLog;
 import me.superckl.betteroceans.reference.ModData;
 
 import org.apache.logging.log4j.Level;
 
+import cpw.mods.fml.common.FMLLog;
+
 public class LogHelper
 {
-    public static void log(Level logLevel, Object object)
-    {
-        FMLLog.log(ModData.MOD_NAME, logLevel, String.valueOf(object));
-    }
+	public static void log(final Level logLevel, final Object object)
+	{
+		FMLLog.log(ModData.MOD_NAME, logLevel, String.valueOf(object));
+	}
 
-    public static void all(Object object)
-    {
-        log(Level.ALL, object);
-    }
+	public static void all(final Object object)
+	{
+		LogHelper.log(Level.ALL, object);
+	}
 
-    public static void debug(Object object)
-    {
-        log(Level.DEBUG, object);
-    }
+	public static void debug(final Object object)
+	{
+		LogHelper.log(Level.DEBUG, object);
+	}
 
-    public static void error(Object object)
-    {
-        log(Level.ERROR, object);
-    }
+	public static void error(final Object object)
+	{
+		LogHelper.log(Level.ERROR, object);
+	}
 
-    public static void fatal(Object object)
-    {
-        log(Level.FATAL, object);
-    }
+	public static void fatal(final Object object)
+	{
+		LogHelper.log(Level.FATAL, object);
+	}
 
-    public static void info(Object object)
-    {
-        log(Level.INFO, object);
-    }
+	public static void info(final Object object)
+	{
+		LogHelper.log(Level.INFO, object);
+	}
 
-    public static void off(Object object)
-    {
-        log(Level.OFF, object);
-    }
+	public static void off(final Object object)
+	{
+		LogHelper.log(Level.OFF, object);
+	}
 
-    public static void trace(Object object)
-    {
-        log(Level.TRACE, object);
-    }
+	public static void trace(final Object object)
+	{
+		LogHelper.log(Level.TRACE, object);
+	}
 
-    public static void warn(Object object)
-    {
-        log(Level.WARN, object);
-    }
+	public static void warn(final Object object)
+	{
+		LogHelper.log(Level.WARN, object);
+	}
 }

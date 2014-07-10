@@ -9,9 +9,9 @@ import cpw.mods.fml.client.IModGuiFactory;
 public class BetterOceansGuiFactory implements IModGuiFactory{
 
 	@Override
-	public void initialize(Minecraft minecraftInstance) {
+	public void initialize(final Minecraft minecraftInstance) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class BetterOceansGuiFactory implements IModGuiFactory{
 
 	@Override
 	public RuntimeOptionGuiHandler getHandlerFor(
-			RuntimeOptionCategoryElement element) {
+			final RuntimeOptionCategoryElement element) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -6,21 +6,21 @@ import net.minecraft.world.World;
 
 public class BlockHelper {
 
-	public static boolean isWaterSourceAt(World world, int x, int y, int z, Block ... exceptions){
-		Block block = world.getBlock(x, y, z);
+	public static boolean isWaterSourceAt(final World world, final int x, final int y, final int z, final Block ... exceptions){
+		final Block block = world.getBlock(x, y, z);
 		if(Blocks.water == block)
 			return true;
-		for(Block block1:exceptions)
+		for(final Block block1:exceptions)
 			if(block == block1)
 				return true;
 		return false;
 	}
-	
+
 	/**
 	 * Counts how many of the same block of the same type are underneath the specified block, counting the specified block
 	 */
-	public static int getHeight(World world, int x, int y, int z, boolean countDown){
-		Block block = world.getBlock(x, y, z);
+	public static int getHeight(final World world, final int x, int y, final int z, final boolean countDown){
+		final Block block = world.getBlock(x, y, z);
 		int count = 0;
 		while(world.getBlock(x, y, z) == block){
 			count++;
@@ -33,20 +33,20 @@ public class BlockHelper {
 		}
 		return count;
 	}
-	
-	public static int getMinHeightInChunk(World world, int chunkX, int chunkZ, Block block){
-		int baseX = chunkX*16; int baseZ = chunkZ*16;
+
+	public static int getMinHeightInChunk(final World world, final int chunkX, final int chunkZ, final Block block){
+		final int baseX = chunkX*16; final int baseZ = chunkZ*16;
 		int minHeight = 256;
 		for(int i = 0; i <= 15; i++){
-			int x = baseX+i; int z = baseZ+i;
-			int y = world.getTopSolidOrLiquidBlock(x, z);
+			final int x = baseX+i; final int z = baseZ+i;
+			final int y = world.getTopSolidOrLiquidBlock(x, z);
 			if(world.getBlock(x, y, z) != block)
 				return 0;
-			int height = getHeight(world, x, y, z, false);
+			final int height = BlockHelper.getHeight(world, x, y, z, false);
 			if(height < minHeight)
 				minHeight = height;
 		}
 		return minHeight;
 	}
-	
+
 }

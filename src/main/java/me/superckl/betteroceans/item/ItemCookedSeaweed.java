@@ -2,7 +2,6 @@ package me.superckl.betteroceans.item;
 
 import me.superckl.betteroceans.reference.ModData;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 
 public class ItemCookedSeaweed extends ItemFoodBO{
 
@@ -12,8 +11,8 @@ public class ItemCookedSeaweed extends ItemFoodBO{
 	}
 
 	@Override
-	public void registerIcons(IIconRegister register){
+	public void registerIcons(final IIconRegister register){
 		this.itemIcon = register.registerIcon(ModData.MOD_ID+":cookedseaweed");
 	}
-	
+
 }

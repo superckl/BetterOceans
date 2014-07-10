@@ -9,18 +9,18 @@ public abstract class ItemBO extends Item{
 	public ItemBO(){
 		super();
 	}
-	
+
 	@Override
 	public String getUnlocalizedName(){
 		return String.format("item.%s%s%s", ModData.MOD_ID.toLowerCase(), ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 	}
-	
+
 	@Override
-	public String getUnlocalizedName(ItemStack stack){
+	public String getUnlocalizedName(final ItemStack stack){
 		return String.format("item.%s%s%s", ModData.MOD_ID.toLowerCase(), ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 	}
-	
-	private String getUnwrappedUnlocalizedName(String unlocalizedName){
+
+	private String getUnwrappedUnlocalizedName(final String unlocalizedName){
 		return unlocalizedName.substring(unlocalizedName.indexOf(".")+1);
 	}
 }
