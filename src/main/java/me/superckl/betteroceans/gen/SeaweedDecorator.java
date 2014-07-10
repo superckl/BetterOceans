@@ -23,8 +23,8 @@ public class SeaweedDecorator implements IWorldGenerator{
 		int tries = BetterOceans.getInstance().getConfig().getSeaweedWaterBlockTries();
 		int baseX = chunkX, baseZ = chunkZ;
 		while(block != Blocks.water && tries-- > 0){
-			baseX = chunkX*16 + random.nextInt(16)+8;
-			baseZ = chunkZ*16 + random.nextInt(16)+8;
+			baseX = (chunkX << 4) + random.nextInt(16)+8;
+			baseZ = (chunkZ << 4) + random.nextInt(16)+8;
 			final int y = world.getTopSolidOrLiquidBlock(baseX, baseZ);
 			block = world.getBlock(baseX, y, baseZ);
 		}
@@ -40,6 +40,8 @@ public class SeaweedDecorator implements IWorldGenerator{
 				continue;
 			final int depth = BlockHelper.getHeight(world, newX, newY, newZ, false);
 			if(depth < 3)
+				continue;
+			if(!ModBlocks.seaweed.canPlaceBlockAt(world, newX, newY, newZ))
 				continue;
 			final int maxStack = Math.min(depth-2, 2);
 			int toStack = 0;

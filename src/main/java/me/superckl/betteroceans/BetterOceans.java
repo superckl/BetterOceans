@@ -39,7 +39,7 @@ public class BetterOceans {
 		ModBlocks.init();
 		FMLCommonHandler.instance().bus().register(this.config);
 		GameRegistry.registerWorldGenerator(new SeaweedDecorator(), 100);
-		GameRegistry.registerWorldGenerator(new TrenchGenerator(), 10);
+		GameRegistry.registerWorldGenerator(new TrenchGenerator(), 90);
 	}
 
 	@EventHandler

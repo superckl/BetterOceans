@@ -111,13 +111,39 @@ public class BlockSeaweed extends BlockBO implements IPlantable{
 
 	@Override
 	public boolean canBlockStay(final World world, final int x, final int y, final int z){
-		//TODO
-		return world.isWaterSourceAt(x, y, z)
-				&& world.isWaterSourceAt(x-1, y, z, this) && world.isWaterSourceAt(x+1, y, z, this)
-				&& world.isWaterSourceAt(x, y, z-1, this) && world.isWaterSourceAt(x, y, z+1, this)
-				&& world.isWaterSourceAt(x, y+1, z, this)
-				&& (world.getBlock(x, y-1, z) == Blocks.dirt || world.getBlock(x, y-1, z) == Blocks.sand
-				|| world.getBlock(x, y-1, z) == this);
+		final Block below = world.getBlock(x, y-1, z);
+		if(!(below == Blocks.sand || below == Blocks.dirt || below == this))
+			return false;
+		final Block above = world.getBlock(x, y+1, z);
+		if(!(above == Blocks.water || above == this))
+			return false;
+		Block corner0, corner1, corner2;
+		//Begin testing corners
+		corner0 = world.getBlock(x+1, y, z);
+		corner1 = world.getBlock(x+1, y, z+1);
+		corner2 = world.getBlock(x, y, z+1);
+		if(corner0 == Blocks.water && corner1 == Blocks.water && corner2 == Blocks.water)
+			return true;
+
+		corner0 = corner2;
+		corner1 = world.getBlock(x-1, y, z+1);
+		corner2 = world.getBlock(x-1, y, z);
+		if(corner0 == Blocks.water && corner1 == Blocks.water && corner2 == Blocks.water)
+			return true;
+
+		corner0 = corner2;
+		corner1 = world.getBlock(x-1, y, z-1);
+		corner2 = world.getBlock(x, y, z-1);
+		if(corner0 == Blocks.water && corner1 == Blocks.water && corner2 == Blocks.water)
+			return true;
+
+		corner0 = corner2;
+		corner1 = world.getBlock(x+1, y, z-1);
+		corner2 = world.getBlock(x+1, y, z);
+		if(corner0 == Blocks.water && corner1 == Blocks.water && corner2 == Blocks.water)
+			return true;
+
+		return false;
 	}
 
 	private int getHeight(final World world, final int x, int y, final int z){
