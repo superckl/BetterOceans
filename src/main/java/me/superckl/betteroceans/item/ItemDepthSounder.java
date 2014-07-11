@@ -20,16 +20,15 @@ public class ItemDepthSounder extends ItemBO{
 
 	@Override
 	public void registerIcons(final IIconRegister register){
-		this.icons = new IIcon[6];
-		for(int i = 1; i < 7; i++)
+		this.icons = new IIcon[7];
+		for(int i = 1; i < 8; i++)
 			this.icons[i-1] = register.registerIcon(ModData.MOD_ID+":depthSounder"+i);
-		//this.itemIcon = register.registerIcon(ModData.MOD_ID+":depthsounder");
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IIcon getIconFromDamage(final int damage){
-		return this.icons[(int) Math.min(Math.round(RenderTickHandler.lastDepth/9), 5L)];
+		return this.icons[(int) Math.min(Math.round(RenderTickHandler.lastDepth/8), 5L)];
 	}
 
 }

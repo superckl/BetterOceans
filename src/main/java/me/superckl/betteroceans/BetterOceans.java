@@ -1,6 +1,8 @@
 package me.superckl.betteroceans;
 
 import lombok.Getter;
+import me.superckl.betteroceans.gen.BiomeGenBetterOceansDeepOcean;
+import me.superckl.betteroceans.gen.BiomeGenBetterOceansOcean;
 import me.superckl.betteroceans.gen.SeaweedDecorator;
 import me.superckl.betteroceans.gen.TrenchGenerator;
 import me.superckl.betteroceans.handler.FuelHandler;
@@ -8,6 +10,9 @@ import me.superckl.betteroceans.proxy.IProxy;
 import me.superckl.betteroceans.reference.ModBlocks;
 import me.superckl.betteroceans.reference.ModData;
 import me.superckl.betteroceans.reference.ModItems;
+import me.superckl.betteroceans.utility.LogHelper;
+import me.superckl.betteroceans.utility.ReflectionUtil;
+import net.minecraft.world.biome.BiomeGenBase;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -48,6 +53,13 @@ public class BetterOceans {
 		BetterOceans.proxy.registerTickHandlers();
 		GameRegistry.registerFuelHandler(new FuelHandler());
 		ModItems.overrideRecipes();
+		LogHelper.info("Replacing ocean biomes...");
+		final BiomeGenBetterOceansOcean boO = new BiomeGenBetterOceansOcean();
+		final BiomeGenBetterOceansDeepOcean boDO = new BiomeGenBetterOceansDeepOcean();
+		if(!ReflectionUtil.setFinalStatic(BiomeGenBase.class, "ocean", boO, true))
+			LogHelper.fatal("Failed to override ocean biome! Loading worlds generated with Better Oceans may cause corruption!");
+		if(!ReflectionUtil.setFinalStatic(BiomeGenBase.class, "deepOcean", boDO, true))
+			LogHelper.fatal("Failed to override deep ocean biome! Loading worlds generated with Better Oceans may cause corruption!");
 	}
 
 	@EventHandler

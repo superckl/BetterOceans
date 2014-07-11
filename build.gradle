@@ -23,7 +23,7 @@ archivesBaseName = "BetterOceans"
 
 minecraft {
     version = "1.7.2-10.12.2.1147"
-    assetDir = "eclipse/assets"
+    runDir = "eclipse/assets"
 }
 
 dependencies {

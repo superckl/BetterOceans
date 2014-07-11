@@ -5,7 +5,7 @@ import java.lang.reflect.Modifier;
 
 public class ReflectionUtil {
 
-	public static void setFinalStatic(final Class<?> clazz, final String field, final Object toPut, final boolean coverTracks){
+	public static boolean setFinalStatic(final Class<?> clazz, final String field, final Object toPut, final boolean coverTracks){
 		try {
 			final Field toSet = clazz.getDeclaredField(field);
 			final boolean access = toSet.isAccessible();
@@ -25,7 +25,9 @@ public class ReflectionUtil {
 		} catch (final Exception e) {
 			LogHelper.error("Failed to set static final field "+field+" in class "+clazz.getCanonicalName()+" to "+toPut+". coverTracks: "+coverTracks);
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 
 }
