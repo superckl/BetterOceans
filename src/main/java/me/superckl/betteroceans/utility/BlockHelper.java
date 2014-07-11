@@ -101,9 +101,9 @@ public class BlockHelper {
 		}
 		return true;
 	}
-	
-	public static int getFluidDepth(World world, int x, int y, int z){
-		Fluid fluid = FluidRegistry.lookupFluidForBlock(world.getBlock(x, y, z));
+
+	public static int getFluidDepth(final World world, final int x, int y, final int z){
+		final Fluid fluid = FluidRegistry.lookupFluidForBlock(world.getBlock(x, y, z));
 		if(fluid == null)
 			return 0;
 		Fluid newFluid = null;

@@ -1,9 +1,9 @@
 package me.superckl.betteroceans;
 
-import net.minecraftforge.common.MinecraftForge;
 import lombok.Getter;
 import me.superckl.betteroceans.gen.SeaweedDecorator;
 import me.superckl.betteroceans.gen.TrenchGenerator;
+import me.superckl.betteroceans.handler.FuelHandler;
 import me.superckl.betteroceans.proxy.IProxy;
 import me.superckl.betteroceans.reference.ModBlocks;
 import me.superckl.betteroceans.reference.ModData;
@@ -39,13 +39,14 @@ public class BetterOceans {
 		ModItems.init();
 		ModBlocks.init();
 		GameRegistry.registerWorldGenerator(new SeaweedDecorator(), 100);
-		GameRegistry.registerWorldGenerator(new TrenchGenerator(), 90);
+		GameRegistry.registerWorldGenerator(new TrenchGenerator(), 10);
 	}
 
 	@EventHandler
 	public void init(final FMLInitializationEvent e){
 		FMLCommonHandler.instance().bus().register(this.config);
-		proxy.registerTickHandlers();
+		BetterOceans.proxy.registerTickHandlers();
+		GameRegistry.registerFuelHandler(new FuelHandler());
 	}
 
 	@EventHandler

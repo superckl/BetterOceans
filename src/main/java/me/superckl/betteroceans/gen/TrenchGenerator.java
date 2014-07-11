@@ -1,11 +1,9 @@
 package me.superckl.betteroceans.gen;
 
-import java.util.Arrays;
 import java.util.Random;
 
 import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.utility.BlockHelper;
-import me.superckl.betteroceans.utility.LogHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -65,14 +63,13 @@ public class TrenchGenerator implements IWorldGenerator{
 					else
 						y = world.getTopSolidOrLiquidBlock(startX, startZ+j)-1;
 					final int diff = minY-y;
-					for(int k = diff; k < ledgeHeights[currentLedge]; k++){
+					for(int k = diff; k < ledgeHeights[currentLedge]; k++)
 						if(genAcrossX)
 							world.setBlock(startX+j, minY-k, startZ,
 									world.getBlock(startX+j, minY-k, startZ) == Blocks.air ? Blocks.air:Blocks.water);
 						else
 							world.setBlock(startX, minY-k, startZ+j,
 									world.getBlock(startX, minY-k, startZ+j) == Blocks.air ? Blocks.air:Blocks.water);
-					}
 				}
 				currentLedge++;
 			}
