@@ -5,6 +5,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeManager;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 
 public class BlockHelper {
 
@@ -98,6 +100,19 @@ public class BlockHelper {
 				return false;
 		}
 		return true;
+	}
+	
+	public static int getFluidDepth(World world, int x, int y, int z){
+		Fluid fluid = FluidRegistry.lookupFluidForBlock(world.getBlock(x, y, z));
+		if(fluid == null)
+			return 0;
+		Fluid newFluid = null;
+		int count = 0;
+		do{
+			count++;
+			newFluid = FluidRegistry.lookupFluidForBlock(world.getBlock(x, --y, z));
+		}while(fluid == newFluid);
+		return count;
 	}
 
 }

@@ -3,6 +3,7 @@ package me.superckl.betteroceans.reference;
 import java.util.Arrays;
 
 import me.superckl.betteroceans.item.ItemCookedSeaweed;
+import me.superckl.betteroceans.item.ItemDepthSounder;
 import me.superckl.betteroceans.item.ItemSeaweed;
 import me.superckl.betteroceans.item.ItemSeaweedOil;
 import net.minecraft.init.Items;
@@ -14,12 +15,14 @@ public class ModItems {
 	public static final ItemSeaweed seaweed = new ItemSeaweed();
 	public static final ItemCookedSeaweed cookedSeaweed = new ItemCookedSeaweed();
 	public static final ItemSeaweedOil seaweedOil = new ItemSeaweedOil();
+	public static final ItemDepthSounder depthSounder = new ItemDepthSounder();
 
 	public static void init(){
 		GameRegistry.registerItem(ModItems.seaweed, Names.SEAWEED);
 		GameRegistry.registerItem(ModItems.cookedSeaweed, Names.COOKED_SEAWEED);
 		GameRegistry.registerItem(ModItems.seaweedOil, Names.SEAWEED_OIL);
-
+		GameRegistry.registerItem(depthSounder, Names.DEPTH_SOUNDER);
+		
 		ModItems.addRecipes();
 	}
 
@@ -35,6 +38,7 @@ public class ModItems {
 		public static final String SEAWEED = "itemSeaweed";
 		public static final String COOKED_SEAWEED = "itemCookedSeaweed";
 		public static final String SEAWEED_OIL = "itemSeaweedOil";
+		public static final String DEPTH_SOUNDER = "itemDepthSounder";
 	}
 
 }

@@ -24,7 +24,6 @@ public class TrenchGenerator implements IWorldGenerator{
 			return; //We aren't generating a trench in that shallow water...
 		if(random.nextInt(200) != 0)
 			return;
-		LogHelper.info("Generating trench. Cross your fingers..."+chunkX+":"+chunkZ);
 		final int minY = BlockHelper.getOceanFloorInChunk(world, chunkX, chunkZ);
 		final int depth = (int) Math.round(Math.max(0.91D, random.nextDouble()+.1D)*(minY-7));
 		final int width = Math.max(20, random.nextInt(30));
@@ -42,10 +41,8 @@ public class TrenchGenerator implements IWorldGenerator{
 			}
 			ledgeHeights[i] = (int) Math.round(Math.max(random.nextDouble()+.2D, 0.8D)*averageHeight);
 		}
-		LogHelper.info("minY: "+minY+" depth: "+depth+" width: "+width+" length: "+length+" ledges: "+ledges+" ledgeHeights: "+Arrays.toString(ledgeHeights));
 		int startX = (chunkX << 4) + random.nextInt(10);
 		int startZ = (chunkZ << 4) + random.nextInt(10);
-		LogHelper.info(startX+":"+startZ);
 		final boolean genAcrossX = random.nextBoolean();
 		int currentLedge;
 		for(int i = 0; i < length; i++){
@@ -69,7 +66,6 @@ public class TrenchGenerator implements IWorldGenerator{
 						y = world.getTopSolidOrLiquidBlock(startX, startZ+j)-1;
 					final int diff = minY-y;
 					for(int k = diff; k < ledgeHeights[currentLedge]; k++){
-						LogHelper.info("j: "+j+" k: "+k+" minY: "+minY+" y: "+y);
 						if(genAcrossX)
 							world.setBlock(startX+j, minY-k, startZ,
 									world.getBlock(startX+j, minY-k, startZ) == Blocks.air ? Blocks.air:Blocks.water);
