@@ -18,8 +18,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.EnumPlantType;
-import net.minecraftforge.common.IPlantable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -100,9 +98,21 @@ public class BlockSeaweed extends BlockBO{
 		final int maxHeight = meta == 0 ? 1:(meta & 1) == 1 ? 2:3;
 		if(maxHeight <= height || rand.nextInt(15) != 0)
 			return;
+		if(!this.canBlockStay(world, x, y+1, z))
+			return;
 		final int newMeta = BlockSeaweed.getMetaFor(height, height);
-		world.setBlock(x, y, z, ModBlocks.seaweed, newMeta, 1 & 2);
+		world.setBlock(x, y+1, z, ModBlocks.seaweed, newMeta, 1 & 2);
 	}
+
+	@Override
+	public void onNeighborBlockChange(final World world, final int x, final int y, final int z, final Block block) {
+		if(!this.canBlockStay(world, x, y, z)){
+			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+			this.breakBlock(world, x, y, z, block, world.getBlockMetadata(x, y, z));
+			world.setBlock(x, y, z, BetterOceans.getInstance().getConfig().isSeaweedToWater() ? Blocks.water:Blocks.air);
+		}
+	}
+
 
 	@Override
 	public boolean canPlaceBlockAt(final World world, final int x, final int y, final int z){

@@ -47,6 +47,7 @@ public class BetterOceans {
 		FMLCommonHandler.instance().bus().register(this.config);
 		BetterOceans.proxy.registerTickHandlers();
 		GameRegistry.registerFuelHandler(new FuelHandler());
+		ModItems.overrideRecipes();
 	}
 
 	@EventHandler
