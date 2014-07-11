@@ -24,7 +24,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @ExtensionMethod(BlockHelper.class)
-public class BlockSeaweed extends BlockBO implements IPlantable{
+public class BlockSeaweed extends BlockBO{
 
 	public BlockSeaweed(){
 		super(Material.water);
@@ -112,7 +112,7 @@ public class BlockSeaweed extends BlockBO implements IPlantable{
 	@Override
 	public boolean canBlockStay(final World world, final int x, final int y, final int z){
 		final Block below = world.getBlock(x, y-1, z);
-		if(!(below == Blocks.sand || below == Blocks.dirt || below == this))
+		if(!(below == Blocks.sand || below == Blocks.dirt || below == Blocks.gravel || below == this))
 			return false;
 		final Block above = world.getBlock(x, y+1, z);
 		if(!(above == Blocks.water || above == this))
@@ -194,21 +194,6 @@ public class BlockSeaweed extends BlockBO implements IPlantable{
 			else if (meta == 2)
 				pos = 5;
 		return this.icons[pos];
-	}
-
-	@Override
-	public EnumPlantType getPlantType(final IBlockAccess world, final int x, final int y, final int z) {
-		return EnumPlantType.Water;
-	}
-
-	@Override
-	public Block getPlant(final IBlockAccess world, final int x, final int y, final int z) {
-		return this;
-	}
-
-	@Override
-	public int getPlantMetadata(final IBlockAccess world, final int x, final int y, final int z) {
-		return world.getBlockMetadata(x, y, z);
 	}
 
 	public static int getMetaFor(final int height, final int pos){

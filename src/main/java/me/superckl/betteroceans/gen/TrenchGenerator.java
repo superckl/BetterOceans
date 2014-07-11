@@ -23,10 +23,10 @@ public class TrenchGenerator implements IWorldGenerator{
 		if(random.nextInt(200) != 0)
 			return;
 		final int minY = BlockHelper.getOceanFloorInChunk(world, chunkX, chunkZ);
-		final int depth = (int) Math.round(Math.max(0.91D, random.nextDouble()+.1D)*(minY-7));
-		final int width = Math.max(20, random.nextInt(30));
-		final int length = Math.max(80, random.nextInt(250));
-		final int ledges = width > 10 ? 3:2;
+		final int depth = (int) Math.round(Math.max(0.91D, random.nextDouble()+.9D)*(minY-7));
+		final int width = Math.max(75, random.nextInt(150));
+		final int length = Math.max(200, random.nextInt(400));
+		final int ledges = Math.max(4, random.nextInt(8));
 		final int[] ledgeHeights = new int[ledges];
 		final int averageHeight = depth/ledges;
 		for(int i = 0; i < ledges; i++){
