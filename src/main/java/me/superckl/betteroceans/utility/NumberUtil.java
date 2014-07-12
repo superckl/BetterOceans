@@ -10,4 +10,18 @@ public class NumberUtil {
 		return pos+1;
 	}
 
+	public static int sum(final int ... toSum){
+		int sum = 0;
+		for(final int i:toSum)
+			sum += i;
+		return sum;
+	}
+
+	public static int sum(final int toIndex, final int ... toSum){
+		int sum = 0;
+		for(int i = 0; i < toIndex; i++)
+			sum += toSum[i];
+		return sum;
+	}
+
 }

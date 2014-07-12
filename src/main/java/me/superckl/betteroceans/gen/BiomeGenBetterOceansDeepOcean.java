@@ -4,6 +4,7 @@ import java.util.Random;
 
 import me.superckl.betteroceans.reference.ModData;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
@@ -13,6 +14,9 @@ public class BiomeGenBetterOceansDeepOcean extends BiomeGenBase{
 		super(BiomeGenBase.deepOcean.biomeID);
 		this.setColor(48).setBiomeName(ModData.DEEP_OCEAN_BIOME_NAME).setHeight(BiomeGenBase.height_DeepOceans);
 		this.spawnableCreatureList.clear();
+		this.topBlock = Blocks.sand;
+		this.rootHeight = -1.2F;
+		this.heightVariation = 0.27F;
 	}
 
 	@Override

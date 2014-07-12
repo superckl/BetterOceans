@@ -3,8 +3,7 @@ package me.superckl.betteroceans.utility;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
@@ -88,9 +87,11 @@ public class BlockHelper {
 
 	public static boolean isOcean(final World world, final int chunkX, final int chunkZ){
 		final int baseX = chunkX << 4; final int baseZ = chunkZ << 4;
-		for(int i = 0; i < 16; i++)
-			if(!BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(baseX+i, baseZ+i), Type.WATER))
+		for(int i = 0; i < 16; i++){
+			final int id = world.getBiomeGenForCoords(baseX+i, baseZ+i).biomeID;
+			if(id != BiomeGenBase.ocean.biomeID && id != BiomeGenBase.deepOcean.biomeID)
 				return false;
+		}
 		return true;
 	}
 

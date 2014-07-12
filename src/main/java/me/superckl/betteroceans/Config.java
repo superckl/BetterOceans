@@ -27,6 +27,8 @@ public class Config {
 	@Getter
 	private boolean genSeaweed;
 	@Getter
+	private boolean overrideOcean;
+	@Getter
 	private boolean seaweedToWater;
 	@Getter
 	private int seaweedWaterBlockTries;
@@ -50,6 +52,7 @@ public class Config {
 			throw new IllegalStateException("Config file is null!");
 		try{
 			this.genTrenches = this.configFile.getBoolean("Generate Trenches", "world gen", true, "Generate trenches in oceans.");
+			this.overrideOcean = this.configFile.getBoolean("Override Oceans", "world gen", true, "Replace Vanilla oceans with Better Oceans oceans.");
 			this.genSeaweed = this.configFile.getBoolean("Generate Seaweed", "world gen", true, "Generate seaweed in deeper water.");
 			this.seaweedWaterBlockTries = this.configFile.getInt("Seaweed Water Block Attempts", "world gen", 20, 0, Integer.MAX_VALUE, "Defines how many attempts will be done to find a water block in a chunk when generating seaweed.");
 			this.seaweedTries = this.configFile.getInt("Seaweed Tries", "world gen", 3, 0, Integer.MAX_VALUE, "Defines how many attempts will be made to place seaweed around a water block that was found.");
@@ -75,7 +78,7 @@ public class Config {
 		for(final String cat:this.configFile.getCategoryNames())
 			elements.addAll(new ConfigElement(this.configFile.getCategory(cat)).getChildElements());
 		elements = Collections.unmodifiableList(elements);
-		ReflectionUtil.setFinalStatic(ModData.class, "CONFIG_ELEMENTS", elements, true);
+		ReflectionUtil.setFinalStatic(ModData.class, elements, true, "CONFIG_ELEMENTS");
 	}
 
 }

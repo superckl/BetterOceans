@@ -3,6 +3,7 @@ package me.superckl.betteroceans;
 import lombok.Getter;
 import me.superckl.betteroceans.gen.BiomeGenBetterOceansDeepOcean;
 import me.superckl.betteroceans.gen.BiomeGenBetterOceansOcean;
+import me.superckl.betteroceans.gen.GenEventHandler;
 import me.superckl.betteroceans.gen.SeaweedDecorator;
 import me.superckl.betteroceans.gen.TrenchGenerator;
 import me.superckl.betteroceans.handler.FuelHandler;
@@ -13,6 +14,8 @@ import me.superckl.betteroceans.reference.ModItems;
 import me.superckl.betteroceans.utility.LogHelper;
 import me.superckl.betteroceans.utility.ReflectionUtil;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.gen.feature.WorldGenClay;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -43,23 +46,31 @@ public class BetterOceans {
 		this.config.loadValues();
 		ModItems.init();
 		ModBlocks.init();
-		GameRegistry.registerWorldGenerator(new SeaweedDecorator(), 100);
+		GameRegistry.registerWorldGenerator(new SeaweedDecorator(), 500);
 		GameRegistry.registerWorldGenerator(new TrenchGenerator(), 10);
 	}
 
 	@EventHandler
 	public void init(final FMLInitializationEvent e){
 		FMLCommonHandler.instance().bus().register(this.config);
+		MinecraftForge.TERRAIN_GEN_BUS.register(new GenEventHandler());
 		BetterOceans.proxy.registerTickHandlers();
 		GameRegistry.registerFuelHandler(new FuelHandler());
 		ModItems.overrideRecipes();
 		LogHelper.info("Replacing ocean biomes...");
 		final BiomeGenBetterOceansOcean boO = new BiomeGenBetterOceansOcean();
-		final BiomeGenBetterOceansDeepOcean boDO = new BiomeGenBetterOceansDeepOcean();
-		if(!ReflectionUtil.setFinalStatic(BiomeGenBase.class, "ocean", boO, true))
-			LogHelper.fatal("Failed to override ocean biome! Loading worlds generated with Better Oceans may cause corruption!");
-		if(!ReflectionUtil.setFinalStatic(BiomeGenBase.class, "deepOcean", boDO, true))
-			LogHelper.fatal("Failed to override deep ocean biome! Loading worlds generated with Better Oceans may cause corruption!");
+		new BiomeGenBetterOceansDeepOcean();
+		if(!this.config.isOverrideOcean())
+			LogHelper.warn("Ocean overriding is disabled! Loading worlds that were generated with this enabled may be unstable!");
+		else{
+			//Field oceanField = ReflectionUtil.findBiomeGenField(BiomeGenBase.ocean.biomeID);
+			if(!ReflectionUtil.setFinalStatic(BiomeGenBase.class, boO, true, "ocean", "field_76771_b"))
+				LogHelper.fatal("Failed to override ocean biome! Loading worlds generated with Better Oceans may have unpredictable results!");
+			//Field deepOceanField = ReflectionUtil.findBiomeGenField(BiomeGenBase.deepOcean.biomeID);
+			if(!ReflectionUtil.setFinalStatic(BiomeGenBase.class, boO, true, "deepOcean", "field_150575_M"))
+				LogHelper.fatal("Failed to override deep ocean biome! Loading worlds generated with Better Oceans may have unpredictable results!");
+		}
+		WorldGenClay.class.getCanonicalName();
 	}
 
 	@EventHandler

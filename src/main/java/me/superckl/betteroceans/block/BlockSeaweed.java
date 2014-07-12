@@ -77,6 +77,12 @@ public class BlockSeaweed extends BlockBO{
 	}
 
 	@Override
+	public void onBlockDestroyedByPlayer(final World world, final int x, final int y, final int z, final int meta) {
+		world.setBlock(x, y, z, Blocks.water);
+	}
+
+
+	@Override
 	public void breakBlock(final World world, final int x, final int y, final int z, final Block p_149749_5_, final int p_149749_6_)
 	{
 		if(!this.isTop(world, x, y, z)){
