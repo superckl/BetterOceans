@@ -47,7 +47,7 @@ public class ModelWoodenBoat extends ModelBase{
 		this.boatSides[1].setRotationPoint(-9F, (float)b3-2, 0.0F);
 
 		this.boatSides[2].addBox(-b0 / 2, -b2 / 2 + 2, -3.0F, 6 /*length*/, 12/*width*/, 4, 0.0F);
-		this.boatSides[2].setRotationPoint(-13F, (float)b3-4, 2F);
+		this.boatSides[2].setRotationPoint(-12F, (float)b3-4, 2F);
 
 		/*
         //Back
@@ -71,14 +71,14 @@ public class ModelWoodenBoat extends ModelBase{
 
 		//Left
 		this.boatSides[7].addBox(-b0 / 2 + 2, -b1 - 1, -1.0F, 6, b1, 2, 0.0F);
-		this.boatSides[7].setRotationPoint(-13F, (float)b3-4, -b2 / 2 + 5);
+		this.boatSides[7].setRotationPoint(-14F, (float)b3-4, -b2 / 2 + 5);
 		//Right
 		this.boatSides[8].addBox(-b0 / 2 + 2, -b1 - 1, -1.0F, 6, b1, 2, 0.0F);
-		this.boatSides[8].setRotationPoint(-13F, (float)b3-4, b2 / 2 - 5);
+		this.boatSides[8].setRotationPoint(-14F, (float)b3-4, b2 / 2 - 5);
 
 		//Front
 		this.boatSides[9].addBox(-b0 / 2 + 2, -b1 - 1, -1.0F, 12, b1, 2, 0.0F);
-		this.boatSides[9].setRotationPoint(-24F, (float)b3-4, 4F);
+		this.boatSides[9].setRotationPoint(-25F, (float)b3-4, 4F);
 
 		//Next side
 
