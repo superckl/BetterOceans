@@ -1,6 +1,6 @@
 package me.superckl.betteroceans.proxy;
 
-import me.superckl.betteroceans.client.tick.RenderTickHandler;
+import me.superckl.betteroceans.client.handler.RenderTickHandler;
 import net.minecraftforge.common.MinecraftForge;
 
 public class ClientProxy extends CommonProxy{

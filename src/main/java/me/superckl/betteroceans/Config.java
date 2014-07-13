@@ -7,9 +7,9 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.experimental.ExtensionMethod;
-import me.superckl.betteroceans.reference.ModData;
-import me.superckl.betteroceans.utility.LogHelper;
-import me.superckl.betteroceans.utility.ReflectionUtil;
+import me.superckl.betteroceans.common.reference.ModData;
+import me.superckl.betteroceans.common.utility.LogHelper;
+import me.superckl.betteroceans.common.utility.ReflectionUtil;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.client.config.IConfigElement;

@@ -1,6 +1,6 @@
 package me.superckl.betteroceans.client.gui;
 
-import me.superckl.betteroceans.reference.ModData;
+import me.superckl.betteroceans.common.reference.ModData;
 import net.minecraft.client.gui.GuiScreen;
 import cpw.mods.fml.client.config.GuiConfig;
 
