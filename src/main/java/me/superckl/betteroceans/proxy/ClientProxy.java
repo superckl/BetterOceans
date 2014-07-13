@@ -10,7 +10,8 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 public class ClientProxy extends CommonProxy{
 
 	@Override
-	public void registerTickHandlers() {
+	public void registerHandlers() {
+		super.registerHandlers();
 		MinecraftForge.EVENT_BUS.register(new RenderTickHandler());
 	}
 
