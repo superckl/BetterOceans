@@ -3,6 +3,7 @@ package me.superckl.betteroceans.common.gen;
 import java.util.Random;
 
 import me.superckl.betteroceans.BetterOceans;
+import me.superckl.betteroceans.common.utility.BiomeHelper;
 import me.superckl.betteroceans.common.utility.BlockHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.NumberUtil;
@@ -98,10 +99,12 @@ public class TrenchGenerator implements IWorldGenerator{
 			final IChunkProvider chunkGenerator, final IChunkProvider chunkProvider) {
 		if(!BetterOceans.getInstance().getConfig().isGenTrenches())
 			return;
-		if(!BlockHelper.isOcean(world, chunkX, chunkZ))
+		if(!BiomeHelper.isOcean(world, chunkX, chunkZ))
 			return;
 		if(BlockHelper.getMinHeightInChunk(world, chunkX, chunkZ, Blocks.water) < 15)
 			return; //We aren't generating a trench in that shallow water...
+		if(BiomeHelper.distanceToNearestNonOcean(world, chunkX, chunkZ, 5) < 5)
+			return; //To close to shore;
 		if(random.nextInt(50) != 0) //200
 			return;
 		final int from0 = 5 + random.nextInt(3);
@@ -134,7 +137,7 @@ public class TrenchGenerator implements IWorldGenerator{
 				startX++;
 				startZ+=random.nextInt(3)-2;
 			}
-			if(!BlockHelper.isOcean(world, startX >> 4, startZ >> 4))
+			if(!BiomeHelper.isOcean(world, startX >> 4, startZ >> 4))
 				return; //Woops!, we've gone to far!
 			final int floorY = from0+offsetY;
 			//Generate floor

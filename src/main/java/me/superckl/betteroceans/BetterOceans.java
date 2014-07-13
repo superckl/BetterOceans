@@ -48,6 +48,7 @@ public class BetterOceans {
 		ModBlocks.init();
 		GameRegistry.registerWorldGenerator(new SeaweedDecorator(), 500);
 		GameRegistry.registerWorldGenerator(new TrenchGenerator(), 10);
+		BetterOceans.proxy.registerRenderers();
 	}
 
 	@EventHandler
