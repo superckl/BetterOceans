@@ -1,8 +1,8 @@
 package me.superckl.betteroceans.common.item;
 
 import me.superckl.betteroceans.common.reference.ModData;
+import me.superckl.betteroceans.common.reference.ModTabs;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
@@ -15,7 +15,7 @@ public class ItemSeaweedOil extends ItemBO{
 	public ItemSeaweedOil()
 	{
 		this.setMaxStackSize(1);
-		this.setCreativeTab(CreativeTabs.tabMisc);
+		this.setCreativeTab(ModTabs.tabItems);
 		this.setUnlocalizedName("seaweedoil");
 	}
 

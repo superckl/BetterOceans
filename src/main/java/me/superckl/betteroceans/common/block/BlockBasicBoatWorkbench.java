@@ -5,9 +5,9 @@ import java.util.Random;
 import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBasicBoatWorkbench;
 import me.superckl.betteroceans.common.reference.ModData;
+import me.superckl.betteroceans.common.reference.ModTabs;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -21,7 +21,7 @@ public class BlockBasicBoatWorkbench extends BlockContainerBO{
 	public BlockBasicBoatWorkbench() {
 		super(Material.wood);
 		this.setBlockName("basicboatworkbench").setHardness(2.0F).setResistance(5.0F)
-		.setStepSound(Block.soundTypeWood).setCreativeTab(CreativeTabs.tabDecorations);
+		.setStepSound(Block.soundTypeWood).setCreativeTab(ModTabs.tabBlocks);
 	}
 
 	@Override

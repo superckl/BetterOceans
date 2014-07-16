@@ -2,8 +2,8 @@ package me.superckl.betteroceans.common.item;
 
 import me.superckl.betteroceans.client.handler.RenderTickHandler;
 import me.superckl.betteroceans.common.reference.ModData;
+import me.superckl.betteroceans.common.reference.ModTabs;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -12,7 +12,7 @@ public class ItemDepthSounder extends ItemBO{
 
 	public ItemDepthSounder() {
 		super();
-		this.setCreativeTab(CreativeTabs.tabMisc);
+		this.setCreativeTab(ModTabs.tabItems);
 		this.setUnlocalizedName("depthsounder");
 	}
 

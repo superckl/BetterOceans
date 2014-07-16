@@ -3,8 +3,8 @@ package me.superckl.betteroceans.common.item;
 import java.util.List;
 
 import me.superckl.betteroceans.common.entity.EntityWoodenBoat;
+import me.superckl.betteroceans.common.reference.ModTabs;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +20,7 @@ public class ItemWoodenBoat extends ItemBO{
 
 	public ItemWoodenBoat() {
 		super();
-		this.setCreativeTab(CreativeTabs.tabTransport);
+		this.setCreativeTab(ModTabs.tabItems);
 		this.setUnlocalizedName("woodenboat");
 		this.setMaxStackSize(1);
 	}
