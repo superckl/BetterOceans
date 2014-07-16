@@ -1,12 +1,12 @@
 package me.superckl.betteroceans.common.block;
 
 import me.superckl.betteroceans.common.reference.ModData;
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 
-public abstract class BlockBO extends Block{
+public abstract class BlockContainerBO extends BlockContainer{
 
-	public BlockBO(final Material material){
+	protected BlockContainerBO(final Material material) {
 		super(material);
 	}
 

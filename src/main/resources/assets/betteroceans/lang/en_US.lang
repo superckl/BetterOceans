@@ -1,4 +1,5 @@
-block.betteroceans:seaweed.name=Seaweed
+tile.betteroceans:seaweed.name=Seaweed
+tile.betteroceans:basicboatworkbench.name=Basic Boatbuilder's Workbench
 item.betteroceans:seaweed.name=Seaweed
 item.betteroceans:cookedseaweed.name=Roasted Seaweed
 item.betteroceans:seaweedoil.name=Seaweed Oil

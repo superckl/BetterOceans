@@ -46,7 +46,7 @@ public class BetterOceans {
 	@EventHandler
 	public void init(final FMLInitializationEvent e){
 		BetterOceans.proxy.registerHandlers();
-		ModItems.overrideRecipes();
+		ModItems.overrideItems();
 		LogHelper.info("Replacing ocean biomes...");
 		final BiomeGenBetterOceansOcean boO = new BiomeGenBetterOceansOcean();
 		final BiomeGenBetterOceansDeepOcean boDO = new BiomeGenBetterOceansDeepOcean();

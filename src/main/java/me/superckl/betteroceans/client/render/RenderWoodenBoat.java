@@ -1,6 +1,7 @@
 package me.superckl.betteroceans.client.render;
 
 import me.superckl.betteroceans.client.model.ModelWoodenBoat;
+import me.superckl.betteroceans.common.entity.EntityWoodenBoat;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
@@ -35,7 +36,10 @@ public class RenderWoodenBoat extends Render{
 	{
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float)par2, (float)par4, (float)par6);
-		GL11.glRotatef(180.0F - par8, 0.0F, 1.0F, 0.0F);
+		if(par1EntityBoat instanceof EntityWoodenBoat && ((EntityWoodenBoat)par1EntityBoat).isRenderWithRotation())
+			GL11.glRotatef(180.0F - ((EntityWoodenBoat)par1EntityBoat).renderYawOffset++, 1F, 1F, 1F);
+		else
+			GL11.glRotatef(180.0F - par8, 0.0F, 1.0F, 0.0F);
 		final float f2 = par1EntityBoat.getTimeSinceHit() - par9;
 		float f3 = par1EntityBoat.getDamageTaken() - par9;
 

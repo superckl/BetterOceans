@@ -1,8 +1,10 @@
 package me.superckl.betteroceans.common.entity;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.superckl.betteroceans.common.nets.IItemNet;
 import me.superckl.betteroceans.common.nets.INet;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -11,6 +13,12 @@ public class EntityWoodenBoat extends EntityBoat implements IEntityBoat{
 
 	@Getter
 	private INet attatchedNet;
+	@Setter
+	@Getter
+	private boolean renderWithRotation;
+	public int renderYawOffset; //We have to do this manually apparently...
+
+	public Entity passenger;
 
 	public EntityWoodenBoat(final World world, final double par2, final double par4,
 			final double par6) {
@@ -39,7 +47,37 @@ public class EntityWoodenBoat extends EntityBoat implements IEntityBoat{
 			}
 		}
 
-		return super.interactFirst(player);
+		if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != player)
+		{
+			if(this.passenger != null  && this.passenger instanceof EntityPlayer && this.passenger != player)
+				return true;
+			else{
+				if (!this.worldObj.isRemote)
+				{
+					player.ridingEntity = this;
+					this.passenger = player;
+				}
+				return true;
+			}
+		}
+		else
+		{
+			if (!this.worldObj.isRemote)
+				player.mountEntity(this);
+
+			return true;
+		}
+	}
+
+	@Override
+	public void updateRiderPosition()
+	{
+		if (this.riddenByEntity != null)
+		{
+			final double d0 = Math.cos(this.rotationYaw * Math.PI / 180.0D) * 0.4D;
+			final double d1 = Math.sin(this.rotationYaw * Math.PI / 180.0D) * 0.4D;
+			this.riddenByEntity.setPosition(this.posX + d0, this.posY + this.getMountedYOffset() + this.riddenByEntity.getYOffset(), this.posZ + d1);
+		}
 	}
 
 	@Override

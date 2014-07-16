@@ -13,7 +13,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.GameRegistry.ObjectHolder;
 
+@ObjectHolder(ModData.MOD_ID)
 public class ModItems {
 
 	public static final ItemSeaweed seaweed = new ItemSeaweed();
@@ -47,8 +49,9 @@ public class ModItems {
 
 	}
 
-	public static void overrideRecipes(){
+	public static void overrideItems(){
 		RecipeHelper.removeRecipes(new ItemStack(Items.boat));
+		Items.boat.setCreativeTab(null);
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.woodenBoat), "x x", "xxx",
 				'x', "plankWood"));
 	}

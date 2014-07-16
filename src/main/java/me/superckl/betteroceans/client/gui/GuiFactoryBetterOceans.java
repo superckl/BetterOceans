@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import cpw.mods.fml.client.IModGuiFactory;
 
-public class BetterOceansGuiFactory implements IModGuiFactory{
+public class GuiFactoryBetterOceans implements IModGuiFactory{
 
 	@Override
 	public void initialize(final Minecraft minecraftInstance) {
@@ -16,7 +16,7 @@ public class BetterOceansGuiFactory implements IModGuiFactory{
 
 	@Override
 	public Class<? extends GuiScreen> mainConfigGuiClass() {
-		return BetterOceansGuiConfig.class;
+		return GuiConfigBetterOceans.class;
 	}
 
 	@Override

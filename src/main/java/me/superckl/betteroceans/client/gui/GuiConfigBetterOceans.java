@@ -4,9 +4,9 @@ import me.superckl.betteroceans.common.reference.ModData;
 import net.minecraft.client.gui.GuiScreen;
 import cpw.mods.fml.client.config.GuiConfig;
 
-public class BetterOceansGuiConfig extends GuiConfig{
+public class GuiConfigBetterOceans extends GuiConfig{
 
-	public BetterOceansGuiConfig(final GuiScreen parentScreen) {
+	public GuiConfigBetterOceans(final GuiScreen parentScreen) {
 		super(parentScreen, ModData.CONFIG_ELEMENTS, ModData.MOD_ID, false,
 				false, "Better Oceans Configuration");
 	}
