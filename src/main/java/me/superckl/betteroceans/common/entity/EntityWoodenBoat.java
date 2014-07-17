@@ -69,7 +69,7 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 	public EntityWoodenBoat(final World world){
 		super(world);
 		this.isBoatEmpty = true;
-        this.speedMultiplier = 0.07D;
+        this.speedMultiplier = 0.02D;
         this.preventEntitySpawning = true;
         this.setSize(1.5F, 0.6F);
         this.yOffset = this.height / 2.0F;
@@ -382,9 +382,9 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
             if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityLivingBase)
             {
                 EntityLivingBase entitylivingbase = (EntityLivingBase)this.riddenByEntity;
-                float f = this.riddenByEntity.rotationYaw + -entitylivingbase.moveStrafing * 90.0F;
-                this.motionX += -Math.sin((double)(f * (float)Math.PI / 180.0F)) * this.speedMultiplier * (double)entitylivingbase.moveForward * 0.05000000074505806D;
-                this.motionZ += Math.cos((double)(f * (float)Math.PI / 180.0F)) * this.speedMultiplier * (double)entitylivingbase.moveForward * 0.05000000074505806D;
+                float f = this.riddenByEntity.rotationYaw + -entitylivingbase.moveStrafing * 10.0F;
+                this.motionX += -Math.sin((double)(f * (float)Math.PI / 180.0F)) * this.speedMultiplier * (double)entitylivingbase.moveForward * 0.04000000074505806D;
+                this.motionZ += Math.cos((double)(f * (float)Math.PI / 180.0F)) * this.speedMultiplier * (double)entitylivingbase.moveForward * 0.04000000074505806D;
             }
 
             d2 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
@@ -443,10 +443,14 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 
             if (this.onGround)
             {
-                this.motionX *= 0.5D;
-                this.motionY *= 0.5D;
-                this.motionZ *= 0.5D;
+                this.motionX *= 0.0D;
+                this.motionY *= 0.0D;
+                this.motionZ *= 0.0D;
             }
+            
+            this.motionX *= 0.885D;
+            this.motionY *= 0.885D;
+            this.motionZ *= 0.885D;
 
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
@@ -635,13 +639,11 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
-		// TODO Auto-generated method stub
 		
 	}
 
