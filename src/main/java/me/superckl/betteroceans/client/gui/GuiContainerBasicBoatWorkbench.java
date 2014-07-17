@@ -40,7 +40,7 @@ public class GuiContainerBasicBoatWorkbench extends GuiContainer{
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(final int param1, final int param2){
-		this.fontRendererObj.drawString(LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("boatbench")), 15+(162-this.fontRendererObj.getStringWidth(LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("boatbench"))))/2, 8, 0x404040);
+		this.fontRendererObj.drawString(LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("basicboatbench")), 15+(162-this.fontRendererObj.getStringWidth(LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("basicboatbench"))))/2, 8, 0x404040);
 		final TileEntityBoatWorkbench te = ((ContainerBoatWorkbench)this.inventorySlots).getTileEntity();
 		if(te.getActiveSelection() == null)
 			return;

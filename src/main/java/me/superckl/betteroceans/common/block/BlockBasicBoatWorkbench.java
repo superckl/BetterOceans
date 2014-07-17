@@ -24,7 +24,7 @@ public class BlockBasicBoatWorkbench extends BlockContainerBO{
 
 	public BlockBasicBoatWorkbench() {
 		super(Material.wood);
-		this.setBlockName("basicboatworkbench").setHardness(2.0F).setResistance(5.0F)
+		this.setBlockName("basicboatbench").setHardness(2.0F).setResistance(5.0F)
 		.setStepSound(Block.soundTypeWood).setCreativeTab(ModTabs.tabBlocks);
 	}
 
