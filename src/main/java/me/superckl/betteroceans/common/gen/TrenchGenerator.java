@@ -180,6 +180,8 @@ public class TrenchGenerator implements IWorldGenerator{
 						ledgeZ-=l;
 					for(int j = ledges-1; j >= 0; j--){
 						int y;
+
+						//First side
 						if(genAcrossX)
 							y = world.getTopSolidOrLiquidBlock(ledgeX+j, ledgeZ);
 						else
@@ -192,6 +194,23 @@ public class TrenchGenerator implements IWorldGenerator{
 							else
 								world.setBlock(ledgeX, k, ledgeZ+j,
 										world.getBlock(ledgeX, k, ledgeZ+j) == Blocks.air ? Blocks.air:Blocks.water);
+						//Second side
+						int nudge;
+						if(genAcrossX)
+							nudge = (startX-ledgeX)*2+width;
+						else
+							nudge = (startZ-ledgeZ)*2+width;
+						if(genAcrossX)
+							y = world.getTopSolidOrLiquidBlock(ledgeX+nudge+j, ledgeZ);
+						else
+							y = world.getTopSolidOrLiquidBlock(ledgeX, ledgeZ+nudge+j);
+						for(int k = from0+ledgeHeights[currentLedge]+sum; k < y; k++)
+							if(genAcrossX)
+								world.setBlock(ledgeX+j, k, ledgeZ,
+										world.getBlock(ledgeX+nudge+j, k, ledgeZ) == Blocks.air ? Blocks.air:Blocks.water);
+							else
+								world.setBlock(ledgeX, k, ledgeZ+j,
+										world.getBlock(ledgeX, k, ledgeZ+nudge+j) == Blocks.air ? Blocks.air:Blocks.water);
 					}
 				}
 				currentLedge++;

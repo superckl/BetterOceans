@@ -10,6 +10,7 @@ import me.superckl.betteroceans.common.utility.RecipeHelper;
 import me.superckl.betteroceans.common.utility.RenderUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -34,6 +35,7 @@ public class GuiContainerBasicBoatWorkbench extends GuiContainer{
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(final int param1, final int param2){
+		this.fontRendererObj.drawString("Boatbuilder's Workbench", 15+(162-this.fontRendererObj.getStringWidth("Boatbuilder's Workbench"))/2, 8, 0x404040);
 		final TileEntityBoatWorkbench te = ((ContainerBasicBoatWorkbench)this.inventorySlots).getTileEntity();
 		if(te.getActiveSelection() == null)
 			return;
@@ -43,13 +45,14 @@ public class GuiContainerBasicBoatWorkbench extends GuiContainer{
 			return;
 		int x = 176;
 		final int width = 75;
-		final int y = 18;
-		this.mc.fontRenderer.drawStringWithShadow("Requires:", x+(width-this.fontRendererObj.getStringWidth("Requires:"))/2, 5, 0xdd0000);
+		final int y = 83;
+		this.fontRendererObj.drawString("Requires:", x+(width-this.fontRendererObj.getStringWidth("Requires:"))/2, 70, 0xdd0000);
 		final int leftover = width - 16*required.size();
 		final int spacing = leftover/(required.size()+1);
 		x+=spacing;
 		for(final ItemStack stack:required){
-			GuiScreen.itemRender.renderItemIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), stack, x, y);
+			RenderHelper.enableGUIStandardItemLighting();
+			GuiScreen.itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), stack, x, y);
 			GuiScreen.itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), stack, x, y);
 			x+=16+spacing;
 		}
