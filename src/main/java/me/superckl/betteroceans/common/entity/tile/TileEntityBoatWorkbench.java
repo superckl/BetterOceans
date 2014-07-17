@@ -3,8 +3,8 @@ package me.superckl.betteroceans.common.entity.tile;
 import java.util.Arrays;
 
 import lombok.Getter;
-import lombok.Setter;
 import me.superckl.betteroceans.common.entity.IEntityBoat;
+import me.superckl.betteroceans.common.entity.Rotatable;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -19,8 +19,13 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 	@Getter
 	private final ItemStack[] inventory = new ItemStack[10];
 	@Getter
-	@Setter
 	private IEntityBoat activeSelection;
+
+	public void setActiveSelection(final IEntityBoat selection){
+		this.activeSelection = selection;
+		if(selection instanceof Rotatable)
+			((Rotatable)selection).setRenderWithRotation(true);
+	}
 
 	@Override
 	public int getSizeInventory() {

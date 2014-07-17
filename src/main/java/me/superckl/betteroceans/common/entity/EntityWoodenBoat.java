@@ -16,7 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class EntityWoodenBoat extends EntityBoat implements IEntityBoat{
+public class EntityWoodenBoat extends EntityBoat implements IEntityBoat, Rotatable{
 
 	@Getter
 	private INet attatchedNet;
@@ -114,6 +114,11 @@ public class EntityWoodenBoat extends EntityBoat implements IEntityBoat{
 	@Override
 	public Item getItem(){
 		return ModItems.woodenBoat;
+	}
+
+	@Override
+	public Entity asEntity() {
+		return this;
 	}
 
 }

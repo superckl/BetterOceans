@@ -1,6 +1,6 @@
 package me.superckl.betteroceans.client.gui;
 
-import me.superckl.betteroceans.common.container.ContainerBasicBoatWorkbench;
+import me.superckl.betteroceans.common.container.ContainerBoatWorkbench;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatWorkbench;
 import me.superckl.betteroceans.common.reference.ModData;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +15,7 @@ public class GuiHandlerBetterOceans implements IGuiHandler{
 			final int x, final int y, final int z) {
 		final TileEntity te = world.getTileEntity(x, y, z);
 		if(te != null && te instanceof TileEntityBoatWorkbench && ID == ModData.GUIIDs.BASIC_BOAT_BENCH)
-			return new ContainerBasicBoatWorkbench(player.inventory, (TileEntityBoatWorkbench) te);
+			return new ContainerBoatWorkbench(player.inventory, (TileEntityBoatWorkbench) te);
 		return null;
 	}
 

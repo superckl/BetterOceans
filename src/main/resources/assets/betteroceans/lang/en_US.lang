@@ -5,3 +5,5 @@ item.betteroceans:cookedseaweed.name=Roasted Seaweed
 item.betteroceans:seaweedoil.name=Seaweed Oil
 item.betteroceans:depthsounder.name=Depth Sounder
 item.betteroceans:woodenboat.name=Wooden Boat
+gui.betteroceans:config.name=Better Oceans Configuration
+gui.betteroceans:boatbench.name=Boatbuilder's Workbench

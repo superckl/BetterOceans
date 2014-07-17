@@ -2,28 +2,33 @@ package me.superckl.betteroceans.client.gui;
 
 import java.util.List;
 
-import me.superckl.betteroceans.common.container.ContainerBasicBoatWorkbench;
+import me.superckl.betteroceans.common.container.ContainerBoatWorkbench;
+import me.superckl.betteroceans.common.entity.EntityWoodenBoat;
+import me.superckl.betteroceans.common.entity.IEntityBoat;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatWorkbench;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.utility.ItemStackHelper;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
 import me.superckl.betteroceans.common.utility.RenderUtil;
+import me.superckl.betteroceans.common.utility.StringHelper;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.common.registry.LanguageRegistry;
+
 public class GuiContainerBasicBoatWorkbench extends GuiContainer{
 
 	private final ResourceLocation texture = new ResourceLocation(ModData.MOD_ID+":textures/gui/basicbench.png");
 	public GuiContainerBasicBoatWorkbench(final InventoryPlayer inventoryPlayer,
 			final TileEntityBoatWorkbench te) {
-		super(new ContainerBasicBoatWorkbench(inventoryPlayer, te));
+		super(new ContainerBoatWorkbench(inventoryPlayer, te));
+		te.setActiveSelection(new EntityWoodenBoat(inventoryPlayer.player.worldObj));
 		this.xSize = 256;
 		this.ySize = 166;
 	}
@@ -35,8 +40,8 @@ public class GuiContainerBasicBoatWorkbench extends GuiContainer{
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(final int param1, final int param2){
-		this.fontRendererObj.drawString("Boatbuilder's Workbench", 15+(162-this.fontRendererObj.getStringWidth("Boatbuilder's Workbench"))/2, 8, 0x404040);
-		final TileEntityBoatWorkbench te = ((ContainerBasicBoatWorkbench)this.inventorySlots).getTileEntity();
+		this.fontRendererObj.drawString(LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("boatbench")), 15+(162-this.fontRendererObj.getStringWidth(LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("boatbench"))))/2, 8, 0x404040);
+		final TileEntityBoatWorkbench te = ((ContainerBoatWorkbench)this.inventorySlots).getTileEntity();
 		if(te.getActiveSelection() == null)
 			return;
 		final List<ItemStack> required = ItemStackHelper.deepClone(te.getActiveSelection().getCraftingIngredients());
@@ -73,8 +78,10 @@ public class GuiContainerBasicBoatWorkbench extends GuiContainer{
 		//this.drawTexturedModalRect(xStart, yStart, 0, 0, this.xSize, this.ySize);
 		RenderUtil.drawTexturedRect(this.texture, xStart, yStart, 0, 0, this.xSize, this.ySize, this.xSize, this.ySize, 1F);
 
-		final Entity entity = ((ContainerBasicBoatWorkbench)this.inventorySlots).getEntity();
-		RenderUtil.renderEntityToGUI(entity, this.guiLeft + 123, this.guiTop + 54, 14F);
+		final IEntityBoat entity = ((ContainerBoatWorkbench)this.inventorySlots).getTileEntity().getActiveSelection();
+		if(entity == null)
+			return;
+		RenderUtil.renderEntityToGUI(entity.asEntity(), this.guiLeft + 123, this.guiTop + 54, 14F);
 		//TODO
 
 	}
