@@ -5,6 +5,7 @@ import java.util.Arrays;
 import lombok.Getter;
 import me.superckl.betteroceans.common.entity.IEntityBoat;
 import me.superckl.betteroceans.common.entity.Rotatable;
+import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -97,6 +98,8 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 	}
 
 	private void checkRecipeCompletion(){
+		if(this.activeSelection == null)
+			return;
 		if(RecipeHelper.areItemsPresent(this.activeSelection.getCraftingIngredients(), Arrays.copyOf(this.inventory, 9), true))
 			this.inventory[9] = new ItemStack(this.activeSelection.getItem());
 		else

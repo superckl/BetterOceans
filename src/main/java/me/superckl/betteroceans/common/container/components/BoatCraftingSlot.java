@@ -1,7 +1,10 @@
 package me.superckl.betteroceans.common.container.components;
 
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatWorkbench;
+import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class BoatCraftingSlot extends BOSlot{
@@ -15,16 +18,16 @@ public class BoatCraftingSlot extends BOSlot{
 	}
 
 	@Override
-	public boolean isItemValid(final ItemStack p_75214_1_)
+	public boolean isItemValid(final ItemStack stack)
 	{
-		return false;
+		return stack == null || stack.getItem() == Item.getItemFromBlock(Blocks.air);
 	}
 
 	@Override
 	public void onPickupFromSlot(final EntityPlayer player, final ItemStack stack)
 	{
-		this.te.onCraftingSlotPick();
 		super.onSlotChanged();
+		this.te.onCraftingSlotPick();
 	}
 
 }

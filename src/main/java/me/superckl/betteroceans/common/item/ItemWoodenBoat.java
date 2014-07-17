@@ -88,7 +88,7 @@ public class ItemWoodenBoat extends ItemBO{
 					if (world.getBlock(i, j, k) == Blocks.snow_layer)
 						--j;
 
-					final EntityBoat entityboat = new EntityWoodenBoat(world, i + 0.5F, j + 1.0F, k + 0.5F);
+					final EntityWoodenBoat entityboat = new EntityWoodenBoat(world, i + 0.5F, j + 1.0F, k + 0.5F);
 					entityboat.rotationYaw = ((MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) - 1) * 90;
 
 					if (!world.getCollidingBoundingBoxes(entityboat, entityboat.boundingBox.expand(-0.1D, -0.1D, -0.1D)).isEmpty())
