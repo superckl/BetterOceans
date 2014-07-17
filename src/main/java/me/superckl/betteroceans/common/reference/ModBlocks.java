@@ -18,8 +18,8 @@ public class ModBlocks {
 
 	public static class Names{
 
-		public static final String SEAWEED = "blockSeaweed";
-		public static final String BASIC_BOAT_WORKBENCH = "blockBasicBoatWorkbench";
+		public static final String SEAWEED =  "seaweed";
+		public static final String BASIC_BOAT_WORKBENCH =  "basicBoatWorkbench";
 
 	}
 

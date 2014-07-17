@@ -6,5 +6,6 @@ public interface IProxy {
 	public void registerEntities();
 	public void registerHandlers();
 	public void registerWorldGenerators();
+	public void registerNetworkHandlers();
 
 }

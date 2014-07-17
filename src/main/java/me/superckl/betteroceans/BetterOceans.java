@@ -1,15 +1,12 @@
 package me.superckl.betteroceans;
 
 import lombok.Getter;
-import me.superckl.betteroceans.common.gen.BiomeGenBetterOceansDeepOcean;
-import me.superckl.betteroceans.common.gen.BiomeGenBetterOceansOcean;
 import me.superckl.betteroceans.common.reference.ModBlocks;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModItems;
+import me.superckl.betteroceans.common.utility.BiomeHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
-import me.superckl.betteroceans.common.utility.ReflectionUtil;
 import me.superckl.betteroceans.proxy.IProxy;
-import net.minecraft.world.biome.BiomeGenBase;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -36,6 +33,7 @@ public class BetterOceans {
 	public void preInit(final FMLPreInitializationEvent e){
 		this.config = new Config(e.getSuggestedConfigurationFile());
 		this.config.loadValues();
+		BetterOceans.proxy.registerNetworkHandlers();
 		ModItems.init();
 		ModBlocks.init();
 		BetterOceans.proxy.registerWorldGenerators();
@@ -48,16 +46,7 @@ public class BetterOceans {
 		BetterOceans.proxy.registerHandlers();
 		ModItems.overrideItems();
 		LogHelper.info("Replacing ocean biomes...");
-		final BiomeGenBetterOceansOcean boO = new BiomeGenBetterOceansOcean();
-		final BiomeGenBetterOceansDeepOcean boDO = new BiomeGenBetterOceansDeepOcean();
-		if(!this.config.isOverrideOcean())
-			LogHelper.warn("Ocean overriding is disabled! Loading worlds that were generated with this enabled may be unstable!");
-		else{
-			if(!ReflectionUtil.setFinalStatic(BiomeGenBase.class, boO, true, "ocean", "field_76771_b"))
-				LogHelper.fatal("Failed to override ocean biome! Loading worlds generated with Better Oceans may have unpredictable results!");
-			if(!ReflectionUtil.setFinalStatic(BiomeGenBase.class, boDO, true, "deepOcean", "field_150575_M"))
-				LogHelper.fatal("Failed to override deep ocean biome! Loading worlds generated with Better Oceans may have unpredictable results!");
-		}
+		BiomeHelper.replaceOceanBiomes();
 	}
 
 	@EventHandler

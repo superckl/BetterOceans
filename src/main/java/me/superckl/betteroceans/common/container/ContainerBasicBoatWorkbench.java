@@ -1,8 +1,9 @@
 package me.superckl.betteroceans.common.container;
 
 import lombok.Getter;
+import me.superckl.betteroceans.common.container.components.BoatCraftingSlot;
 import me.superckl.betteroceans.common.entity.EntityWoodenBoat;
-import me.superckl.betteroceans.common.entity.tile.TileEntityBasicBoatWorkbench;
+import me.superckl.betteroceans.common.entity.tile.TileEntityBoatWorkbench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -13,11 +14,20 @@ public class ContainerBasicBoatWorkbench extends Container{
 
 	@Getter
 	private final EntityWoodenBoat entity;
+	@Getter
+	private final TileEntityBoatWorkbench tileEntity;
 
-	public ContainerBasicBoatWorkbench(final InventoryPlayer inventoryPlayer, final TileEntityBasicBoatWorkbench te){
+	public ContainerBasicBoatWorkbench(final InventoryPlayer inventoryPlayer, final TileEntityBoatWorkbench te){
 		this.entity = new EntityWoodenBoat(inventoryPlayer.player.worldObj);
+		this.tileEntity = te;
 		this.entity.setRenderWithRotation(true);
 		this.bindPlayerInventory(inventoryPlayer);
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++)
+				this.addSlotToContainer(new Slot(te, j + i * 3,
+						15 + j * 18, 23 + i * 18));
+		this.addSlotToContainer(new BoatCraftingSlot(te, 9, 221, 41));
+		te.setActiveSelection(this.entity);
 	}
 
 	@Override
@@ -29,7 +39,6 @@ public class ContainerBasicBoatWorkbench extends Container{
 	public ItemStack transferStackInSlot(final EntityPlayer player, final int slot) {
 		ItemStack stack = null;
 		final Slot slotObject = (Slot) this.inventorySlots.get(slot);
-
 		//null checks and checks if the item can be stacked (maxStackSize > 1)
 		if (slotObject != null && slotObject.getHasStack()) {
 			final ItemStack stackInSlot = slotObject.getStack();
@@ -60,10 +69,10 @@ public class ContainerBasicBoatWorkbench extends Container{
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 9; j++)
 				this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9,
-						8 + j * 18, 84 + i * 18));
+						15 + j * 18, 84 + i * 18));
 
 		for (int i = 0; i < 9; i++)
-			this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
+			this.addSlotToContainer(new Slot(inventoryPlayer, i, 15 + i * 18, 142));
 	}
 
 }

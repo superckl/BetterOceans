@@ -24,4 +24,12 @@ public class NumberUtil {
 		return sum;
 	}
 
+	public static boolean contains(final int[] array, final int ... numbers){
+		for(final int i:array)
+			for(final int j:numbers)
+				if(i == j)
+					return true;
+		return false;
+	}
+
 }

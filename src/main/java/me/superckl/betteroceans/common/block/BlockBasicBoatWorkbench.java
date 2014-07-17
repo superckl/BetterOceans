@@ -3,18 +3,22 @@ package me.superckl.betteroceans.common.block;
 import java.util.Random;
 
 import me.superckl.betteroceans.BetterOceans;
-import me.superckl.betteroceans.common.entity.tile.TileEntityBasicBoatWorkbench;
+import me.superckl.betteroceans.common.entity.tile.TileEntityBoatWorkbench;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModTabs;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockBasicBoatWorkbench extends BlockContainerBO{
 
@@ -42,7 +46,7 @@ public class BlockBasicBoatWorkbench extends BlockContainerBO{
 
 	@Override
 	public TileEntity createNewTileEntity(final World var1, final int var2) {
-		return new TileEntityBasicBoatWorkbench();
+		return new TileEntityBoatWorkbench();
 	}
 
 	private void dropItems(final World world, final int x, final int y, final int z){
@@ -76,6 +80,28 @@ public class BlockBasicBoatWorkbench extends BlockContainerBO{
 				item.stackSize = 0;
 			}
 		}
+	}
+
+	private IIcon[] icons;
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerBlockIcons(final IIconRegister register){
+		this.icons = new IIcon[]
+				{register.registerIcon(ModData.MOD_ID+":basicbenchtop"),
+				register.registerIcon(ModData.MOD_ID+":basicbenchside"),
+				register.registerIcon(ModData.MOD_ID+":basicbenchbottom")};
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(final int side, final int meta)
+	{
+		if(side == 0)
+			return this.icons[2];
+		else if(side == 1)
+			return this.icons[0];
+		return this.icons[1];
 	}
 
 }

@@ -67,7 +67,7 @@ public class BlockSeaweed extends BlockBO{
 	@Override
 	public Item getItemDropped(final int p_149650_1_, final Random p_149650_2_, final int p_149650_3_)
 	{
-		return ModItems.seaweed;
+		return ModItems.itemSeaweed;
 	}
 
 	@Override

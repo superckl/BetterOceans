@@ -3,7 +3,6 @@ package me.superckl.betteroceans.client.handler;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.utility.BlockHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -26,9 +25,7 @@ public class RenderTickHandler{
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onRenderTick(final RenderGameOverlayEvent.Text e){
-
 		if(this.mc.thePlayer != null && this.mc.thePlayer.getHeldItem() != null && this.mc.thePlayer.getHeldItem().getItem() == ModItems.depthSounder){
-			new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
 			final int x = (int) Math.floor(this.mc.thePlayer.posX); int y = (int) Math.floor(this.mc.thePlayer.posY)-1; final int z = (int) Math.floor(this.mc.thePlayer.posZ);
 			Fluid fluid = FluidRegistry.lookupFluidForBlock(this.mc.thePlayer.worldObj.getBlock(x, y, z));
 			if(fluid == null && this.mc.thePlayer.ridingEntity != null){

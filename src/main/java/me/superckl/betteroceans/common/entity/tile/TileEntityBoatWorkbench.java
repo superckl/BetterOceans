@@ -1,5 +1,11 @@
 package me.superckl.betteroceans.common.entity.tile;
 
+import java.util.Arrays;
+
+import lombok.Getter;
+import lombok.Setter;
+import me.superckl.betteroceans.common.entity.IEntityBoat;
+import me.superckl.betteroceans.common.utility.RecipeHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -8,9 +14,13 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 
-public class TileEntityBasicBoatWorkbench extends TileEntity implements IInventory{
+public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 
-	private final ItemStack[] inventory = new ItemStack[19];
+	@Getter
+	private final ItemStack[] inventory = new ItemStack[10];
+	@Getter
+	@Setter
+	private IEntityBoat activeSelection;
 
 	@Override
 	public int getSizeInventory() {
@@ -20,6 +30,11 @@ public class TileEntityBasicBoatWorkbench extends TileEntity implements IInvento
 	@Override
 	public ItemStack getStackInSlot(final int slot) {
 		return this.inventory[slot];
+	}
+
+	public void onCraftingSlotPick(){
+		RecipeHelper.removeItems(this.activeSelection.getCraftingIngredients(), this.inventory, true);
+		this.checkRecipeCompletion();
 	}
 
 	@Override
@@ -33,6 +48,7 @@ public class TileEntityBasicBoatWorkbench extends TileEntity implements IInvento
 				itemstack = this.inventory[slot];
 				this.inventory[slot] = null;
 				this.markDirty();
+				this.checkRecipeCompletion();
 				return itemstack;
 			}
 			else
@@ -43,10 +59,13 @@ public class TileEntityBasicBoatWorkbench extends TileEntity implements IInvento
 					this.inventory[slot] = null;
 
 				this.markDirty();
+				this.checkRecipeCompletion();
 				return itemstack;
 			}
-		} else
+		} else{
+			this.checkRecipeCompletion();
 			return null;
+		}
 	}
 
 	@Override
@@ -68,6 +87,15 @@ public class TileEntityBasicBoatWorkbench extends TileEntity implements IInvento
 			stack.stackSize = this.getInventoryStackLimit();
 
 		this.markDirty();
+		if(this.activeSelection != null)
+			this.checkRecipeCompletion();
+	}
+
+	private void checkRecipeCompletion(){
+		if(RecipeHelper.areItemsPresent(this.activeSelection.getCraftingIngredients(), Arrays.copyOf(this.inventory, 9), true))
+			this.inventory[9] = new ItemStack(this.activeSelection.getItem());
+		else
+			this.inventory[9] = null;
 	}
 
 	@Override

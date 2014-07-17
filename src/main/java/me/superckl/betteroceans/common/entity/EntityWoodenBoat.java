@@ -1,12 +1,19 @@
 package me.superckl.betteroceans.common.entity;
 
+import java.util.Arrays;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import me.superckl.betteroceans.common.nets.IItemNet;
 import me.superckl.betteroceans.common.nets.INet;
+import me.superckl.betteroceans.common.reference.ModItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class EntityWoodenBoat extends EntityBoat implements IEntityBoat{
@@ -97,6 +104,16 @@ public class EntityWoodenBoat extends EntityBoat implements IEntityBoat{
 	@Override
 	public boolean hasNetAttatched() {
 		return this.attatchedNet != null;
+	}
+
+	@Override
+	public List<ItemStack> getCraftingIngredients() {
+		return Arrays.asList(new ItemStack(Blocks.planks, 8));
+	}
+
+	@Override
+	public Item getItem(){
+		return ModItems.woodenBoat;
 	}
 
 }

@@ -7,3 +7,4 @@ bin/*
 gradlew
 gradlew.bat
 gradle/*
+/bin/

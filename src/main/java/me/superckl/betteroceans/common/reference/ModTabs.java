@@ -2,11 +2,9 @@ package me.superckl.betteroceans.common.reference;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import cpw.mods.fml.common.registry.GameRegistry.ObjectHolder;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@ObjectHolder(ModData.MOD_ID)
 public class ModTabs{
 
 	public static final CreativeTabs tabBlocks = new CreativeTabs(ModData.MOD_ID+":blocks") {
@@ -28,7 +26,7 @@ public class ModTabs{
 
 		@Override
 		public Item getTabIconItem() {
-			return ModItems.seaweed;
+			return ModItems.itemSeaweed;
 		}
 
 		@Override

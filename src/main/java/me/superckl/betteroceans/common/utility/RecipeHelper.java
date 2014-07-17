@@ -1,6 +1,7 @@
 package me.superckl.betteroceans.common.utility;
 
 import java.util.List;
+import java.util.ListIterator;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -8,6 +9,7 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class RecipeHelper {
 
@@ -48,6 +50,80 @@ public class RecipeHelper {
 				}
 			}
 		return count;
+	}
+
+	public static boolean areItemsPresent(final List<ItemStack> required, final ItemStack[] present, final boolean safe){
+		final List<ItemStack> copy = safe ? ItemStackHelper.deepClone(required):required;
+		final ListIterator<ItemStack> lit = copy.listIterator();
+		while(lit.hasNext()){
+			final ItemStack require = lit.next();
+			if(require == null)
+				continue;
+			final int[] ids0 = OreDictionary.getOreIDs(require);
+			for(final ItemStack stack:present){
+				if(stack == null)
+					continue;
+				final int[] ids = OreDictionary.getOreIDs(stack);
+				if(ids == null || ids.length == 0 || ids0 == null || ids0.length == 0){
+					if(require.isItemEqual(stack))
+						if(stack.stackSize >= require.stackSize){
+							lit.remove();
+							break;
+						}else
+							require.stackSize-=stack.stackSize;
+				} else if(NumberUtil.contains(ids0, ids))
+					if(stack.stackSize >= require.stackSize){
+						lit.remove();
+						break;
+					}else
+						require.stackSize-=stack.stackSize;
+			}
+		}
+		return copy.isEmpty();
+	}
+
+	public static boolean removeItems(final List<ItemStack> required, final ItemStack[] inventory, final boolean safe){
+		final List<ItemStack> copy = safe ? ItemStackHelper.deepClone(required):required;
+		final ListIterator<ItemStack> lit = copy.listIterator();
+		while(lit.hasNext()){
+			final ItemStack require = lit.next();
+			if(require == null)
+				continue;
+			final int[] ids0 = OreDictionary.getOreIDs(require);
+			for(int i = 0; i < inventory.length; i++){
+				final ItemStack stack = inventory[i];
+				if(stack == null)
+					continue;
+				final int[] ids = OreDictionary.getOreIDs(stack);
+				if(ids == null || ids.length == 0 || ids0 == null || ids0.length == 0){
+					if(require.isItemEqual(stack))
+						if(stack.stackSize > require.stackSize){
+							lit.remove();
+							stack.stackSize -= require.stackSize;
+							break;
+						}else if(stack.stackSize == require.stackSize){
+							lit.remove();
+							inventory[i] = null;
+							break;
+						}else{
+							inventory[i] = null;
+							require.stackSize-=stack.stackSize;
+						}
+				} else if(stack.stackSize > require.stackSize){
+					lit.remove();
+					stack.stackSize -= require.stackSize;
+					break;
+				}else if(stack.stackSize == require.stackSize){
+					lit.remove();
+					inventory[i] = null;
+					break;
+				}else{
+					inventory[i] = null;
+					require.stackSize-=stack.stackSize;
+				}
+			}
+		}
+		return copy.isEmpty();
 	}
 
 }

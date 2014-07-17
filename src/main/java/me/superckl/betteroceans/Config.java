@@ -21,7 +21,6 @@ public class Config {
 
 	@Getter
 	private final Configuration configFile;
-
 	@Getter
 	private boolean genTrenches;
 	@Getter

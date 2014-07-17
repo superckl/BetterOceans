@@ -40,7 +40,7 @@ public class ItemWoodenBoat extends ItemBO{
 		final double d0 = player.prevPosX + (player.posX - player.prevPosX) * f;
 		final double d1 = player.prevPosY + (player.posY - player.prevPosY) * f + 1.62D - player.yOffset;
 		final double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * f;
-		final Vec3 vec3 = world.getWorldVec3Pool().getVecFromPool(d0, d1, d2);
+		final Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
 		final float f3 = MathHelper.cos(-f2 * 0.017453292F - (float)Math.PI);
 		final float f4 = MathHelper.sin(-f2 * 0.017453292F - (float)Math.PI);
 		final float f5 = -MathHelper.cos(-f1 * 0.017453292F);
