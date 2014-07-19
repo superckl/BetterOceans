@@ -6,7 +6,6 @@ import me.superckl.betteroceans.common.entity.EntityWoodenBoat;
 import me.superckl.betteroceans.common.reference.ModTabs;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;

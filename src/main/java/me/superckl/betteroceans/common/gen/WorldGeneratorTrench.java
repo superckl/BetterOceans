@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import cpw.mods.fml.common.IWorldGenerator;
 
-public class TrenchGenerator implements IWorldGenerator{
+public class WorldGeneratorTrench implements IWorldGenerator{
 
 	/*@Override
 	public void generate(final Random random, final int chunkX, final int chunkZ, final World world,

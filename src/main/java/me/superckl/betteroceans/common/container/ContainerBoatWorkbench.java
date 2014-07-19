@@ -25,11 +25,11 @@ public class ContainerBoatWorkbench extends Container{
 		this.addSlotToContainer(new BoatCraftingSlot(te, 9, 221, 41));
 	}
 
-	public ContainerBoatWorkbench(final InventoryPlayer inventoryPlayer, final TileEntityBoatWorkbench te, IEntityBoat activeSelection){
+	public ContainerBoatWorkbench(final InventoryPlayer inventoryPlayer, final TileEntityBoatWorkbench te, final IEntityBoat activeSelection){
 		this(inventoryPlayer, te);
 		te.setActiveSelection(activeSelection);
 	}
-	
+
 	@Override
 	public boolean canInteractWith(final EntityPlayer player) {
 		return true;

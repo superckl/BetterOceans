@@ -4,8 +4,8 @@ import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.client.gui.GuiHandlerBetterOceans;
 import me.superckl.betteroceans.common.entity.EntityWoodenBoat;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatWorkbench;
-import me.superckl.betteroceans.common.gen.SeaweedDecorator;
-import me.superckl.betteroceans.common.gen.TrenchGenerator;
+import me.superckl.betteroceans.common.gen.WorldGeneratorSeaweed;
+import me.superckl.betteroceans.common.gen.WorldGeneratorTrench;
 import me.superckl.betteroceans.common.handler.FuelHandler;
 import me.superckl.betteroceans.common.handler.GenEventHandler;
 import me.superckl.betteroceans.common.reference.NetworkData;
@@ -40,8 +40,8 @@ public abstract class CommonProxy implements IProxy{
 
 	@Override
 	public void registerWorldGenerators(){
-		GameRegistry.registerWorldGenerator(new SeaweedDecorator(), 100);
-		GameRegistry.registerWorldGenerator(new TrenchGenerator(), 10);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorSeaweed(), 100);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorTrench(), 10);
 	}
 
 	@Override

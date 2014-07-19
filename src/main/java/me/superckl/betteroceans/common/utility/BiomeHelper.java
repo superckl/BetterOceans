@@ -1,16 +1,16 @@
 package me.superckl.betteroceans.common.utility;
 
 import me.superckl.betteroceans.BetterOceans;
-import me.superckl.betteroceans.common.gen.BiomeGenBetterOceansDeepOcean;
-import me.superckl.betteroceans.common.gen.BiomeGenBetterOceansOcean;
+import me.superckl.betteroceans.common.gen.BiomeGenBetterDeepOcean;
+import me.superckl.betteroceans.common.gen.BiomeGenBetterOcean;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeHelper {
 
 	public static final void replaceOceanBiomes(){
-		final BiomeGenBetterOceansOcean boO = new BiomeGenBetterOceansOcean();
-		final BiomeGenBetterOceansDeepOcean boDO = new BiomeGenBetterOceansDeepOcean();
+		final BiomeGenBetterOcean boO = new BiomeGenBetterOcean();
+		final BiomeGenBetterDeepOcean boDO = new BiomeGenBetterDeepOcean();
 		if(!BetterOceans.getInstance().getConfig().isOverrideOcean())
 			LogHelper.warn("Ocean overriding is disabled! Loading worlds that were generated with this enabled may be unstable!");
 		else{

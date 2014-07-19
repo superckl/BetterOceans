@@ -5,7 +5,6 @@ import java.util.Arrays;
 import lombok.Getter;
 import me.superckl.betteroceans.common.entity.IEntityBoat;
 import me.superckl.betteroceans.common.entity.Rotatable;
-import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

@@ -1,7 +1,6 @@
 package me.superckl.betteroceans.common.container.components;
 
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatWorkbench;
-import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;

@@ -5,7 +5,6 @@ import me.superckl.betteroceans.common.entity.EntityWoodenBoat;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
@@ -32,7 +31,7 @@ public class RenderWoodenBoat extends Render{
 	 * (Render<T extends Entity) and this method has signature public void func_76986_a(T entity, double d, double d1,
 	 * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
 	 */
-	public void doRender(final EntityWoodenBoat par1EntityBoat, final double par2, final double par4, final double par6, final float par8, final float par9, boolean doRotate)
+	public void doRender(final EntityWoodenBoat par1EntityBoat, final double par2, final double par4, final double par6, final float par8, final float par9, final boolean doRotate)
 	{
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float)par2, (float)par4, (float)par6);
@@ -64,7 +63,7 @@ public class RenderWoodenBoat extends Render{
 	@Override
 	protected ResourceLocation getEntityTexture(final Entity par1Entity)
 	{
-		return boatTextures;
+		return RenderWoodenBoat.boatTextures;
 	}
 
 	/**
