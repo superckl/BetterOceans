@@ -57,7 +57,7 @@ public class BlockBasicBoatWorkbench extends BlockContainerBO{
 			return;
 		final IInventory inventory = (IInventory) tileEntity;
 
-		for (int i = 0; i < inventory.getSizeInventory(); i++) {
+		for (int i = 0; i < inventory.getSizeInventory()-1; i++) {
 			final ItemStack item = inventory.getStackInSlot(i);
 
 			if (item != null && item.stackSize > 0) {
