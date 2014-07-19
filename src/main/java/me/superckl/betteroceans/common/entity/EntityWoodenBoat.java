@@ -8,6 +8,7 @@ import lombok.Setter;
 import me.superckl.betteroceans.common.nets.IItemNet;
 import me.superckl.betteroceans.common.nets.INet;
 import me.superckl.betteroceans.common.reference.ModItems;
+import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -87,7 +88,7 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 		this.dataWatcher.addObject(17, new Integer(0));
 		this.dataWatcher.addObject(18, new Integer(1));
 		this.dataWatcher.addObject(19, new Float(0.0F));
-		this.dataWatcher.addObject(20, new Integer(0));
+		this.dataWatcher.addObject(20, new Float(0F));
 	}
 
 	@Override
@@ -254,6 +255,17 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 			this.attatchedNet.preAttatchedUpdate();
 		super.onUpdate();
 
+		if(this.isSinking() || this.rand.nextDouble() < 0.00016){
+			if(!this.isSinking())
+				LogHelper.info("You are sinking!");
+			this.setSinkDepth(this.getSinkDepth()+0.0005F);
+			this.yOffset -= 0.0005F;
+			if(this.yOffset < -5){
+				this.setDead();
+				if(this.riddenByEntity != null)
+					this.riddenByEntity.mountEntity(null);
+			}
+		}
 		if (this.getTimeSinceHit() > 0)
 			this.setTimeSinceHit(this.getTimeSinceHit() - 1);
 
@@ -424,9 +436,9 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 				this.motionZ *= 0.0D;
 			}
 
-			this.motionX *= 0.885D;
-			this.motionY *= 0.885D;
-			this.motionZ *= 0.885D;
+			this.motionX *= 0.885D*Math.max(0F, 1F-this.getSinkDepth());
+			this.motionY *= 0.885D*Math.max(0F, 1F-this.getSinkDepth());
+			this.motionZ *= 0.885D*Math.max(0F, 1F-this.getSinkDepth());
 
 			this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
@@ -563,8 +575,12 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 		return this.dataWatcher.getWatchableObjectInt(20) >= 1;
 	}
 
-	public void setSinkDepth(final int depth){
-		this.dataWatcher.updateObject(20, depth);
+	public void setSinkDepth(final float depth){
+		this.dataWatcher.updateObject(20, new Float(depth));
+	}
+
+	public float getSinkDepth(){
+		return this.dataWatcher.getWatchableObjectFloat(20);
 	}
 
 	@SideOnly(Side.CLIENT)

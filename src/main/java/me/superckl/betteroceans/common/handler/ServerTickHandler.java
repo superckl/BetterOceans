@@ -1,6 +1,5 @@
 package me.superckl.betteroceans.common.handler;
 
-import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
