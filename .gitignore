@@ -4,8 +4,5 @@
 .settings/*
 eclipse/*
 bin/*
-gradlew
-gradlew.bat
-gradle/*
 /bin/
 build.bat
