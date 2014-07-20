@@ -2,6 +2,7 @@ package me.superckl.betteroceans.common.gen;
 
 import java.util.Random;
 
+import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.common.reference.ModData;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -28,7 +29,7 @@ public class BiomeGenBetterDeepOcean extends BiomeGenBase{
 
 	@Override
 	public BiomeDecorator createBiomeDecorator(){
-		return new BiomeDecoratorBetterOcean();
+		return BetterOceans.getInstance().getConfig().isOtherDecoration() ? this.getModdedBiomeDecorator(new BiomeDecoratorBetterOcean()):new BiomeDecoratorBetterOcean();
 	}
 
 	@Override
