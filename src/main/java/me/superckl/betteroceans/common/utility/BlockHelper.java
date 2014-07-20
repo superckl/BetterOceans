@@ -1,6 +1,7 @@
 package me.superckl.betteroceans.common.utility;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
@@ -95,6 +96,10 @@ public class BlockHelper {
 			newFluid = FluidRegistry.lookupFluidForBlock(world.getBlock(x, --y, z));
 		}while(fluid == newFluid);
 		return count;
+	}
+
+	public static boolean isSwimming(final EntityPlayer player){
+		return !player.onGround && BlockHelper.getFluidDepth(player.worldObj, (int) player.posX, (int) player.posY, (int) player.posZ) > 0;
 	}
 
 }
