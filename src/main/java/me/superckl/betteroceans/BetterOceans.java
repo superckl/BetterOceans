@@ -6,6 +6,7 @@ import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.utility.BiomeHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
+import me.superckl.betteroceans.integration.BOIntegration;
 import me.superckl.betteroceans.proxy.IProxy;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -15,7 +16,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid=ModData.MOD_ID, name=ModData.MOD_NAME, version=ModData.VERSION, guiFactory = ModData.GUI_FACTORY)
+@Mod(modid=ModData.MOD_ID, name=ModData.MOD_NAME, version=ModData.VERSION, guiFactory = ModData.GUI_FACTORY, dependencies = "after:BiomesOPlenty")
 public class BetterOceans {
 
 	@Instance(ModData.MOD_ID)
@@ -51,7 +52,7 @@ public class BetterOceans {
 
 	@EventHandler
 	public void postInit(final FMLPostInitializationEvent e){
-
+		BOIntegration.postInit();
 	}
 
 }

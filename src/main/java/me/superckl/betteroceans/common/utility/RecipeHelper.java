@@ -3,6 +3,7 @@ package me.superckl.betteroceans.common.utility;
 import java.util.List;
 import java.util.ListIterator;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -28,19 +29,25 @@ public class RecipeHelper {
 		return count;
 	}
 
-	public static int replaceItem(final Item toReplace, final Item toPut){
+	public static int replaceItem(final Item toReplace, final Item toPut, boolean override){
 		int count = 0;
 		final List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
 		for (final IRecipe recipe:recipes)
 			if(recipe instanceof ShapedRecipes){
-				final ShapedRecipes sRecipe = (ShapedRecipes) recipe;
+				ShapedRecipes sRecipe = (ShapedRecipes) recipe;
+				if(!override)
+					sRecipe = copy(sRecipe);
 				for(int i = 0; i < sRecipe.recipeItems.length; i++)
 					if(sRecipe.recipeItems[i] != null && sRecipe.recipeItems[i].getItem() == toReplace){
 						sRecipe.recipeItems[i] = new ItemStack(toPut, sRecipe.recipeItems[i].stackSize);
 						count++;
 					}
+				if(!override)
+					GameRegistry.addRecipe(sRecipe);
 			}else if(recipe instanceof ShapelessRecipes){
-				final ShapelessRecipes sRecipe = (ShapelessRecipes) recipe;
+				ShapelessRecipes sRecipe = (ShapelessRecipes) recipe;
+				if(!override)
+					sRecipe = copy(sRecipe);
 				for(int i = 0; i < sRecipe.recipeItems.size(); i++){
 					final ItemStack stack = (ItemStack) sRecipe.recipeItems.get(i);
 					if(stack != null && stack.getItem() == toReplace){
@@ -48,10 +55,20 @@ public class RecipeHelper {
 						count++;
 					}
 				}
+				if(!override)
+					GameRegistry.addRecipe(sRecipe);
 			}
 		return count;
 	}
 
+	public static ShapedRecipes copy(ShapedRecipes sRecipe){
+		return new ShapedRecipes(sRecipe.recipeWidth, sRecipe.recipeHeight, sRecipe.recipeItems, sRecipe.getRecipeOutput());
+	}
+	
+	public static ShapelessRecipes copy(ShapelessRecipes sRecipe){
+		return new ShapelessRecipes(sRecipe.getRecipeOutput(), sRecipe.recipeItems);
+	}
+	
 	public static boolean areItemsPresent(final List<ItemStack> required, final ItemStack[] present, final boolean safe){
 		final List<ItemStack> copy = safe ? ItemStackHelper.deepClone(required):required;
 		final ListIterator<ItemStack> lit = copy.listIterator();

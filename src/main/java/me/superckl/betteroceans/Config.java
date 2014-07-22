@@ -35,6 +35,8 @@ public class Config {
 	private int seaweedTries;
 	@Getter
 	private boolean otherDecoration;
+	@Getter
+	private boolean removeCoralReef;
 
 	public Config(final File config){
 		this.configFile = new Configuration(config);
@@ -59,6 +61,7 @@ public class Config {
 			this.seaweedTries = this.configFile.getInt("Seaweed Tries", "world gen", 3, 0, Integer.MAX_VALUE, "Defines how many attempts will be made to place seaweed around a water block that was found.");
 			this.seaweedToWater = this.configFile.getBoolean("Seaweed Breaks To Water", "general", true, "Determines whether seaweed is replaced by water or air when broken.");
 			this.otherDecoration = this.configFile.getBoolean("Other Mod Ocean Decorations", "world gen", true, "Aloow other mods to generate decorations in oceans.");
+			this.removeCoralReef = this.configFile.getBoolean("Remove BOP Coral Reef", "biomes o plenty", true, "Remove the BOP coral reef biome.");
 			this.configFile.save();
 			this.setConfigElements();
 		}catch(final Exception e){
