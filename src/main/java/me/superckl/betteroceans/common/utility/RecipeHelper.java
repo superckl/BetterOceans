@@ -3,7 +3,6 @@ package me.superckl.betteroceans.common.utility;
 import java.util.List;
 import java.util.ListIterator;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -11,6 +10,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraftforge.oredict.OreDictionary;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RecipeHelper {
 
@@ -29,14 +29,14 @@ public class RecipeHelper {
 		return count;
 	}
 
-	public static int replaceItem(final Item toReplace, final Item toPut, boolean override){
+	public static int replaceItem(final Item toReplace, final Item toPut, final boolean override){
 		int count = 0;
 		final List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
 		for (final IRecipe recipe:recipes)
 			if(recipe instanceof ShapedRecipes){
 				ShapedRecipes sRecipe = (ShapedRecipes) recipe;
 				if(!override)
-					sRecipe = copy(sRecipe);
+					sRecipe = RecipeHelper.copy(sRecipe);
 				for(int i = 0; i < sRecipe.recipeItems.length; i++)
 					if(sRecipe.recipeItems[i] != null && sRecipe.recipeItems[i].getItem() == toReplace){
 						sRecipe.recipeItems[i] = new ItemStack(toPut, sRecipe.recipeItems[i].stackSize);
@@ -47,7 +47,7 @@ public class RecipeHelper {
 			}else if(recipe instanceof ShapelessRecipes){
 				ShapelessRecipes sRecipe = (ShapelessRecipes) recipe;
 				if(!override)
-					sRecipe = copy(sRecipe);
+					sRecipe = RecipeHelper.copy(sRecipe);
 				for(int i = 0; i < sRecipe.recipeItems.size(); i++){
 					final ItemStack stack = (ItemStack) sRecipe.recipeItems.get(i);
 					if(stack != null && stack.getItem() == toReplace){
@@ -61,14 +61,14 @@ public class RecipeHelper {
 		return count;
 	}
 
-	public static ShapedRecipes copy(ShapedRecipes sRecipe){
+	public static ShapedRecipes copy(final ShapedRecipes sRecipe){
 		return new ShapedRecipes(sRecipe.recipeWidth, sRecipe.recipeHeight, sRecipe.recipeItems, sRecipe.getRecipeOutput());
 	}
-	
-	public static ShapelessRecipes copy(ShapelessRecipes sRecipe){
+
+	public static ShapelessRecipes copy(final ShapelessRecipes sRecipe){
 		return new ShapelessRecipes(sRecipe.getRecipeOutput(), sRecipe.recipeItems);
 	}
-	
+
 	public static boolean areItemsPresent(final List<ItemStack> required, final ItemStack[] present, final boolean safe){
 		final List<ItemStack> copy = safe ? ItemStackHelper.deepClone(required):required;
 		final ListIterator<ItemStack> lit = copy.listIterator();
