@@ -255,12 +255,13 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 			this.attatchedNet.preAttatchedUpdate();
 		super.onUpdate();
 
-		if(this.isSinking() || this.rand.nextDouble() < 0.00016){
+		if(this.isSinking() || this.rand.nextDouble() < /*0.00015D*/.001D){
 			if(!this.isSinking())
 				LogHelper.info("You are sinking!");
-			this.setSinkDepth(this.getSinkDepth()+0.0005F);
-			this.yOffset -= 0.0005F;
-			if(this.yOffset < -5){
+			final float depth = this.getSinkDepth();
+			this.setSinkDepth(Math.abs(depth) > this.height+0.3F ? this.getSinkDepth()+.05F:this.getSinkDepth()+0.0005F);
+			this.yOffset -= Math.abs(depth) > this.height+0.3F ? .05F:0.0005F;
+			if(this.yOffset < -7F){
 				this.setDead();
 				if(this.riddenByEntity != null)
 					this.riddenByEntity.mountEntity(null);
@@ -358,18 +359,19 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 		}
 		else
 		{
-			if (d0 < 1.0D)
-			{
-				d2 = d0 * 2.0D - 1.0D;
-				this.motionY += 0.03999999910593033D * d2;
-			}
-			else
-			{
-				if (this.motionY < 0.0D)
-					this.motionY /= 2.0D;
+			if(!this.isSinking())
+				if (d0 < 1.0D)
+				{
+					d2 = d0 * 2.0D - 1.0D;
+					this.motionY += 0.03999999910593033D * d2;
+				}
+				else
+				{
+					if (this.motionY < 0.0D)
+						this.motionY /= 2.0D;
 
-				this.motionY += 0.007000000216066837D;
-			}
+					this.motionY += 0.007000000216066837D;
+				}
 
 			if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityLivingBase)
 			{
@@ -436,9 +438,9 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 				this.motionZ *= 0.0D;
 			}
 
-			this.motionX *= 0.885D*Math.max(0F, 1F-this.getSinkDepth());
-			this.motionY *= 0.885D*Math.max(0F, 1F-this.getSinkDepth());
-			this.motionZ *= 0.885D*Math.max(0F, 1F-this.getSinkDepth());
+			this.motionX *= 0.882D*Math.max(0F, 1F-this.getSinkDepth());
+			this.motionY *= 0.882D*Math.max(0F, 1F-this.getSinkDepth());
+			this.motionZ *= 0.882D*Math.max(0F, 1F-this.getSinkDepth());
 
 			this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
@@ -572,7 +574,7 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 	}
 
 	public boolean isSinking(){
-		return this.dataWatcher.getWatchableObjectInt(20) >= 1;
+		return this.dataWatcher.getWatchableObjectFloat(20) > 0F;
 	}
 
 	public void setSinkDepth(final float depth){
