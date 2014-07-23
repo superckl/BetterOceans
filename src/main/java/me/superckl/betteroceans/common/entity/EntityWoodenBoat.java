@@ -255,7 +255,7 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 			this.attatchedNet.preAttatchedUpdate();
 		super.onUpdate();
 
-		if(this.isSinking() || this.rand.nextDouble() < /*0.00015D*/.001D){
+		if(this.isSinking() || this.rand.nextDouble() < 0.00015D){
 			if(!this.isSinking())
 				LogHelper.info("You are sinking!");
 			final float depth = this.getSinkDepth();
@@ -347,14 +347,14 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 
 				if (this.onGround)
 				{
-					this.motionX *= 0.5D;
-					this.motionY *= 0.5D;
-					this.motionZ *= 0.5D;
+					this.motionX *= 0.0D;
+					this.motionY *= 0.0D;
+					this.motionZ *= 0.0D;
 				}
 
-				this.motionX *= 0.9900000095367432D;
-				this.motionY *= 0.949999988079071D;
-				this.motionZ *= 0.9900000095367432D;
+				this.motionX *= 0.89D*Math.max(0F, 1F-this.getSinkDepth());
+				this.motionY *= this.isSinking() ? 0D:0.888D*Math.max(0F, 1F-this.getSinkDepth());
+				this.motionZ *= 0.89D*Math.max(0F, 1F-this.getSinkDepth());
 			}
 		}
 		else
@@ -372,7 +372,6 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 
 					this.motionY += 0.007000000216066837D;
 				}
-
 			if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityLivingBase)
 			{
 				final EntityLivingBase entitylivingbase = (EntityLivingBase)this.riddenByEntity;
@@ -438,9 +437,9 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 				this.motionZ *= 0.0D;
 			}
 
-			this.motionX *= 0.882D*Math.max(0F, 1F-this.getSinkDepth());
-			this.motionY *= 0.882D*Math.max(0F, 1F-this.getSinkDepth());
-			this.motionZ *= 0.882D*Math.max(0F, 1F-this.getSinkDepth());
+			this.motionX *= 0.89D*Math.max(0F, 1F-this.getSinkDepth());
+			this.motionY *= this.isSinking() ? 0D:0.888D*Math.max(0F, 1F-this.getSinkDepth());
+			this.motionZ *= 0.89D*Math.max(0F, 1F-this.getSinkDepth());
 
 			this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
@@ -619,12 +618,12 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 
 	@Override
 	protected void readEntityFromNBT(final NBTTagCompound compund) {
-
+		this.setSinkDepth(compund.getFloat("sinkDepth"));
 	}
 
 	@Override
 	protected void writeEntityToNBT(final NBTTagCompound compund) {
-
+		compund.setFloat("sinkDepth", this.getSinkDepth());
 	}
 
 }

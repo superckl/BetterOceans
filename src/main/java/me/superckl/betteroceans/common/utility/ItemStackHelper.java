@@ -18,7 +18,7 @@ public class ItemStackHelper {
 	public static ItemStack[] deepClone(final ItemStack[] items){
 		final ItemStack[] newItems = new ItemStack[items.length];
 		for(int i = 0; i < items.length; i++)
-			newItems[i] = items[i].copy();
+			newItems[i] = items[i] == null ? null:items[i].copy();
 		return newItems;
 	}
 

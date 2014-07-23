@@ -1,9 +1,9 @@
 package me.superckl.betteroceans.common.utility;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
@@ -29,44 +29,52 @@ public class RecipeHelper {
 		return count;
 	}
 
-	public static int replaceItem(final Item toReplace, final Item toPut, final boolean override){
+	public static int replaceItem(final ItemStack toReplace, final ItemStack toPut, final boolean useDamage, final boolean override){
 		int count = 0;
 		final List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
+		final List<IRecipe> toAdd = new ArrayList<IRecipe>();
 		for (final IRecipe recipe:recipes)
 			if(recipe instanceof ShapedRecipes){
 				ShapedRecipes sRecipe = (ShapedRecipes) recipe;
 				if(!override)
 					sRecipe = RecipeHelper.copy(sRecipe);
 				for(int i = 0; i < sRecipe.recipeItems.length; i++)
-					if(sRecipe.recipeItems[i] != null && sRecipe.recipeItems[i].getItem() == toReplace){
-						sRecipe.recipeItems[i] = new ItemStack(toPut, sRecipe.recipeItems[i].stackSize);
+					if(sRecipe.recipeItems[i] != null && sRecipe.recipeItems[i].isItemEqual(toReplace) && (!useDamage || sRecipe.recipeItems[i].getItemDamage() == toReplace.getItemDamage())){
+						final ItemStack copy = toPut.copy();
+						copy.stackSize = sRecipe.recipeItems[i].stackSize;
+						sRecipe.recipeItems[i] = copy;
 						count++;
 					}
 				if(!override)
-					GameRegistry.addRecipe(sRecipe);
+					toAdd.add(sRecipe);
 			}else if(recipe instanceof ShapelessRecipes){
 				ShapelessRecipes sRecipe = (ShapelessRecipes) recipe;
 				if(!override)
 					sRecipe = RecipeHelper.copy(sRecipe);
 				for(int i = 0; i < sRecipe.recipeItems.size(); i++){
 					final ItemStack stack = (ItemStack) sRecipe.recipeItems.get(i);
-					if(stack != null && stack.getItem() == toReplace){
-						sRecipe.recipeItems.set(i, new ItemStack(toPut, stack.stackSize));
+					if(stack != null && stack.isItemEqual(toReplace) && (!useDamage || stack.getItemDamage() == toReplace.getItemDamage())){
+						final ItemStack copy = toPut.copy();
+						copy.stackSize = stack.stackSize;
+						sRecipe.recipeItems.set(i, copy);
 						count++;
 					}
 				}
 				if(!override)
-					GameRegistry.addRecipe(sRecipe);
+					toAdd.add(sRecipe);
 			}
+		//Now that we're out, add the recipes
+		for(final IRecipe recipe:toAdd)
+			GameRegistry.addRecipe(recipe);
 		return count;
 	}
 
 	public static ShapedRecipes copy(final ShapedRecipes sRecipe){
-		return new ShapedRecipes(sRecipe.recipeWidth, sRecipe.recipeHeight, sRecipe.recipeItems, sRecipe.getRecipeOutput());
+		return new ShapedRecipes(sRecipe.recipeWidth, sRecipe.recipeHeight, ItemStackHelper.deepClone(sRecipe.recipeItems), sRecipe.getRecipeOutput());
 	}
 
 	public static ShapelessRecipes copy(final ShapelessRecipes sRecipe){
-		return new ShapelessRecipes(sRecipe.getRecipeOutput(), sRecipe.recipeItems);
+		return new ShapelessRecipes(sRecipe.getRecipeOutput(), ItemStackHelper.deepClone(sRecipe.recipeItems));
 	}
 
 	public static boolean areItemsPresent(final List<ItemStack> required, final ItemStack[] present, final boolean safe){

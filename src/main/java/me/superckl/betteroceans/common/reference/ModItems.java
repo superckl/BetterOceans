@@ -48,7 +48,7 @@ public class ModItems {
 
 	public static void overrideItems(){
 		RecipeHelper.removeRecipes(new ItemStack(Items.boat));
-		RecipeHelper.replaceItem(Items.boat, ModItems.woodenBoat, true);
+		RecipeHelper.replaceItem(new ItemStack(Items.boat), new ItemStack(ModItems.woodenBoat), false, true);
 		Items.boat.setCreativeTab(null);
 	}
 
