@@ -10,13 +10,7 @@ public class ReflectionUtil {
 
 	public static boolean setFinalStatic(final Class<?> clazz, final Object toPut, final boolean coverTracks, final String ... names){
 		try {
-			Field toSet = null;
-			for(final Field field:clazz.getDeclaredFields())
-				for(final String name:names)
-					if(field.getName().equals(name)){
-						toSet = field;
-						break;
-					}
+			Field toSet = find(clazz, names);
 			if(toSet == null)
 				throw new IllegalArgumentException("Could not find "+Arrays.toString(names));
 			return ReflectionUtil.setFinalStatic(toSet, toPut, coverTracks);
@@ -64,7 +58,34 @@ public class ReflectionUtil {
 		}
 		return true;
 	}
+	
+	public static Object retrieveStatic(Class<?> clazz, boolean coverTracks, String ... names){
+		try {
+			Field toGet = find(clazz, names);
+			if(toGet == null)
+				throw new IllegalArgumentException("Could not find "+Arrays.toString(names));
+			boolean access = toGet.isAccessible();
+			toGet.setAccessible(true);
+			Object obj = toGet.get(null);
+			if(coverTracks)
+				toGet.setAccessible(access);
+			return obj;
+		} catch (Exception e) {
+			LogHelper.warn("Failed to get field in "+clazz.getCanonicalName());
+			e.printStackTrace();
+		}
+		return null;
+	}
 
+	public static Field find(Class<?> clazz, String ... names){
+		for(final Field field:clazz.getDeclaredFields())
+			for(final String name:names)
+				if(field.getName().equals(name)){
+					return field;
+				}
+		return null;
+	}
+	
 	public static Field findBiomeGenField(final int id){
 		try {
 			for(final Field field:((Class<?>)BiomeGenBase.class).getDeclaredFields()){
