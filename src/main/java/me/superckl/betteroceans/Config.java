@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.experimental.ExtensionMethod;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.utility.LogHelper;
-import me.superckl.betteroceans.common.utility.ReflectionUtil;
+import me.superckl.betteroceans.common.utility.ReflectionHelper;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.client.config.IConfigElement;
@@ -86,7 +86,7 @@ public class Config {
 		for(final String cat:this.configFile.getCategoryNames())
 			elements.addAll(new ConfigElement(this.configFile.getCategory(cat)).getChildElements());
 		elements = Collections.unmodifiableList(elements);
-		ReflectionUtil.setFinalStatic(ModData.class, elements, true, "CONFIG_ELEMENTS");
+		ReflectionHelper.setFinalStatic(ModData.class, elements, true, "CONFIG_ELEMENTS");
 	}
 
 }

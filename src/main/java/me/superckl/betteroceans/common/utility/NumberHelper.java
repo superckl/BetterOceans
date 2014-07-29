@@ -1,7 +1,7 @@
 package me.superckl.betteroceans.common.utility;
 
 
-public class NumberUtil {
+public class NumberHelper {
 
 	public static int translateToBitPos(final int number) throws IllegalArgumentException{
 		final int pos = (int) Math.round(Math.log(number)/Math.log(2));

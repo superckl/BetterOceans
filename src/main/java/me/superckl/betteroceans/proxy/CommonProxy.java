@@ -9,7 +9,7 @@ import me.superckl.betteroceans.common.gen.WorldGeneratorTrench;
 import me.superckl.betteroceans.common.handler.FuelHandler;
 import me.superckl.betteroceans.common.handler.GenEventHandler;
 import me.superckl.betteroceans.common.reference.NetworkData;
-import me.superckl.betteroceans.common.utility.ReflectionUtil;
+import me.superckl.betteroceans.common.utility.ReflectionHelper;
 import me.superckl.betteroceans.network.MessageHandler;
 import me.superckl.betteroceans.network.MessageSelectBoat;
 import net.minecraftforge.common.MinecraftForge;
@@ -46,7 +46,7 @@ public abstract class CommonProxy implements IProxy{
 
 	@Override
 	public void registerNetworkHandlers(){
-		ReflectionUtil.setFinalStatic(NetworkData.class, NetworkRegistry.INSTANCE.newSimpleChannel(NetworkData.BOAT_SELECT_CHANNEL_NAME),
+		ReflectionHelper.setFinalStatic(NetworkData.class, NetworkRegistry.INSTANCE.newSimpleChannel(NetworkData.BOAT_SELECT_CHANNEL_NAME),
 				true, "BOAT_SELECT_CHANNEL");
 		NetworkData.BOAT_SELECT_CHANNEL.registerMessage(MessageHandler.class,
 				MessageSelectBoat.class, 0, Side.SERVER);

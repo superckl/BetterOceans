@@ -6,7 +6,7 @@ import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.common.utility.BiomeHelper;
 import me.superckl.betteroceans.common.utility.BlockHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
-import me.superckl.betteroceans.common.utility.NumberUtil;
+import me.superckl.betteroceans.common.utility.NumberHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -186,7 +186,7 @@ public class WorldGeneratorTrench implements IWorldGenerator{
 							y = world.getTopSolidOrLiquidBlock(ledgeX+j, ledgeZ);
 						else
 							y = world.getTopSolidOrLiquidBlock(ledgeX, ledgeZ+j);
-						final int sum = NumberUtil.sum(currentLedge, ledgeHeights);
+						final int sum = NumberHelper.sum(currentLedge, ledgeHeights);
 						for(int k = from0+ledgeHeights[currentLedge]+sum; k < y; k++)
 							if(genAcrossX)
 								world.setBlock(ledgeX+j, k, ledgeZ,

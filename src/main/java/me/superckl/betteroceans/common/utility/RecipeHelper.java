@@ -96,7 +96,7 @@ public class RecipeHelper {
 							break;
 						}else
 							require.stackSize-=stack.stackSize;
-				} else if(NumberUtil.contains(ids0, ids))
+				} else if(NumberHelper.contains(ids0, ids))
 					if(stack.stackSize >= require.stackSize){
 						lit.remove();
 						break;

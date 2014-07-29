@@ -5,9 +5,13 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.superckl.betteroceans.common.BoatPart;
+import me.superckl.betteroceans.common.BoatPart.Type;
+import me.superckl.betteroceans.common.Rotatable;
 import me.superckl.betteroceans.common.nets.IItemNet;
 import me.superckl.betteroceans.common.nets.INet;
 import me.superckl.betteroceans.common.reference.ModItems;
+import me.superckl.betteroceans.common.utility.BoatHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -34,6 +38,8 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 
 	@Getter
 	private INet attatchedNet;
+	@Getter
+	private List<BoatPart> boatParts;
 	@Setter
 	@Getter
 	private boolean renderWithRotation;
@@ -147,41 +153,48 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 	@Override
 	public boolean interactFirst(final EntityPlayer player){
 		if(player.isSneaking()){
-			if(this.hasNetAttatched()){
-				player.inventory.addItemStackToInventory(this.attatchedNet.toItemStack());
-				this.attachNet(null);
-			}
-
-			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemNet){
-				final IItemNet itemNet = (IItemNet) player.getHeldItem().getItem();
-				if(!itemNet.canAttachTo(this))
-					return false;
-				this.attachNet(itemNet.toNet(player.getHeldItem().getItemDamage()));
-				player.getHeldItem().stackSize--;
-				return true;
-			}
-		}
-
-		if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != player)
-		{
-			if(this.passenger != null  && this.passenger instanceof EntityPlayer && this.passenger != player)
-				return true;
-			else{
-				if (!this.worldObj.isRemote)
-				{
-					player.ridingEntity = this;
-					this.passenger = player;
+			if(this.isComplete()){
+				if(this.hasNetAttatched()){
+					player.inventory.addItemStackToInventory(this.attatchedNet.toItemStack());
+					this.attachNet(null);
 				}
+
+				if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemNet){
+					final IItemNet itemNet = (IItemNet) player.getHeldItem().getItem();
+					if(!itemNet.canAttachTo(this))
+						return false;
+					this.attachNet(itemNet.toNet(player.getHeldItem().getItemDamage()));
+					player.getHeldItem().stackSize--;
+					return true;
+				}
+			}else{
+				//TODO try attach part
+			}
+		} else if(this.isComplete()){
+			if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != player)
+			{
+				if(this.passenger != null  && this.passenger instanceof EntityPlayer && this.passenger != player)
+					return true;
+				else{
+					if (!this.worldObj.isRemote)
+					{
+						player.ridingEntity = this;
+						this.passenger = player;
+					}
+					return true;
+				}
+			}
+			else
+			{
+				if (!this.worldObj.isRemote)
+					player.mountEntity(this);
+
 				return true;
 			}
-		}
-		else
-		{
-			if (!this.worldObj.isRemote)
-				player.mountEntity(this);
-
+		} else
+			//TODO try attatch part
 			return true;
-		}
+		return false;
 	}
 
 	@Override
@@ -607,13 +620,18 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 	}
 
 	@Override
-	public Item getItem(){
+	public Item asItem(){
 		return ModItems.woodenBoat;
 	}
 
 	@Override
 	public Entity asEntity() {
 		return this;
+	}
+
+	@Override
+	public boolean isComplete() {
+		return BoatHelper.hasParts(this, Type.BOTTOM, Type.SIDE, Type.SIDE, Type.END, Type.END);
 	}
 
 	@Override
@@ -625,5 +643,6 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 	protected void writeEntityToNBT(final NBTTagCompound compund) {
 		compund.setFloat("sinkDepth", this.getSinkDepth());
 	}
+
 
 }

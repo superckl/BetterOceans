@@ -6,14 +6,14 @@ import java.util.Arrays;
 
 import net.minecraft.world.biome.BiomeGenBase;
 
-public class ReflectionUtil {
+public class ReflectionHelper {
 
 	public static boolean setFinalStatic(final Class<?> clazz, final Object toPut, final boolean coverTracks, final String ... names){
 		try {
-			Field toSet = find(clazz, names);
+			final Field toSet = ReflectionHelper.find(clazz, names);
 			if(toSet == null)
 				throw new IllegalArgumentException("Could not find "+Arrays.toString(names));
-			return ReflectionUtil.setFinalStatic(toSet, toPut, coverTracks);
+			return ReflectionHelper.setFinalStatic(toSet, toPut, coverTracks);
 		} catch (final Exception e) {
 			LogHelper.error("Failed to set static final field in class "+clazz.getCanonicalName()+" to "+toPut+". coverTracks: "+coverTracks);
 			e.printStackTrace();
@@ -58,34 +58,33 @@ public class ReflectionUtil {
 		}
 		return true;
 	}
-	
-	public static Object retrieveStatic(Class<?> clazz, boolean coverTracks, String ... names){
+
+	public static Object retrieveStatic(final Class<?> clazz, final boolean coverTracks, final String ... names){
 		try {
-			Field toGet = find(clazz, names);
+			final Field toGet = ReflectionHelper.find(clazz, names);
 			if(toGet == null)
 				throw new IllegalArgumentException("Could not find "+Arrays.toString(names));
-			boolean access = toGet.isAccessible();
+			final boolean access = toGet.isAccessible();
 			toGet.setAccessible(true);
-			Object obj = toGet.get(null);
+			final Object obj = toGet.get(null);
 			if(coverTracks)
 				toGet.setAccessible(access);
 			return obj;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			LogHelper.warn("Failed to get field in "+clazz.getCanonicalName());
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public static Field find(Class<?> clazz, String ... names){
+	public static Field find(final Class<?> clazz, final String ... names){
 		for(final Field field:clazz.getDeclaredFields())
 			for(final String name:names)
-				if(field.getName().equals(name)){
+				if(field.getName().equals(name))
 					return field;
-				}
 		return null;
 	}
-	
+
 	public static Field findBiomeGenField(final int id){
 		try {
 			for(final Field field:((Class<?>)BiomeGenBase.class).getDeclaredFields()){

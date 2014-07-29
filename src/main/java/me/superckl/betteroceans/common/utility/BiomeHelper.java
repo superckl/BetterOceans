@@ -14,11 +14,11 @@ public class BiomeHelper {
 		if(!BetterOceans.getInstance().getConfig().isOverrideOcean())
 			LogHelper.warn("Ocean overriding is disabled! Loading worlds that were generated with this enabled may be unstable!");
 		else{
-			if(!ReflectionUtil.setFinalStatic(BiomeGenBase.class, boO, true, "ocean", "field_76771_b"))
+			if(!ReflectionHelper.setFinalStatic(BiomeGenBase.class, boO, true, "ocean", "field_76771_b"))
 				LogHelper.fatal("Failed to override ocean biome! Loading worlds generated with Better Oceans may have unpredictable results!");
 			else
 				BiomeGenBase.getBiomeGenArray()[boO.biomeID] = boO;
-			if(!ReflectionUtil.setFinalStatic(BiomeGenBase.class, boDO, true, "deepOcean", "field_150575_M"))
+			if(!ReflectionHelper.setFinalStatic(BiomeGenBase.class, boDO, true, "deepOcean", "field_150575_M"))
 				LogHelper.fatal("Failed to override deep ocean biome! Loading worlds generated with Better Oceans may have unpredictable results!");
 			else
 				BiomeGenBase.getBiomeGenArray()[boDO.biomeID] = boDO;

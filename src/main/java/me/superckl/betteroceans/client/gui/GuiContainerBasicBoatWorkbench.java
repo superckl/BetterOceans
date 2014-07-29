@@ -9,11 +9,10 @@ import me.superckl.betteroceans.common.entity.tile.TileEntityBoatWorkbench;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.utility.ItemStackHelper;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
-import me.superckl.betteroceans.common.utility.RenderUtil;
+import me.superckl.betteroceans.common.utility.RenderHelper;
 import me.superckl.betteroceans.common.utility.StringHelper;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -55,7 +54,7 @@ public class GuiContainerBasicBoatWorkbench extends GuiContainer{
 		final int spacing = leftover/(required.size()+1);
 		x+=spacing;
 		for(final ItemStack stack:required){
-			RenderHelper.enableGUIStandardItemLighting();
+			net.minecraft.client.renderer.RenderHelper.enableGUIStandardItemLighting();
 			GuiScreen.itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), stack, x, y);
 			GuiScreen.itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), stack, x, y);
 			x+=16+spacing;
@@ -75,12 +74,12 @@ public class GuiContainerBasicBoatWorkbench extends GuiContainer{
 		final int xStart = (this.width - this.xSize) / 2;
 		final int yStart = (this.height - this.ySize) / 2;
 		//this.drawTexturedModalRect(xStart, yStart, 0, 0, this.xSize, this.ySize);
-		RenderUtil.drawTexturedRect(this.texture, xStart, yStart, 0, 0, this.xSize, this.ySize, this.xSize, this.ySize, 1F);
+		RenderHelper.drawTexturedRect(this.texture, xStart, yStart, 0, 0, this.xSize, this.ySize, this.xSize, this.ySize, 1F);
 
 		final IEntityBoat entity = ((ContainerBoatWorkbench)this.inventorySlots).getTileEntity().getActiveSelection();
 		if(entity == null)
 			return;
-		RenderUtil.renderEntityToGUI(entity.asEntity(), this.guiLeft + 123, this.guiTop + 54, 14F);
+		RenderHelper.renderEntityToGUI(entity.asEntity(), this.guiLeft + 123, this.guiTop + 54, 14F);
 		//TODO
 
 	}

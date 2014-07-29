@@ -2,6 +2,7 @@ package me.superckl.betteroceans.common.entity;
 
 import java.util.List;
 
+import me.superckl.betteroceans.common.BoatPart;
 import me.superckl.betteroceans.common.nets.INet;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -13,7 +14,9 @@ public interface IEntityBoat{
 	public boolean hasNetAttatched();
 	public INet getAttatchedNet();
 	public List<ItemStack> getCraftingIngredients();
-	public Item getItem();
+	public Item asItem();
 	public Entity asEntity();
+	public List<BoatPart> getBoatParts();
+	public boolean isComplete();
 
 }

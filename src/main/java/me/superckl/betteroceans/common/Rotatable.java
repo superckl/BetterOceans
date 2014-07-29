@@ -1,4 +1,4 @@
-package me.superckl.betteroceans.common.entity;
+package me.superckl.betteroceans.common;
 
 public interface Rotatable {
 

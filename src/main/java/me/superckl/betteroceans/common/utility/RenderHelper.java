@@ -2,7 +2,6 @@ package me.superckl.betteroceans.common.utility;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
@@ -11,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-public class RenderUtil {
+public class RenderHelper {
 
 	public static void drawTexturedRect(final ResourceLocation texture, final double x, final double y, final int u, final int v, final int width, final int height, final int imageWidth, final int imageHeight, final double scale) {
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
@@ -39,7 +38,7 @@ public class RenderUtil {
 		final float var7 = entity.rotationYaw;
 		final float var8 = entity.rotationPitch;
 		GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
-		RenderHelper.enableStandardItemLighting();
+		net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
 		GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glTranslatef(0.0F, entity.yOffset, 0.0F);
 		RenderManager.instance.playerViewY = 180.0F;
@@ -47,7 +46,7 @@ public class RenderUtil {
 		entity.rotationYaw = var7+1;
 		entity.rotationPitch = var8+1;
 		GL11.glPopMatrix();
-		RenderHelper.disableStandardItemLighting();
+		net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 		OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);

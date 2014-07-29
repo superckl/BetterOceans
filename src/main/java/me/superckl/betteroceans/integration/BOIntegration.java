@@ -9,14 +9,14 @@ import net.minecraft.world.biome.BiomeGenBase;
 import cpw.mods.fml.common.Loader;
 
 public class BOIntegration {
-	
+
 	public static void preInit(){
 		if(Loader.isModLoaded("BiomesOPlenty"))
 			BiomesOPlentyIntegration.preInit();
 		if(Loader.isModLoaded("NotEnoughItems"))
 			NotEnoughItemsIntegration.preInit();
 	}
-	
+
 	public static void postInit(){
 		if(Loader.isModLoaded("BiomesOPlenty"))
 			BiomesOPlentyIntegration.postInit();
