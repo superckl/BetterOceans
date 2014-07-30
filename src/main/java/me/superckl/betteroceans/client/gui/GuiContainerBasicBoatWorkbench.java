@@ -3,8 +3,7 @@ package me.superckl.betteroceans.client.gui;
 import java.util.List;
 
 import me.superckl.betteroceans.common.container.ContainerBoatWorkbench;
-import me.superckl.betteroceans.common.entity.EntityWoodenBoat;
-import me.superckl.betteroceans.common.entity.IEntityBoat;
+import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatWorkbench;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.utility.ItemStackHelper;
@@ -26,7 +25,7 @@ public class GuiContainerBasicBoatWorkbench extends GuiContainer{
 	private final ResourceLocation texture = new ResourceLocation(ModData.MOD_ID+":textures/gui/basicbench.png");
 	public GuiContainerBasicBoatWorkbench(final InventoryPlayer inventoryPlayer,
 			final TileEntityBoatWorkbench te) {
-		super(new ContainerBoatWorkbench(inventoryPlayer, te, new EntityWoodenBoat(inventoryPlayer.player.worldObj)));
+		super(new ContainerBoatWorkbench(inventoryPlayer, te, new EntityBOBoat(inventoryPlayer.player.worldObj))); //TODO BOBoat
 		this.xSize = 256;
 		this.ySize = 166;
 	}
@@ -42,7 +41,7 @@ public class GuiContainerBasicBoatWorkbench extends GuiContainer{
 		final TileEntityBoatWorkbench te = ((ContainerBoatWorkbench)this.inventorySlots).getTileEntity();
 		if(te.getActiveSelection() == null)
 			return;
-		final List<ItemStack> required = ItemStackHelper.deepClone(te.getActiveSelection().getCraftingIngredients());
+		final List<ItemStack> required = ItemStackHelper.deepClone(te.getActiveSelection().getBoatParts().get(0).getCraftingIngredients());
 		RecipeHelper.areItemsPresent(required, te.getInventory(), false);
 		if(required.isEmpty())
 			return;
@@ -76,10 +75,10 @@ public class GuiContainerBasicBoatWorkbench extends GuiContainer{
 		//this.drawTexturedModalRect(xStart, yStart, 0, 0, this.xSize, this.ySize);
 		RenderHelper.drawTexturedRect(this.texture, xStart, yStart, 0, 0, this.xSize, this.ySize, this.xSize, this.ySize, 1F);
 
-		final IEntityBoat entity = ((ContainerBoatWorkbench)this.inventorySlots).getTileEntity().getActiveSelection();
+		final EntityBOBoat entity = ((ContainerBoatWorkbench)this.inventorySlots).getTileEntity().getActiveSelection();
 		if(entity == null)
 			return;
-		RenderHelper.renderEntityToGUI(entity.asEntity(), this.guiLeft + 123, this.guiTop + 54, 14F);
+		RenderHelper.renderEntityToGUI(entity, this.guiLeft + 123, this.guiTop + 54, 14F);
 		//TODO
 
 	}

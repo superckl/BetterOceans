@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import lombok.Getter;
 import me.superckl.betteroceans.common.Rotatable;
-import me.superckl.betteroceans.common.entity.IEntityBoat;
+import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -19,9 +19,11 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 	@Getter
 	private final ItemStack[] inventory = new ItemStack[10];
 	@Getter
-	private IEntityBoat activeSelection;
+	private EntityBOBoat activeSelection; //Not Modular because no need
 
-	public void setActiveSelection(final IEntityBoat selection){
+	public void setActiveSelection(final EntityBOBoat selection){
+		if(selection.getBoatParts().size() != 1)
+			throw new IllegalArgumentException("Active selection must be made of only one part!");
 		this.activeSelection = selection;
 		if(selection instanceof Rotatable)
 			((Rotatable)selection).setRenderWithRotation(true);
@@ -38,7 +40,7 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 	}
 
 	public void onCraftingSlotPick(){
-		RecipeHelper.removeItems(this.activeSelection.getCraftingIngredients(), this.inventory, true);
+		RecipeHelper.removeItems(this.activeSelection.getBoatParts().get(0).getCraftingIngredients(), this.inventory, true);
 		this.checkRecipeCompletion();
 	}
 
@@ -99,8 +101,8 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 	private void checkRecipeCompletion(){
 		if(this.activeSelection == null)
 			return;
-		if(RecipeHelper.areItemsPresent(this.activeSelection.getCraftingIngredients(), Arrays.copyOf(this.inventory, 9), true))
-			this.inventory[9] = new ItemStack(this.activeSelection.asItem());
+		if(RecipeHelper.areItemsPresent(this.activeSelection.getBoatParts().get(0).getCraftingIngredients(), Arrays.copyOf(this.inventory, 9), true))
+			this.inventory[9] = new ItemStack(this.activeSelection.getBoatParts().get(0).asItem());
 		else
 			this.inventory[9] = null;
 	}

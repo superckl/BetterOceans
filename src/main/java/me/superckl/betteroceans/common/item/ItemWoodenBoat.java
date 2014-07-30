@@ -2,7 +2,7 @@ package me.superckl.betteroceans.common.item;
 
 import java.util.List;
 
-import me.superckl.betteroceans.common.entity.EntityWoodenBoat;
+import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.reference.ModTabs;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -87,7 +87,7 @@ public class ItemWoodenBoat extends ItemBO{
 					if (world.getBlock(i, j, k) == Blocks.snow_layer)
 						--j;
 
-					final EntityWoodenBoat entityboat = new EntityWoodenBoat(world, i + 0.5F, j + 1.0F, k + 0.5F);
+					final EntityBOBoat entityboat = new EntityBOBoat(world, i + 0.5F, j + 1.0F, k + 0.5F);
 					entityboat.rotationYaw = ((MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) - 1) * 90;
 
 					if (!world.getCollidingBoundingBoxes(entityboat, entityboat.boundingBox.expand(-0.1D, -0.1D, -0.1D)).isEmpty())

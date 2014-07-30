@@ -2,7 +2,7 @@ package me.superckl.betteroceans.proxy;
 
 import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.client.gui.GuiHandlerBetterOceans;
-import me.superckl.betteroceans.common.entity.EntityWoodenBoat;
+import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatWorkbench;
 import me.superckl.betteroceans.common.gen.WorldGeneratorSeaweed;
 import me.superckl.betteroceans.common.gen.WorldGeneratorTrench;
@@ -24,7 +24,7 @@ public abstract class CommonProxy implements IProxy{
 
 	@Override
 	public void registerEntities(){
-		EntityRegistry.registerModEntity(EntityWoodenBoat.class, "woodenBoat",
+		EntityRegistry.registerModEntity(EntityBOBoat.class, "woodenBoat",
 				EntityRegistry.findGlobalUniqueEntityId(), BetterOceans.getInstance(),
 				80, 3, true);
 		GameRegistry.registerTileEntity(TileEntityBoatWorkbench.class, "tileEntityBasicBoatWorkbench");

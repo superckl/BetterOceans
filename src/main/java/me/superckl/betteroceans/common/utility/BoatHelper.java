@@ -4,15 +4,22 @@ import java.util.Arrays;
 import java.util.List;
 
 import me.superckl.betteroceans.common.BoatPart;
-import me.superckl.betteroceans.common.entity.IEntityBoat;
+import me.superckl.betteroceans.common.entity.EntityModularBoat;
 
 public class BoatHelper {
 
-	public static boolean hasParts(final IEntityBoat boat, final BoatPart.Type ... types){
+	public static boolean hasParts(final EntityModularBoat boat, final BoatPart.Type ... types){
 		final List<BoatPart.Type> toCheck = Arrays.asList(types);
 		for(final BoatPart part:boat.getBoatParts())
 			toCheck.remove(part.getType());
 		return toCheck.isEmpty();
+	}
+
+	public static double compoundSpeedModifiers(final EntityModularBoat boat){
+		double modifier = 1D;
+		for(final BoatPart part:boat.getBoatParts())
+			modifier *= part.getSpeedModifier();
+		return modifier;
 	}
 
 }

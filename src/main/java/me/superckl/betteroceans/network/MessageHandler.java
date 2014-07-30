@@ -1,6 +1,6 @@
 package me.superckl.betteroceans.network;
 
-import me.superckl.betteroceans.common.entity.IEntityBoat;
+import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatWorkbench;
 import me.superckl.betteroceans.common.reference.NetworkData;
 import me.superckl.betteroceans.common.utility.LogHelper;
@@ -13,6 +13,8 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class MessageHandler implements IMessageHandler<MessageSelectBoat, IMessage>{
 
+	//TODO change to parts
+
 	@Override
 	public IMessage onMessage(final MessageSelectBoat message, final MessageContext ctx) {
 		try {
@@ -21,8 +23,8 @@ public class MessageHandler implements IMessageHandler<MessageSelectBoat, IMessa
 			if(te instanceof TileEntityBoatWorkbench == false)
 				return null;
 			final TileEntityBoatWorkbench tebw= (TileEntityBoatWorkbench) te;
-			final Class<? extends IEntityBoat> clazz = NetworkData.getEntity(message.getEntityId());
-			final IEntityBoat boat = clazz.getConstructor(world.getClass()).newInstance(world);
+			final Class<? extends EntityBOBoat> clazz = NetworkData.getEntity(message.getEntityId());
+			final EntityBOBoat boat = clazz.getConstructor(world.getClass()).newInstance(world); //TODO EntityBOBoat
 			tebw.setActiveSelection(boat);
 		} catch (final Exception e) {
 			LogHelper.warn("Failed to handle boat selection packet!");

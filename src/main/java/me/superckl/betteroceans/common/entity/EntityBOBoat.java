@@ -1,6 +1,5 @@
 package me.superckl.betteroceans.common.entity;
 
-import java.util.Arrays;
 import java.util.List;
 
 import lombok.Getter;
@@ -10,7 +9,6 @@ import me.superckl.betteroceans.common.BoatPart.Type;
 import me.superckl.betteroceans.common.Rotatable;
 import me.superckl.betteroceans.common.nets.IItemNet;
 import me.superckl.betteroceans.common.nets.INet;
-import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.utility.BoatHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.block.Block;
@@ -22,7 +20,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -32,12 +29,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /**
- * Note: A lot of this is from the EntityBoat class, most credit to Mojang.
+ * Note: A lot of this is from the EntityBoat class, credit to Mojang.
  */
-public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
+public class EntityBOBoat extends EntityModularBoat implements Rotatable{
 
 	@Getter
-	private INet attatchedNet;
+	private INet attachedNet;
 	@Getter
 	private List<BoatPart> boatParts;
 	@Setter
@@ -61,19 +58,16 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 	@SideOnly(Side.CLIENT)
 	private double velocityZ;
 
-	public EntityWoodenBoat(final World world, final double par2, final double par4,
-			final double par6) {
-		this(world);
-		this.setPosition(par2, par4 + this.yOffset, par6);
-		this.motionX = 0.0D;
-		this.motionY = 0.0D;
-		this.motionZ = 0.0D;
-		this.prevPosX = par2;
-		this.prevPosY = par4;
-		this.prevPosZ = par6;
+	public EntityBOBoat(final World world, final double x, final double y, final double z) {
+		super(world, x, y, z);
+		this.isBoatEmpty = true;
+		this.speedMultiplier = 0.02D;
+		this.preventEntitySpawning = true;
+		this.setSize(1.5F, 0.6F);
+		this.yOffset = this.height / 2.0F;
 	}
 
-	public EntityWoodenBoat(final World world){
+	public EntityBOBoat(final World world){
 		super(world);
 		this.isBoatEmpty = true;
 		this.speedMultiplier = 0.02D;
@@ -155,7 +149,7 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 		if(player.isSneaking()){
 			if(this.isComplete()){
 				if(this.hasNetAttatched()){
-					player.inventory.addItemStackToInventory(this.attatchedNet.toItemStack());
+					player.inventory.addItemStackToInventory(this.attachedNet.toItemStack());
 					this.attachNet(null);
 				}
 
@@ -265,7 +259,7 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 	public void onUpdate()
 	{
 		if(this.hasNetAttatched())
-			this.attatchedNet.preAttatchedUpdate();
+			this.attachedNet.preAttatchedUpdate();
 		super.onUpdate();
 
 		if(this.isSinking() || this.rand.nextDouble() < 0.00015D){
@@ -364,10 +358,10 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 					this.motionY *= 0.0D;
 					this.motionZ *= 0.0D;
 				}
-
-				this.motionX *= 0.89D*Math.max(0F, 1F-this.getSinkDepth());
-				this.motionY *= this.isSinking() ? 0D:0.888D*Math.max(0F, 1F-this.getSinkDepth());
-				this.motionZ *= 0.89D*Math.max(0F, 1F-this.getSinkDepth());
+				final double modifier = BoatHelper.compoundSpeedModifiers(this);
+				this.motionX *= modifier*Math.max(0F, 1F-this.getSinkDepth());
+				this.motionY *= this.isSinking() ? 0D:modifier*Math.max(0F, 1F-this.getSinkDepth());
+				this.motionZ *= modifier*Math.max(0F, 1F-this.getSinkDepth());
 			}
 		}
 		else
@@ -450,9 +444,10 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 				this.motionZ *= 0.0D;
 			}
 
-			this.motionX *= 0.89D*Math.max(0F, 1F-this.getSinkDepth());
-			this.motionY *= this.isSinking() ? 0D:0.888D*Math.max(0F, 1F-this.getSinkDepth());
-			this.motionZ *= 0.89D*Math.max(0F, 1F-this.getSinkDepth());
+			final double modifier = BoatHelper.compoundSpeedModifiers(this);
+			this.motionX *= modifier*Math.max(0F, 1F-this.getSinkDepth());
+			this.motionY *= this.isSinking() ? 0D:modifier*Math.max(0F, 1F-this.getSinkDepth());
+			this.motionZ *= modifier*Math.max(0F, 1F-this.getSinkDepth());
 
 			this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
@@ -513,7 +508,7 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 			}
 		}
 		if(this.hasNetAttatched())
-			this.attatchedNet.postAttahcedUpdate();
+			this.attachedNet.postAttahcedUpdate();
 	}
 
 	@Override
@@ -603,30 +598,14 @@ public class EntityWoodenBoat extends Entity implements IEntityBoat, Rotatable{
 		this.isBoatEmpty = empty;
 	}
 
-
 	@Override
 	public void attachNet(final INet net) {
-		this.attatchedNet = net;
+		this.attachedNet = net;
 	}
 
 	@Override
 	public boolean hasNetAttatched() {
-		return this.attatchedNet != null;
-	}
-
-	@Override
-	public List<ItemStack> getCraftingIngredients() {
-		return Arrays.asList(new ItemStack(Blocks.planks, 8));
-	}
-
-	@Override
-	public Item asItem(){
-		return ModItems.woodenBoat;
-	}
-
-	@Override
-	public Entity asEntity() {
-		return this;
+		return this.attachedNet != null;
 	}
 
 	@Override

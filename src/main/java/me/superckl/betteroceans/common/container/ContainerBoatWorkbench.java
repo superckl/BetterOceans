@@ -2,7 +2,7 @@ package me.superckl.betteroceans.common.container;
 
 import lombok.Getter;
 import me.superckl.betteroceans.common.container.components.BoatCraftingSlot;
-import me.superckl.betteroceans.common.entity.IEntityBoat;
+import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatWorkbench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -25,7 +25,7 @@ public class ContainerBoatWorkbench extends Container{
 		this.addSlotToContainer(new BoatCraftingSlot(te, 9, 221, 41));
 	}
 
-	public ContainerBoatWorkbench(final InventoryPlayer inventoryPlayer, final TileEntityBoatWorkbench te, final IEntityBoat activeSelection){
+	public ContainerBoatWorkbench(final InventoryPlayer inventoryPlayer, final TileEntityBoatWorkbench te, final EntityBOBoat activeSelection){
 		this(inventoryPlayer, te);
 		te.setActiveSelection(activeSelection);
 	}
