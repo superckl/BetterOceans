@@ -1,6 +1,6 @@
 package me.superckl.betteroceans.client.render;
 
-import me.superckl.betteroceans.client.model.ModelWoodenBoat;
+import me.superckl.betteroceans.client.model.ModelBOBoat;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.particle.EntitySplashFX;
@@ -15,15 +15,15 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderWoodenBoat extends Render{
+public class RenderBOBoat extends Render{
 
 	private static final ResourceLocation boatTextures = new ResourceLocation("textures/entity/boat.png");
 	/** instance of ModelBoat for rendering */
 	protected ModelBase modelBoat;
-	public RenderWoodenBoat()
+	public RenderBOBoat()
 	{
 		this.shadowSize = 0.5F;
-		this.modelBoat = new ModelWoodenBoat();
+		this.modelBoat = new ModelBOBoat();
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class RenderWoodenBoat extends Render{
 	@Override
 	protected ResourceLocation getEntityTexture(final Entity par1Entity)
 	{
-		return RenderWoodenBoat.boatTextures;
+		return RenderBOBoat.boatTextures;
 	}
 
 	/**

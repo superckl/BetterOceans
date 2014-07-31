@@ -41,7 +41,7 @@ public class NotEnoughItemsIntegration {
 
 		@Override
 		public void loadCraftingRecipes(final ItemStack result) {
-			if(result.getItem() == ModItems.woodenBoat)
+			/*if(result.getItem() == ModItems.woodenBoat)
 				this.arecipes.add(new CachedRecipe(){
 
 					@Override
@@ -54,7 +54,7 @@ public class NotEnoughItemsIntegration {
 						return Arrays.asList(new PositionedStack(new ItemStack(Blocks.planks, 8), 15, 23));
 					}
 
-				});
+				});*/
 		}
 
 	}

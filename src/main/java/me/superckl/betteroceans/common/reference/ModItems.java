@@ -6,7 +6,6 @@ import me.superckl.betteroceans.common.item.ItemCookedSeaweed;
 import me.superckl.betteroceans.common.item.ItemDepthSounder;
 import me.superckl.betteroceans.common.item.ItemSeaweed;
 import me.superckl.betteroceans.common.item.ItemSeaweedOil;
-import me.superckl.betteroceans.common.item.ItemWoodenBoat;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -21,7 +20,6 @@ public class ModItems {
 	public static final ItemCookedSeaweed cookedSeaweed = new ItemCookedSeaweed();
 	public static final ItemSeaweedOil seaweedOil = new ItemSeaweedOil();
 	public static final ItemDepthSounder depthSounder = new ItemDepthSounder();
-	public static final ItemWoodenBoat woodenBoat = new ItemWoodenBoat();
 
 	public static void init(){
 		//TODO fix
@@ -29,7 +27,6 @@ public class ModItems {
 		GameRegistry.registerItem(ModItems.cookedSeaweed, Names.COOKED_SEAWEED);
 		GameRegistry.registerItem(ModItems.seaweedOil, Names.SEAWEED_OIL);
 		GameRegistry.registerItem(ModItems.depthSounder, Names.DEPTH_SOUNDER);
-		GameRegistry.registerItem(ModItems.woodenBoat, Names.WOODEN_BOAT);
 
 		ModItems.addRecipes();
 	}
@@ -48,7 +45,7 @@ public class ModItems {
 
 	public static void overrideItems(){
 		RecipeHelper.removeRecipes(new ItemStack(Items.boat));
-		RecipeHelper.replaceItem(new ItemStack(Items.boat), new ItemStack(ModItems.woodenBoat), false, true);
+		//RecipeHelper.replaceItem(new ItemStack(Items.boat), new ItemStack(ModItems.woodenBoat), false, true); TODO boat part
 		Items.boat.setCreativeTab(null);
 	}
 
@@ -58,7 +55,6 @@ public class ModItems {
 		public static final String COOKED_SEAWEED =  "cookedSeaweed";
 		public static final String SEAWEED_OIL =  "seaweedOil";
 		public static final String DEPTH_SOUNDER =  "depthSounder";
-		public static final String WOODEN_BOAT = "woodenBoat";
 
 	}
 

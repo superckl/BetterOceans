@@ -1,5 +1,8 @@
 package me.superckl.betteroceans.client.model;
 
+import lombok.Getter;
+import me.superckl.betteroceans.common.entity.EntityBOBoat;
+import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -7,10 +10,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelWoodenBoat extends ModelBase{
-
-	public ModelRenderer[] boatSides = new ModelRenderer[19];
-	public ModelWoodenBoat()
+public class ModelBOBoat extends ModelBase{
+	
+	@Getter
+	private ModelRenderer[] boatSides = new ModelRenderer[19];
+	public ModelBOBoat()
 	{
 		this.boatSides[0] = new ModelRenderer(this, 0, 8);
 		//Front
@@ -130,13 +134,21 @@ public class ModelWoodenBoat extends ModelBase{
 		//this.boatSides[2].rotateAngleY = ((float)Math.PI / 2F);
 		//this.boatSides[3].rotateAngleY = (float)Math.PI;
 	}
+	
+	private void init(EntityBOBoat boat){
+		
+	}
 
 	/**
 	 * Sets the models various rotation angles then renders the model.
 	 */
 	@Override
-	public void render(final Entity par1Entity, final float par2, final float par3, final float par4, final float par5, final float par6, final float par7)
+	public void render(final Entity entity, final float par2, final float par3, final float par4, final float par5, final float par6, final float par7)
 	{
+		if(entity instanceof EntityBOBoat == false){
+			//LogHelper.error("An entity was passed to the Boat Renderer that wasn't compatible!");
+			return;
+		}
 		for (final ModelRenderer boatSide : this.boatSides)
 			boatSide.render(par7);
 	}
