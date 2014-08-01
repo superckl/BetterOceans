@@ -3,8 +3,8 @@ package me.superckl.betteroceans.common.utility;
 import java.util.Arrays;
 import java.util.List;
 
-import me.superckl.betteroceans.common.BoatPart;
 import me.superckl.betteroceans.common.entity.EntityModularBoat;
+import me.superckl.betteroceans.common.parts.BoatPart;
 
 public class BoatHelper {
 

@@ -102,7 +102,7 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 		if(this.activeSelection == null)
 			return;
 		if(RecipeHelper.areItemsPresent(this.activeSelection.getBoatParts().get(0).getCraftingIngredients(), Arrays.copyOf(this.inventory, 9), true))
-			this.inventory[9] = this.activeSelection.getBoatParts().get(0).asItemStack();
+			this.inventory[9] = this.activeSelection.getBoatParts().get(0).getCraftingResult();
 		else
 			this.inventory[9] = null;
 	}

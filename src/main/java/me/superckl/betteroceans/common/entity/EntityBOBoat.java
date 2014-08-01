@@ -4,11 +4,11 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.superckl.betteroceans.common.BoatPart;
-import me.superckl.betteroceans.common.BoatPart.Type;
 import me.superckl.betteroceans.common.Rotatable;
 import me.superckl.betteroceans.common.nets.IItemNet;
 import me.superckl.betteroceans.common.nets.INet;
+import me.superckl.betteroceans.common.parts.BoatPart;
+import me.superckl.betteroceans.common.parts.BoatPart.Type;
 import me.superckl.betteroceans.common.utility.BoatHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.block.Block;

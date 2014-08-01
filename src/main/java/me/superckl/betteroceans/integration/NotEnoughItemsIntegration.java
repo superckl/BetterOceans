@@ -1,16 +1,10 @@
 package me.superckl.betteroceans.integration;
 
-import java.util.Arrays;
-import java.util.List;
-
 import me.superckl.betteroceans.common.reference.ModData;
-import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import codechicken.nei.PositionedStack;
 import codechicken.nei.api.API;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 

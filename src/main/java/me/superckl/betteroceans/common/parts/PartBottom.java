@@ -7,32 +7,32 @@ import java.util.List;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import me.superckl.betteroceans.common.BoatPart;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class PartBottom extends BoatPart{
 
 	protected List<ModelRenderer> renderers;
-	
+
 	@Override
-	public List<ModelRenderer> getRenderers(ModelBase base){
-		if(renderers == null){
-			renderers = new ArrayList<ModelRenderer>();
-			ModelRenderer part0 = new ModelRenderer(base, 0, 8);
+	@SideOnly(Side.CLIENT)
+	public List<ModelRenderer> getRenderers(final ModelBase base){
+		if(this.renderers == null){
+			this.renderers = new ArrayList<ModelRenderer>();
+			final ModelRenderer part0 = new ModelRenderer(base, 0, 8);
 			//Front
-			ModelRenderer part1 = new ModelRenderer(base, 0, 8);
-			ModelRenderer part2 = new ModelRenderer(base, 0, 8);
+			final ModelRenderer part1 = new ModelRenderer(base, 0, 8);
+			final ModelRenderer part2 = new ModelRenderer(base, 0, 8);
 			//Back
-			ModelRenderer part3 = new ModelRenderer(base, 0, 8);
-			ModelRenderer part4 = new ModelRenderer(base, 0, 8);
-			
+			final ModelRenderer part3 = new ModelRenderer(base, 0, 8);
+			final ModelRenderer part4 = new ModelRenderer(base, 0, 8);
+
 			final byte b0 = 24; //side length, base length
-			final byte b1 = 6; //side height
 			final byte b2 = 20; //Base width
 			final byte b3 = 4; //base depth
 			//Side width = 2
-			
+
 			part0.addBox(-b0 / 2, -b2 / 2 + 2, -3.0F, b0 /*length*/, b2 - 4 /*width*/, 4, 0.0F);
 			part0.setRotationPoint(0.0F, b3, 0.0F);
 
@@ -41,28 +41,34 @@ public abstract class PartBottom extends BoatPart{
 
 			part2.addBox(-b0 / 2, -b2 / 2 + 2, -3.0F, 6 /*length*/, 12/*width*/, 4, 0.0F);
 			part2.setRotationPoint(-12F, (float)b3-4, 2F);
-			
+
 			part3.addBox(-b0 / 2, -b2 / 2 + 2, -3.0F, b0-10 /*length*/, b2 - 4 /*width*/, 4, 0.0F);
 			part3.setRotationPoint(18F, (float)b3-2, 0.0F);
 
 			part4.addBox(-b0 / 2, -b2 / 2 + 2, -3.0F, 6 /*length*/, 12/*width*/, 4, 0.0F);
 			part4.setRotationPoint(29F, (float)b3-4, 2F);
-			
-			renderers.add(part0);
-			renderers.add(part1);
-			renderers.add(part2);
-			renderers.add(part3);
-			renderers.add(part4);
+
+			part0.rotateAngleX = (float)Math.PI / 2F;
+			part1.rotateAngleX = (float)Math.PI / 2F;
+			part2.rotateAngleX = (float)Math.PI / 2F;
+			part3.rotateAngleX = (float)Math.PI / 2F;
+			part4.rotateAngleX = (float)Math.PI / 2F;
+
+			this.renderers.add(part0);
+			this.renderers.add(part1);
+			this.renderers.add(part2);
+			this.renderers.add(part3);
+			this.renderers.add(part4);
 		}
-		return renderers;
+		return this.renderers;
 	}
-	
+
 	@Override
 	public Type getType(){
 		return Type.BOTTOM;
 	}
-	
-	
+
+
 	public class PartWoodenBottom extends PartBottom{
 
 		@Override
@@ -76,11 +82,11 @@ public abstract class PartBottom extends BoatPart{
 		}
 
 		@Override
-		public ItemStack asItemStack() {
+		public ItemStack getCraftingResult() {
 			// TODO Auto-generated method stub
 			return null;
 		}
-		
+
 	}
-	
+
 }

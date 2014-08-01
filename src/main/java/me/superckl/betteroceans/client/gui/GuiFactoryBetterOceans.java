@@ -10,7 +10,7 @@ public class GuiFactoryBetterOceans implements IModGuiFactory{
 
 	@Override
 	public void initialize(final Minecraft minecraftInstance) {
-		
+
 
 	}
 
@@ -21,14 +21,14 @@ public class GuiFactoryBetterOceans implements IModGuiFactory{
 
 	@Override
 	public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
-		
+
 		return null;
 	}
 
 	@Override
 	public RuntimeOptionGuiHandler getHandlerFor(
 			final RuntimeOptionCategoryElement element) {
-		
+
 		return null;
 	}
 

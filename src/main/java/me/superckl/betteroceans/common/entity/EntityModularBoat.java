@@ -2,8 +2,8 @@ package me.superckl.betteroceans.common.entity;
 
 import java.util.List;
 
-import me.superckl.betteroceans.common.BoatPart;
 import me.superckl.betteroceans.common.nets.INet;
+import me.superckl.betteroceans.common.parts.BoatPart;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 
