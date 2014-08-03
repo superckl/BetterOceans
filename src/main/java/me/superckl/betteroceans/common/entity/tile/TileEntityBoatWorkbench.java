@@ -1,10 +1,13 @@
 package me.superckl.betteroceans.common.entity.tile;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import lombok.Getter;
 import me.superckl.betteroceans.common.Rotatable;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
+import me.superckl.betteroceans.common.parts.BoatPart;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -16,6 +19,8 @@ import net.minecraftforge.common.util.Constants;
 
 public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 
+	@Getter
+	private static List<BoatPart> craftableParts = new ArrayList<BoatPart>();//TODO add to menu
 	@Getter
 	private final ItemStack[] inventory = new ItemStack[10];
 	@Getter
@@ -165,6 +170,12 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 			}
 		}
 		tagCompound.setTag("Inventory", itemList);
+	}
+
+	public static void addCraftablePart(final BoatPart part){
+		if(part.getCraftingIngredients() == null || part.getCraftingIngredients().isEmpty() || part.getCraftingResult() == null)
+			throw new IllegalArgumentException("The part must be craftable!");
+		TileEntityBoatWorkbench.craftableParts.add(part);
 	}
 
 }

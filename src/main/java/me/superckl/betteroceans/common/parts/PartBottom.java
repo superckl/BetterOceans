@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import me.superckl.betteroceans.common.reference.ModItems;
+import me.superckl.betteroceans.common.utility.CollectionHelper;
+import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -68,8 +72,13 @@ public abstract class PartBottom extends BoatPart{
 		return Type.BOTTOM;
 	}
 
+	@Override
+	public int getMaxNumberOnBoat(){
+		return 1;
+	}
 
-	public class PartWoodenBottom extends PartBottom{
+
+	public static class PartWoodenBottom extends PartBottom{
 
 		@Override
 		public List<ItemStack> getCraftingIngredients() {
@@ -83,8 +92,19 @@ public abstract class PartBottom extends BoatPart{
 
 		@Override
 		public ItemStack getCraftingResult() {
-			// TODO Auto-generated method stub
-			return null;
+			return new ItemStack(ModItems.boatPart, 1, 1 + 8);
+		}
+		
+		@Override
+		public double getSpeedModifier(){
+			return 0.95D;
+		}
+
+		@Override
+		public void serialize(final NBTTagCompound comp) {
+			LogHelper.info("Serializing bottom");
+			comp.setInteger("ID", CollectionHelper.getByValue(BoatPart.getParts(), this.getClass()));
+
 		}
 
 	}

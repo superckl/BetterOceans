@@ -7,8 +7,10 @@ public class NetworkData {
 
 	//TODO change to parts
 
-	public static final String BOAT_SELECT_CHANNEL_NAME = ModData.MOD_ID+":boatselect";
-	public static final SimpleNetworkWrapper BOAT_SELECT_CHANNEL = null;
+	public static final String PART_SELECT_CHANNEL_NAME = ModData.MOD_ID+":partselect";
+	public static final String UPDATE_PARTS_CHANNEL_NAME = ModData.MOD_ID+"updateparts";
+	public static final SimpleNetworkWrapper PART_SELECT_CHANNEL = null;
+	public static final SimpleNetworkWrapper UPDATE_PARTS_CHANNEL = null;
 
 
 	public static final int BOAT_ID = 0;

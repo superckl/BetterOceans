@@ -20,7 +20,7 @@ public abstract class ItemBO extends Item{
 		return String.format("item.%s%s%s", ModData.MOD_ID.toLowerCase(), ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 	}
 
-	private String getUnwrappedUnlocalizedName(final String unlocalizedName){
+	protected String getUnwrappedUnlocalizedName(final String unlocalizedName){
 		return unlocalizedName.substring(unlocalizedName.indexOf(".")+1);
 	}
 }

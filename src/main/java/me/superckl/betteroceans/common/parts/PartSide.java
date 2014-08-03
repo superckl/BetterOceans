@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import me.superckl.betteroceans.common.reference.ModItems;
+import me.superckl.betteroceans.common.utility.CollectionHelper;
+import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -16,6 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public abstract class PartSide extends BoatPart{
 
 	protected List<ModelRenderer> renderers;
+	@Getter
 	protected final boolean leftSide;
 
 	@Override
@@ -76,8 +82,12 @@ public abstract class PartSide extends BoatPart{
 		return this.renderers;
 	}
 
+	@Override
+	public int getMaxNumberOnBoat(){
+		return 2;
+	}
 
-	public class PartWoodenSide extends PartSide{
+	public static class PartWoodenSide extends PartSide{
 
 		public PartWoodenSide(final boolean leftSide) {
 			super(leftSide);
@@ -95,8 +105,19 @@ public abstract class PartSide extends BoatPart{
 
 		@Override
 		public ItemStack getCraftingResult() {
-			// TODO Auto-generated method stub
-			return null;
+			return new ItemStack(ModItems.boatPart, 1, 2 + 8);
+		}
+		
+		@Override
+		public double getSpeedModifier(){
+			return 0.985D;
+		}
+
+		@Override
+		public void serialize(final NBTTagCompound comp) {
+			LogHelper.info("Serializing side");
+			comp.setInteger("ID", CollectionHelper.getByValue(BoatPart.getParts(), this.getClass()));
+			comp.setBoolean("boolFlag", this.leftSide);
 		}
 
 	}

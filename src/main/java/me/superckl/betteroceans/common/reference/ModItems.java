@@ -2,6 +2,7 @@ package me.superckl.betteroceans.common.reference;
 
 import java.util.Arrays;
 
+import me.superckl.betteroceans.common.item.ItemBoatPart;
 import me.superckl.betteroceans.common.item.ItemCookedSeaweed;
 import me.superckl.betteroceans.common.item.ItemDepthSounder;
 import me.superckl.betteroceans.common.item.ItemSeaweed;
@@ -20,6 +21,7 @@ public class ModItems {
 	public static final ItemCookedSeaweed cookedSeaweed = new ItemCookedSeaweed();
 	public static final ItemSeaweedOil seaweedOil = new ItemSeaweedOil();
 	public static final ItemDepthSounder depthSounder = new ItemDepthSounder();
+	public static final ItemBoatPart boatPart = new ItemBoatPart();
 
 	public static void init(){
 		//TODO fix
@@ -27,6 +29,7 @@ public class ModItems {
 		GameRegistry.registerItem(ModItems.cookedSeaweed, Names.COOKED_SEAWEED);
 		GameRegistry.registerItem(ModItems.seaweedOil, Names.SEAWEED_OIL);
 		GameRegistry.registerItem(ModItems.depthSounder, Names.DEPTH_SOUNDER);
+		GameRegistry.registerItem(ModItems.boatPart, Names.BOAT_PART);
 
 		ModItems.addRecipes();
 	}
@@ -55,6 +58,7 @@ public class ModItems {
 		public static final String COOKED_SEAWEED =  "cookedSeaweed";
 		public static final String SEAWEED_OIL =  "seaweedOil";
 		public static final String DEPTH_SOUNDER =  "depthSounder";
+		public static final String BOAT_PART = "boatPart";
 
 	}
 

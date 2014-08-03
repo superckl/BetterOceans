@@ -8,10 +8,17 @@ import me.superckl.betteroceans.common.gen.WorldGeneratorSeaweed;
 import me.superckl.betteroceans.common.gen.WorldGeneratorTrench;
 import me.superckl.betteroceans.common.handler.FuelHandler;
 import me.superckl.betteroceans.common.handler.GenEventHandler;
+import me.superckl.betteroceans.common.parts.BoatPart;
+import me.superckl.betteroceans.common.parts.PartBottom;
+import me.superckl.betteroceans.common.parts.PartEnd;
+import me.superckl.betteroceans.common.parts.PartSide;
+import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.reference.NetworkData;
 import me.superckl.betteroceans.common.utility.ReflectionHelper;
-import me.superckl.betteroceans.network.MessageHandler;
-import me.superckl.betteroceans.network.MessageSelectBoat;
+import me.superckl.betteroceans.network.MessageSelectPartHandler;
+import me.superckl.betteroceans.network.MessagePartUpdateHandler;
+import me.superckl.betteroceans.network.MessageSelectBoatPart;
+import me.superckl.betteroceans.network.MessagePartUpdate;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -24,9 +31,10 @@ public abstract class CommonProxy implements IProxy{
 
 	@Override
 	public void registerEntities(){
-		EntityRegistry.registerModEntity(EntityBOBoat.class, "woodenBoat",
-				EntityRegistry.findGlobalUniqueEntityId(), BetterOceans.getInstance(),
-				80, 3, true);
+		final int boatID = EntityRegistry.findGlobalUniqueEntityId();
+		EntityRegistry.registerGlobalEntityID(EntityBOBoat.class, "betterBoat", boatID);
+		EntityRegistry.registerModEntity(EntityBOBoat.class, "betterBoat",
+				boatID, BetterOceans.getInstance(), 80, 3, true);
 		GameRegistry.registerTileEntity(TileEntityBoatWorkbench.class, "tileEntityBasicBoatWorkbench");
 	}
 
@@ -34,6 +42,7 @@ public abstract class CommonProxy implements IProxy{
 	public void registerHandlers(){
 		FMLCommonHandler.instance().bus().register(BetterOceans.getInstance().getConfig());
 		MinecraftForge.TERRAIN_GEN_BUS.register(new GenEventHandler());
+		MinecraftForge.EVENT_BUS.register(ModItems.boatPart);
 		GameRegistry.registerFuelHandler(new FuelHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(BetterOceans.getInstance(), new GuiHandlerBetterOceans());
 	}
@@ -46,10 +55,20 @@ public abstract class CommonProxy implements IProxy{
 
 	@Override
 	public void registerNetworkHandlers(){
-		ReflectionHelper.setFinalStatic(NetworkData.class, NetworkRegistry.INSTANCE.newSimpleChannel(NetworkData.BOAT_SELECT_CHANNEL_NAME),
-				true, "BOAT_SELECT_CHANNEL");
-		NetworkData.BOAT_SELECT_CHANNEL.registerMessage(MessageHandler.class,
-				MessageSelectBoat.class, 0, Side.SERVER);
+		ReflectionHelper.setFinalStatic(NetworkData.class, NetworkRegistry.INSTANCE.newSimpleChannel(NetworkData.PART_SELECT_CHANNEL_NAME),
+				true, "PART_SELECT_CHANNEL");
+		NetworkData.PART_SELECT_CHANNEL.registerMessage(MessageSelectPartHandler.class,
+				MessageSelectBoatPart.class, 0, Side.SERVER);
+		ReflectionHelper.setFinalStatic(NetworkData.class, NetworkRegistry.INSTANCE.newSimpleChannel(NetworkData.UPDATE_PARTS_CHANNEL_NAME),
+				true, "UPDATE_PARTS_CHANNEL");
+		NetworkData.UPDATE_PARTS_CHANNEL.registerMessage(MessagePartUpdateHandler.class, MessagePartUpdate.class, 0, Side.CLIENT);
+	}
+
+	@Override
+	public void registerBoatParts(){
+		BoatPart.registerPart(PartBottom.PartWoodenBottom.class);
+		BoatPart.registerPart(PartSide.PartWoodenSide.class);
+		BoatPart.registerPart(PartEnd.PartWoodenEnd.class);
 	}
 
 }

@@ -8,6 +8,7 @@ import me.superckl.betteroceans.common.utility.BiomeHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.integration.BOIntegration;
 import me.superckl.betteroceans.proxy.IProxy;
+import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -32,8 +33,15 @@ public class BetterOceans {
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent e){
+
+		final NBTTagCompound comp = new NBTTagCompound();
+		LogHelper.info(comp.hasKey("bb"));
+		LogHelper.info(comp.getBoolean("bb"));
+		LogHelper.info(comp.hasKey("bb"));
+
 		this.config = new Config(e.getSuggestedConfigurationFile());
 		this.config.loadValues();
+		BetterOceans.proxy.registerBoatParts();
 		BetterOceans.proxy.registerNetworkHandlers();
 		ModItems.init();
 		ModBlocks.init();

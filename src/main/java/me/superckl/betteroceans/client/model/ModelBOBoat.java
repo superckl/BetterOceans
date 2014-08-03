@@ -2,6 +2,7 @@ package me.superckl.betteroceans.client.model;
 
 import lombok.Getter;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
+import me.superckl.betteroceans.common.parts.BoatPart;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -13,7 +14,7 @@ public class ModelBOBoat extends ModelBase{
 
 	@Getter
 	private final ModelRenderer[] boatSides = new ModelRenderer[19];
-	public ModelBOBoat()
+	/*	public ModelBOBoat()
 	{
 		this.boatSides[0] = new ModelRenderer(this, 0, 8);
 		//Front
@@ -43,20 +44,20 @@ public class ModelBOBoat extends ModelBase{
 		final byte b3 = 4; //base depth
 		//Side width = 2
 		//Bottom
-		this.boatSides[0].addBox(-b0 / 2, -b2 / 2 + 2, -3.0F, b0 /*length*/, b2 - 4 /*width*/, 4, 0.0F);
+		this.boatSides[0].addBox(-b0 / 2, -b2 / 2 + 2, -3.0F, b0 length, b2 - 4 width, 4, 0.0F);
 		this.boatSides[0].setRotationPoint(0.0F, b3, 0.0F);
 
-		this.boatSides[1].addBox(-b0 / 2, -b2 / 2 + 2, -3.0F, b0-10 /*length*/, b2 - 4 /*width*/, 4, 0.0F);
+		this.boatSides[1].addBox(-b0 / 2, -b2 / 2 + 2, -3.0F, b0-10 /*length, b2 - 4 width, 4, 0.0F);
 		this.boatSides[1].setRotationPoint(-9F, (float)b3-2, 0.0F);
 
-		this.boatSides[2].addBox(-b0 / 2, -b2 / 2 + 2, -3.0F, 6 /*length*/, 12/*width*/, 4, 0.0F);
+		this.boatSides[2].addBox(-b0 / 2, -b2 / 2 + 2, -3.0F, 6 length, 12width, 4, 0.0F);
 		this.boatSides[2].setRotationPoint(-12F, (float)b3-4, 2F);
 
-		/*
+
         //Back
         this.boatSides[2].addBox((float)(-b0 / 2 + 2), (float)(-b1 - 1), -1.0F, b0 - 4, b1, 2, 0.0F);
         this.boatSides[2].setRotationPoint((float)(b0 / 2 - 1), (float)b3, 0.0F);
-		 */
+
 
 		//Left
 		this.boatSides[3].addBox(-b0 / 2 + 2, -b1 - 1, -1.0F, b0 - 4, b1, 2, 0.0F);
@@ -85,17 +86,17 @@ public class ModelBOBoat extends ModelBase{
 
 		//Next side
 
-		this.boatSides[10].addBox(-b0 / 2, -b2 / 2 + 2, -3.0F, b0-10 /*length*/, b2 - 4 /*width*/, 4, 0.0F);
+		this.boatSides[10].addBox(-b0 / 2, -b2 / 2 + 2, -3.0F, b0-10 length, b2 - 4 width, 4, 0.0F);
 		this.boatSides[10].setRotationPoint(18F, (float)b3-2, 0.0F);
 
-		this.boatSides[11].addBox(-b0 / 2, -b2 / 2 + 2, -3.0F, 6 /*length*/, 12/*width*/, 4, 0.0F);
+		this.boatSides[11].addBox(-b0 / 2, -b2 / 2 + 2, -3.0F, 6 length, 12width, 4, 0.0F);
 		this.boatSides[11].setRotationPoint(29F, (float)b3-4, 2F);
 
-		/*
+
         //Back
         this.boatSides[2].addBox((float)(-b0 / 2 + 2), (float)(-b1 - 1), -1.0F, b0 - 4, b1, 2, 0.0F);
         this.boatSides[2].setRotationPoint((float)(b0 / 2 - 1), (float)b3, 0.0F);
-		 */
+
 
 		//Left
 		this.boatSides[12].addBox(-b0 / 2 + 2, -b1 - 1, -1.0F, b0 - 4, b1, 2, 0.0F);
@@ -132,7 +133,7 @@ public class ModelBOBoat extends ModelBase{
 		this.boatSides[18].rotateAngleY = (float)Math.PI * 3F / 2F;
 		//this.boatSides[2].rotateAngleY = ((float)Math.PI / 2F);
 		//this.boatSides[3].rotateAngleY = (float)Math.PI;
-	}
+	}*/
 
 	/**
 	 * Sets the models various rotation angles then renders the model.
@@ -143,8 +144,9 @@ public class ModelBOBoat extends ModelBase{
 		if(entity instanceof EntityBOBoat == false)
 			//LogHelper.error("An entity was passed to the Boat Renderer that wasn't compatible!");
 			return;
-		for (final ModelRenderer boatSide : this.boatSides)
-			boatSide.render(par7);
+		for (final BoatPart part : ((EntityBOBoat)entity).getBoatParts())
+			for(final ModelRenderer renderer:part.getRenderers(this))
+				renderer.render(par7);
 	}
 
 }

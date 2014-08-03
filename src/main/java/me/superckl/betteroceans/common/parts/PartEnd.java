@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import me.superckl.betteroceans.common.reference.ModItems;
+import me.superckl.betteroceans.common.utility.CollectionHelper;
+import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -16,6 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public abstract class PartEnd extends BoatPart{
 
 	protected List<ModelRenderer> renderers;
+	@Getter
 	protected final boolean front;
 
 	@Override
@@ -41,12 +47,18 @@ public abstract class PartEnd extends BoatPart{
 				part0.addBox(-b0 / 2 + 2, -b1 - 1, -1.0F, 12, b1, 2, 0.0F);
 				part0.setRotationPoint(24F, (float)b3-4, 4F);
 			}
+			part0.rotateAngleY = (float)Math.PI * 3F / 2F;
 			this.renderers.add(part0);
 		}
 		return this.renderers;
 	}
 
-	public class PartWoodenEnd extends PartEnd{
+	@Override
+	public int getMaxNumberOnBoat(){
+		return 2;
+	}
+
+	public static class PartWoodenEnd extends PartEnd{
 
 		public PartWoodenEnd(final boolean front) {
 			super(front);
@@ -64,8 +76,19 @@ public abstract class PartEnd extends BoatPart{
 
 		@Override
 		public ItemStack getCraftingResult() {
-			// TODO return 2 of them
-			return null;
+			return new ItemStack(ModItems.boatPart, 1, 4 + 8);
+		}
+		
+		@Override
+		public double getSpeedModifier(){
+			return 0.985D;
+		}
+
+		@Override
+		public void serialize(final NBTTagCompound comp) {
+			LogHelper.info("Serializing end");
+			comp.setInteger("ID", CollectionHelper.getByValue(BoatPart.getParts(), this.getClass()));
+			comp.setBoolean("boolFlag", this.front);
 		}
 
 	}

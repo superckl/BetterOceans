@@ -1,5 +1,8 @@
 package me.superckl.betteroceans.common.entity;
 
+import io.netty.buffer.ByteBuf;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -9,8 +12,13 @@ import me.superckl.betteroceans.common.nets.IItemNet;
 import me.superckl.betteroceans.common.nets.INet;
 import me.superckl.betteroceans.common.parts.BoatPart;
 import me.superckl.betteroceans.common.parts.BoatPart.Type;
+import me.superckl.betteroceans.common.parts.PartBottom;
+import me.superckl.betteroceans.common.parts.PartEnd;
+import me.superckl.betteroceans.common.parts.PartSide;
+import me.superckl.betteroceans.common.reference.NetworkData;
 import me.superckl.betteroceans.common.utility.BoatHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
+import me.superckl.betteroceans.network.MessagePartUpdate;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -21,22 +29,26 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants.NBT;
+import scala.actors.threadpool.Arrays;
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /**
- * Note: A lot of this is from the EntityBoat class, credit to Mojang.
+ * Note: Most of the motion code is from the EntityBoat class, credit to Mojang.
  */
-public class EntityBOBoat extends EntityModularBoat implements Rotatable{
+public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntityAdditionalSpawnData{
 
 	@Getter
 	private INet attachedNet;
 	@Getter
-	private List<BoatPart> boatParts;
+	private final List<BoatPart> boatParts = new ArrayList<BoatPart>();
 	@Setter
 	@Getter
 	private boolean renderWithRotation;
@@ -59,12 +71,14 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable{
 	private double velocityZ;
 
 	public EntityBOBoat(final World world, final double x, final double y, final double z) {
-		super(world, x, y, z);
-		this.isBoatEmpty = true;
-		this.speedMultiplier = 0.02D;
-		this.preventEntitySpawning = true;
-		this.setSize(1.5F, 0.6F);
-		this.yOffset = this.height / 2.0F;
+		this(world);
+		this.setPosition(x, y + this.yOffset, z);
+		this.motionX = 0.0D;
+		this.motionY = 0.0D;
+		this.motionZ = 0.0D;
+		this.prevPosX = x;
+		this.prevPosY = y;
+		this.prevPosZ = z;
 	}
 
 	public EntityBOBoat(final World world){
@@ -73,7 +87,7 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable{
 		this.speedMultiplier = 0.02D;
 		this.preventEntitySpawning = true;
 		this.setSize(1.5F, 0.6F);
-		this.yOffset = this.height / 2.0F;
+		this.yOffset = this.height / 1.9F;
 	}
 
 	@Override
@@ -262,7 +276,7 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable{
 			this.attachedNet.preAttatchedUpdate();
 		super.onUpdate();
 
-		if(this.isSinking() || this.rand.nextDouble() < 0.00015D){
+		if(this.isSinking() || this.rand.nextDouble() < (0.00012D*BoatHelper.compoundSinkModifiers(this))){
 			if(!this.isSinking())
 				LogHelper.info("You are sinking!");
 			final float depth = this.getSinkDepth();
@@ -614,14 +628,101 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable{
 	}
 
 	@Override
-	protected void readEntityFromNBT(final NBTTagCompound compund) {
-		this.setSinkDepth(compund.getFloat("sinkDepth"));
+	public boolean addPart(final BoatPart part) {
+		return this.addPart(part, false); //TODO do other check
+	}
+
+	public BoatPart translateItemDamageToPart(final int damage){
+		if((damage & 1) == 1){
+			if((damage & 8) == 8)
+				return new PartBottom.PartWoodenBottom();
+		}else if((damage & 2) == 2){
+			if((damage & 8) == 8){
+				final boolean hasLeft = BoatHelper.hasSide(this, true);
+				final boolean hasRight = BoatHelper.hasSide(this, false);;
+				if(!hasLeft)
+					return new PartSide.PartWoodenSide(true);
+				else if(!hasRight)
+					return new PartSide.PartWoodenSide(false);
+			}
+		}else if((damage & 4) == 4){
+			final boolean hasFront = BoatHelper.hasEnd(this, true);
+			final boolean hasBack = BoatHelper.hasEnd(this, false);
+			if(!hasBack)
+				return new PartEnd.PartWoodenEnd(false);
+			else if(!hasFront)
+				return new PartEnd.PartWoodenEnd(true);
+		}
+		return null;
+	}
+
+	private boolean addPart(final BoatPart part, final boolean skipCheck){
+		if(skipCheck){
+			this.boatParts.add(part);
+			return true;
+		}
+		final Type[] types = new Type[part.getMaxNumberOnBoat()];
+		Arrays.fill(types, part.getType());
+		if(BoatHelper.hasParts(this, types))
+			return false;
+		this.boatParts.add(part);
+		if(!this.worldObj.isRemote)
+			this.syncParts();
+		return true;
 	}
 
 	@Override
-	protected void writeEntityToNBT(final NBTTagCompound compund) {
-		compund.setFloat("sinkDepth", this.getSinkDepth());
+	protected void readEntityFromNBT(final NBTTagCompound compound) {
+		//super.readFromNBT(compund);
+		this.setSinkDepth(compound.getFloat("sinkDepth"));
+		final NBTTagList partsList = compound.getTagList("parts", NBT.TAG_COMPOUND);
+		for(int i = 0; i < partsList.tagCount(); i++)
+			this.boatParts.add(BoatPart.deserialize(partsList.getCompoundTagAt(i)));
 	}
 
+	@Override
+	protected void writeEntityToNBT(final NBTTagCompound compound) {
+		//super.writeToNBT(compund);
+		compound.setFloat("sinkDepth", this.getSinkDepth());
+		final NBTTagList partsList = new NBTTagList();
+		for(final BoatPart part:this.boatParts){
+			final NBTTagCompound comp = new NBTTagCompound();
+			part.serialize(comp);
+			partsList.appendTag(comp);
+		}
+		compound.setTag("parts", partsList);
+	}
+
+	private void syncParts(){
+		NetworkData.UPDATE_PARTS_CHANNEL.sendToDimension(new MessagePartUpdate(this), this.worldObj.provider.dimensionId);
+	}
+
+	@Override
+	public void writeSpawnData(final ByteBuf buf) {
+		buf.writeInt(this.boatParts.size());
+		for(final BoatPart part:this.getBoatParts()){
+			final NBTTagCompound comp = new NBTTagCompound();
+			part.serialize(comp);
+			buf.writeInt(comp.getInteger("ID"));
+			buf.writeBoolean(comp.hasKey("boolFlag"));
+			buf.writeBoolean(comp.getBoolean("boolFlag"));
+		}
+	}
+
+	@Override
+	public void readSpawnData(final ByteBuf buf) {
+		int parts = buf.readInt();
+		while(parts > 0 && buf.readableBytes() > 0){
+			final NBTTagCompound comp = new NBTTagCompound();
+			comp.setInteger("ID", buf.readInt());
+			if(buf.readBoolean())
+				comp.setBoolean("boolFlag", buf.readBoolean());
+			else
+				buf.readBoolean(); //To advance it properly
+			this.boatParts.add(BoatPart.deserialize(comp));
+			parts--;
+		}
+
+	}
 
 }

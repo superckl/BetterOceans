@@ -25,7 +25,7 @@ public class GuiContainerBasicBoatWorkbench extends GuiContainer{
 	private final ResourceLocation texture = new ResourceLocation(ModData.MOD_ID+":textures/gui/basicbench.png");
 	public GuiContainerBasicBoatWorkbench(final InventoryPlayer inventoryPlayer,
 			final TileEntityBoatWorkbench te) {
-		super(new ContainerBoatWorkbench(inventoryPlayer, te, new EntityBOBoat(inventoryPlayer.player.worldObj))); //TODO BOBoat
+		super(new ContainerBoatWorkbench(inventoryPlayer, te)); //TODO BOBoat
 		this.xSize = 256;
 		this.ySize = 166;
 	}
