@@ -1,6 +1,7 @@
 package me.superckl.betteroceans;
 
 import lombok.Getter;
+import me.superckl.betteroceans.common.reference.BoatParts;
 import me.superckl.betteroceans.common.reference.ModBlocks;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModItems;
@@ -41,6 +42,12 @@ public class BetterOceans {
 		BetterOceans.proxy.registerEntities();
 		BetterOceans.proxy.registerRenderers();
 		BOIntegration.preInit();
+		try {
+			Class.forName(BoatParts.class.getCanonicalName());//Let's just make sure all the parts gets loaded;
+		} catch (ClassNotFoundException e1) {
+			//This shouldn't happen
+			e1.printStackTrace();
+		} 
 	}
 
 	@EventHandler
