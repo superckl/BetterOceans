@@ -52,21 +52,11 @@ public class BoatHelper {
 	}
 
 	public static void writePartToBuffer(final BoatPart part, final ByteBuf buf){
-		final NBTTagCompound comp = new NBTTagCompound();
-		part.serialize(comp);
-		buf.writeInt(comp.getInteger("ID"));
-		buf.writeBoolean(comp.hasKey("boolFlag"));
-		buf.writeBoolean(comp.getBoolean("boolFlag"));
+		buf.writeInt(part.getPartConstructorID());
 	}
 
 	public static BoatPart readPartFromBuffer(final ByteBuf buf){
-		final NBTTagCompound comp = new NBTTagCompound();
-		comp.setInteger("ID", buf.readInt());
-		if(buf.readBoolean())
-			comp.setBoolean("boolFlag", buf.readBoolean());
-		else
-			buf.readBoolean(); //To advance it properly
-		return BoatPart.deserialize(comp);
+		return BoatPart.deserialize(buf.readInt());
 	}
 
 }

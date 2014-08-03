@@ -34,7 +34,6 @@ public class BetterOceans {
 	public void preInit(final FMLPreInitializationEvent e){
 		this.config = new Config(e.getSuggestedConfigurationFile());
 		this.config.loadValues();
-		BetterOceans.proxy.registerBoatParts();
 		BetterOceans.proxy.registerNetworkHandlers();
 		ModItems.init();
 		ModBlocks.init();

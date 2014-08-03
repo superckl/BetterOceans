@@ -60,7 +60,10 @@ public abstract class PartEnd extends BoatPart{
 
 	public static class PartWoodenEnd extends PartEnd{
 
-		public PartWoodenEnd(final boolean front) {
+		private static int frontID = BoatPart.registerPart(PartWoodenEnd.class, true);
+		private static int backID = BoatPart.registerPart(PartWoodenEnd.class, false);
+		
+		public PartWoodenEnd(final Boolean front) {
 			super(front);
 		}
 
@@ -85,10 +88,10 @@ public abstract class PartEnd extends BoatPart{
 		}
 
 		@Override
-		public void serialize(final NBTTagCompound comp) {
-			LogHelper.info("Serializing end");
-			comp.setInteger("ID", CollectionHelper.getByValue(BoatPart.getParts(), this.getClass()));
-			comp.setBoolean("boolFlag", this.front);
+		public int getPartConstructorID() {
+			if(this.front)
+				return frontID;
+			return backID;
 		}
 
 	}

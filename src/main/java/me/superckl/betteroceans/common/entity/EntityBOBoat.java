@@ -673,24 +673,19 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 
 	@Override
 	protected void readEntityFromNBT(final NBTTagCompound compound) {
-		//super.readFromNBT(compund);
 		this.setSinkDepth(compound.getFloat("sinkDepth"));
-		final NBTTagList partsList = compound.getTagList("parts", NBT.TAG_COMPOUND);
-		for(int i = 0; i < partsList.tagCount(); i++)
-			this.boatParts.add(BoatPart.deserialize(partsList.getCompoundTagAt(i)));
+		for(int id:compound.getIntArray("parts"))
+			this.boatParts.add(BoatPart.deserialize(id));
 	}
 
 	@Override
 	protected void writeEntityToNBT(final NBTTagCompound compound) {
-		//super.writeToNBT(compund);
 		compound.setFloat("sinkDepth", this.getSinkDepth());
-		final NBTTagList partsList = new NBTTagList();
-		for(final BoatPart part:this.boatParts){
-			final NBTTagCompound comp = new NBTTagCompound();
-			part.serialize(comp);
-			partsList.appendTag(comp);
+		int[] array = new int[this.boatParts.size()];
+		for(int i = 0; i < this.boatParts.size(); i++){
+			array[i] = this.boatParts.get(i).getPartConstructorID();
 		}
-		compound.setTag("parts", partsList);
+		compound.setIntArray("parts", array);
 	}
 
 	private void syncParts(){
@@ -701,11 +696,7 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 	public void writeSpawnData(final ByteBuf buf) {
 		buf.writeInt(this.boatParts.size());
 		for(final BoatPart part:this.getBoatParts()){
-			final NBTTagCompound comp = new NBTTagCompound();
-			part.serialize(comp);
-			buf.writeInt(comp.getInteger("ID"));
-			buf.writeBoolean(comp.hasKey("boolFlag"));
-			buf.writeBoolean(comp.getBoolean("boolFlag"));
+			BoatHelper.writePartToBuffer(part, buf);
 		}
 	}
 
@@ -713,13 +704,7 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 	public void readSpawnData(final ByteBuf buf) {
 		int parts = buf.readInt();
 		while(parts > 0 && buf.readableBytes() > 0){
-			final NBTTagCompound comp = new NBTTagCompound();
-			comp.setInteger("ID", buf.readInt());
-			if(buf.readBoolean())
-				comp.setBoolean("boolFlag", buf.readBoolean());
-			else
-				buf.readBoolean(); //To advance it properly
-			this.boatParts.add(BoatPart.deserialize(comp));
+			this.boatParts.add(BoatHelper.readPartFromBuffer(buf));
 			parts--;
 		}
 

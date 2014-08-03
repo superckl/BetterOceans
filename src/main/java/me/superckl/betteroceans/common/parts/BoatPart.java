@@ -8,6 +8,7 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
+import me.superckl.betteroceans.common.utility.ConstructorWrapper;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -18,21 +19,27 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+/**
+ * Parent class for all BoatParts. This contains the id to {@link ConstructorWrapper} mappings as well as a helper deserialize method;
+ * 
+ * NOTE: if your constructor takes a primitive argument, you must use the wrapped form or deserialization will fail.
+ * See {@link ConstructorWrapper} for more information.
+ */
 public abstract class BoatPart {
 
 	//Used for networking
 	public static int nextID = 0;
 	@Getter
-	private static Map<Integer, Class<? extends BoatPart>> parts = new HashMap<Integer, Class<? extends BoatPart>>();
+	private static Map<Integer, ConstructorWrapper<? extends BoatPart>> parts = new HashMap<Integer, ConstructorWrapper<? extends BoatPart>>();
 
-	public static int registerPart(final Class<? extends BoatPart> part){
-		BoatPart.parts.put(BoatPart.nextID, part);
-		LogHelper.info(part.getClass().getCanonicalName()+" has ID "+BoatPart.nextID);
+	public static <T extends BoatPart> int registerPart(final Class<T> partClass, Object ... arguments){
+		BoatPart.parts.put(BoatPart.nextID, new ConstructorWrapper<T>(partClass, arguments));
+		LogHelper.info(partClass.getCanonicalName()+" has ID "+BoatPart.nextID);
 		return BoatPart.nextID++;
 	}
 
-	public static BoatPart deserialize(final NBTTagCompound comp){
-		try {
+	public static BoatPart deserialize(int id){
+		/*try {
 			final Class<? extends BoatPart> clazz = BoatPart.parts.get(comp.getInteger("ID"));
 			if(clazz == null)
 				return null;
@@ -49,8 +56,8 @@ public abstract class BoatPart {
 		} catch (final Exception e) {
 			LogHelper.error("Failed to deserialize boat part!");
 			e.printStackTrace();
-		}
-		return null;
+		}*/
+		return parts.get(id).newInstance();
 	}
 
 	protected ResourceLocation texture;
@@ -81,15 +88,14 @@ public abstract class BoatPart {
 
 	public abstract int getMaxNumberOnBoat();
 
-	public abstract void serialize(final NBTTagCompound comp);
-
 	/**
 	 * This is called every time the entity is rendered. DO NOT MAKE A NEW LIST EVERY TIME! LAzily initialize it and store it.
 	 * Make sure to add @SideOnly with Side.Client
 	 */
 	@SideOnly(Side.CLIENT)
 	public abstract List<ModelRenderer> getRenderers(final ModelBase base);
-
+	
+	public abstract int getPartConstructorID();
 	public static enum Type{
 		BOTTOM,
 		SIDE,

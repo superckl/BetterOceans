@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.Getter;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.utility.CollectionHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
@@ -79,6 +80,8 @@ public abstract class PartBottom extends BoatPart{
 
 
 	public static class PartWoodenBottom extends PartBottom{
+		
+		private static int partConstructorID = BoatPart.registerPart(PartWoodenBottom.class);
 
 		@Override
 		public List<ItemStack> getCraftingIngredients() {
@@ -97,14 +100,12 @@ public abstract class PartBottom extends BoatPart{
 
 		@Override
 		public double getSpeedModifier(){
-			return 0.95D;
+			return 0.965D;
 		}
 
 		@Override
-		public void serialize(final NBTTagCompound comp) {
-			LogHelper.info("Serializing bottom");
-			comp.setInteger("ID", CollectionHelper.getByValue(BoatPart.getParts(), this.getClass()));
-
+		public int getPartConstructorID() {
+			return partConstructorID;
 		}
 
 	}

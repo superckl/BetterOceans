@@ -7,6 +7,5 @@ public interface IProxy {
 	public void registerHandlers();
 	public void registerWorldGenerators();
 	public void registerNetworkHandlers();
-	public void registerBoatParts();
 
 }

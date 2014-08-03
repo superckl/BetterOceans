@@ -89,7 +89,10 @@ public abstract class PartSide extends BoatPart{
 
 	public static class PartWoodenSide extends PartSide{
 
-		public PartWoodenSide(final boolean leftSide) {
+		private static int leftID = BoatPart.registerPart(PartWoodenSide.class, true);
+		private static int rightID = BoatPart.registerPart(PartWoodenSide.class, false);
+		
+		public PartWoodenSide(final Boolean leftSide) {
 			super(leftSide);
 		}
 
@@ -114,10 +117,10 @@ public abstract class PartSide extends BoatPart{
 		}
 
 		@Override
-		public void serialize(final NBTTagCompound comp) {
-			LogHelper.info("Serializing side");
-			comp.setInteger("ID", CollectionHelper.getByValue(BoatPart.getParts(), this.getClass()));
-			comp.setBoolean("boolFlag", this.leftSide);
+		public int getPartConstructorID() {
+			if(this.leftSide)
+				return leftID;
+			return rightID;
 		}
 
 	}

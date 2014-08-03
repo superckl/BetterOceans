@@ -64,11 +64,4 @@ public abstract class CommonProxy implements IProxy{
 		NetworkData.UPDATE_PARTS_CHANNEL.registerMessage(MessagePartUpdateHandler.class, MessagePartUpdate.class, 0, Side.CLIENT);
 	}
 
-	@Override
-	public void registerBoatParts(){
-		BoatPart.registerPart(PartBottom.PartWoodenBottom.class);
-		BoatPart.registerPart(PartSide.PartWoodenSide.class);
-		BoatPart.registerPart(PartEnd.PartWoodenEnd.class);
-	}
-
 }
