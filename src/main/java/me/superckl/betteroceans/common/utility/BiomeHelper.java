@@ -5,24 +5,30 @@ import me.superckl.betteroceans.common.gen.BiomeGenBetterDeepOcean;
 import me.superckl.betteroceans.common.gen.BiomeGenBetterOcean;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 
 public class BiomeHelper {
 
 	public static final void replaceOceanBiomes(){
-		final BiomeGenBetterOcean boO = new BiomeGenBetterOcean();
-		final BiomeGenBetterDeepOcean boDO = new BiomeGenBetterDeepOcean();
-		if(!BetterOceans.getInstance().getConfig().isOverrideOcean())
+		if(!BetterOceans.getInstance().getConfig().isOverrideOcean()){
 			LogHelper.warn("Ocean overriding is disabled! Loading worlds that were generated with this enabled may be unstable!");
-		else{
-			if(!ReflectionHelper.setFinalStatic(BiomeGenBase.class, boO, true, "ocean", "field_76771_b"))
+			return;
+		}
+		final BiomeGenBetterOcean boO = new BiomeGenBetterOcean(BiomeGenBase.ocean.biomeID);
+		final BiomeGenBetterDeepOcean boDO = new BiomeGenBetterDeepOcean(BiomeGenBase.deepOcean.biomeID);
+		BiomeGenBase.getBiomeGenArray()[BiomeGenBase.ocean.biomeID] = boO;
+		BiomeGenBase.getBiomeGenArray()[BiomeGenBase.deepOcean.biomeID] = boDO;
+		BiomeDictionary.registerBiomeType(boO, Type.OCEAN);
+		BiomeDictionary.registerBiomeType(boDO, Type.OCEAN);
+		/*if(!ReflectionHelper.setFinalStatic(BiomeGenBase.class, boO, true, "ocean", "field_76771_b"))
 				LogHelper.fatal("Failed to override ocean biome! Loading worlds generated with Better Oceans may have unpredictable results!");
 			else
 				BiomeGenBase.getBiomeGenArray()[boO.biomeID] = boO;
 			if(!ReflectionHelper.setFinalStatic(BiomeGenBase.class, boDO, true, "deepOcean", "field_150575_M"))
 				LogHelper.fatal("Failed to override deep ocean biome! Loading worlds generated with Better Oceans may have unpredictable results!");
 			else
-				BiomeGenBase.getBiomeGenArray()[boDO.biomeID] = boDO;
-		}
+				BiomeGenBase.getBiomeGenArray()[boDO.biomeID] = boDO;*/
 	}
 
 	public static boolean isOcean(final World world, final int chunkX, final int chunkZ){

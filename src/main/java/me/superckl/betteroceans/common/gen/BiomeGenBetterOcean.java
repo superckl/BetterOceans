@@ -12,8 +12,8 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeGenBetterOcean extends BiomeGenBase{
 
-	public BiomeGenBetterOcean() {
-		super(BiomeGenBase.ocean.biomeID); //The super constructor replaces the old gen in the biome array
+	public BiomeGenBetterOcean(final int id) {
+		super(id, false); //The super constructor replaces the old gen in the biome array
 		this.setColor(112).setBiomeName(ModData.OCEAN_BIOME_NAME).setHeight(BiomeGenBase.height_Oceans);
 		this.spawnableCreatureList.clear();
 		this.topBlock = Blocks.sand;

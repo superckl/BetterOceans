@@ -276,7 +276,7 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 			this.attachedNet.preAttatchedUpdate();
 		super.onUpdate();
 
-		if(this.isSinking() || this.rand.nextDouble() < (0.00012D*BoatHelper.compoundSinkModifiers(this))){
+		if(this.isSinking() || this.rand.nextDouble() < 0.00012D*BoatHelper.compoundSinkModifiers(this)){
 			if(!this.isSinking())
 				LogHelper.info("You are sinking!");
 			final float depth = this.getSinkDepth();

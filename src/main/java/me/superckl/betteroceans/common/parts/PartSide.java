@@ -107,7 +107,7 @@ public abstract class PartSide extends BoatPart{
 		public ItemStack getCraftingResult() {
 			return new ItemStack(ModItems.boatPart, 1, 2 + 8);
 		}
-		
+
 		@Override
 		public double getSpeedModifier(){
 			return 0.985D;

@@ -12,8 +12,8 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeGenBetterDeepOcean extends BiomeGenBase{
 
-	public BiomeGenBetterDeepOcean() {
-		super(BiomeGenBase.deepOcean.biomeID);
+	public BiomeGenBetterDeepOcean(final int id) {
+		super(id, false);
 		this.setColor(48).setBiomeName(ModData.DEEP_OCEAN_BIOME_NAME).setHeight(BiomeGenBase.height_DeepOceans);
 		this.spawnableCreatureList.clear();
 		this.topBlock = Blocks.sand;
