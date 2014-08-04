@@ -12,7 +12,7 @@ public class BiomesOPlentyIntegration{
 
 
 	public static void preInit(){
-		LogHelper.info("BiomesOPlenty found! Integrating...");
+		LogHelper.debug("BiomesOPlenty found! Integrating...");
 		final Config c = BetterOceans.getInstance().getConfig();
 		if(c.isSeaweedOrKelp())
 			RecipeHelper.replaceItem(new ItemStack(BOPCBlocks.coral1, 1, 11), new ItemStack(ModItems.itemSeaweed), true, false);

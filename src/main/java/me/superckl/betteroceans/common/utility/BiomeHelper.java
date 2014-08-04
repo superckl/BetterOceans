@@ -21,6 +21,7 @@ public class BiomeHelper {
 		BiomeGenBase.getBiomeGenArray()[BiomeGenBase.deepOcean.biomeID] = boDO;
 		BiomeDictionary.registerBiomeType(boO, Type.OCEAN);
 		BiomeDictionary.registerBiomeType(boDO, Type.OCEAN);
+		LogHelper.debug("Succesfully replaced Ocean biomes!");
 		/*if(!ReflectionHelper.setFinalStatic(BiomeGenBase.class, boO, true, "ocean", "field_76771_b"))
 				LogHelper.fatal("Failed to override ocean biome! Loading worlds generated with Better Oceans may have unpredictable results!");
 			else

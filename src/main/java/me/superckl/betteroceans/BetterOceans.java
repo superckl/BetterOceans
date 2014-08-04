@@ -43,18 +43,18 @@ public class BetterOceans {
 		BetterOceans.proxy.registerRenderers();
 		BOIntegration.preInit();
 		try {
-			Class.forName(BoatParts.class.getCanonicalName());//Let's just make sure all the parts gets loaded;
-		} catch (ClassNotFoundException e1) {
+			Class.forName(BoatParts.class.getCanonicalName());//Let's just make sure all the parts get loaded;
+		} catch (final ClassNotFoundException e1) {
 			//This shouldn't happen
 			e1.printStackTrace();
-		} 
+		}
 	}
 
 	@EventHandler
 	public void init(final FMLInitializationEvent e){
 		BetterOceans.proxy.registerHandlers();
 		ModItems.overrideItems();
-		LogHelper.info("Replacing ocean biomes...");
+		LogHelper.debug("Replacing ocean biomes...");
 		BiomeHelper.replaceOceanBiomes();
 	}
 

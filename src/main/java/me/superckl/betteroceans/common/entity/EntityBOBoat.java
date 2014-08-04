@@ -29,12 +29,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants.NBT;
 import scala.actors.threadpool.Arrays;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
@@ -674,17 +672,16 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 	@Override
 	protected void readEntityFromNBT(final NBTTagCompound compound) {
 		this.setSinkDepth(compound.getFloat("sinkDepth"));
-		for(int id:compound.getIntArray("parts"))
+		for(final int id:compound.getIntArray("parts"))
 			this.boatParts.add(BoatPart.deserialize(id));
 	}
 
 	@Override
 	protected void writeEntityToNBT(final NBTTagCompound compound) {
 		compound.setFloat("sinkDepth", this.getSinkDepth());
-		int[] array = new int[this.boatParts.size()];
-		for(int i = 0; i < this.boatParts.size(); i++){
+		final int[] array = new int[this.boatParts.size()];
+		for(int i = 0; i < this.boatParts.size(); i++)
 			array[i] = this.boatParts.get(i).getPartConstructorID();
-		}
 		compound.setIntArray("parts", array);
 	}
 
@@ -695,9 +692,8 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 	@Override
 	public void writeSpawnData(final ByteBuf buf) {
 		buf.writeInt(this.boatParts.size());
-		for(final BoatPart part:this.getBoatParts()){
+		for(final BoatPart part:this.getBoatParts())
 			BoatHelper.writePartToBuffer(part, buf);
-		}
 	}
 
 	@Override

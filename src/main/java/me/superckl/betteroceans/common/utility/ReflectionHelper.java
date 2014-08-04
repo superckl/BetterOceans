@@ -2,9 +2,7 @@ package me.superckl.betteroceans.common.utility;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import net.minecraft.world.biome.BiomeGenBase;
 
@@ -105,9 +103,9 @@ public class ReflectionHelper {
 		}
 		return null;
 	}
-	
-	public static <T> Class<?>[] toClassArray(T[] array){
-		Class<?>[] classArray = new Class<?>[array.length];
+
+	public static <T> Class<?>[] toClassArray(final T[] array){
+		final Class<?>[] classArray = new Class<?>[array.length];
 		for(int i = 0; i < array.length; i++)
 			classArray[i] = array[i].getClass();
 		return classArray;

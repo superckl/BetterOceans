@@ -2,7 +2,7 @@ package me.superckl.betteroceans.common.handler;
 
 import java.util.List;
 
-import me.superckl.betteroceans.common.utility.BlockHelper;
+import me.superckl.betteroceans.common.entity.StaminaExtendedProperties;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
@@ -30,11 +30,7 @@ public class ServerTickHandler {
 			for(final EntityPlayer player:players){
 				if(player instanceof EntityPlayerMP == false)
 					continue;
-				if(BlockHelper.isSwimming(player)){
-					//We need to drain stamina
-				}else{
-					//Recharge stamina
-				}
+				((StaminaExtendedProperties)player.getExtendedProperties("swimStamina")).serverTick();
 			}
 		}
 	}

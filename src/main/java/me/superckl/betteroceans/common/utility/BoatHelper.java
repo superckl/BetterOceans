@@ -10,7 +10,6 @@ import me.superckl.betteroceans.common.entity.EntityModularBoat;
 import me.superckl.betteroceans.common.parts.BoatPart;
 import me.superckl.betteroceans.common.parts.PartEnd;
 import me.superckl.betteroceans.common.parts.PartSide;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class BoatHelper {
 

@@ -4,15 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import lombok.Getter;
 import me.superckl.betteroceans.common.reference.ModItems;
-import me.superckl.betteroceans.common.utility.CollectionHelper;
-import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -80,7 +76,7 @@ public abstract class PartBottom extends BoatPart{
 
 
 	public static class PartWoodenBottom extends PartBottom{
-		
+
 		private static int partConstructorID = BoatPart.registerPart(PartWoodenBottom.class);
 
 		@Override
@@ -100,12 +96,12 @@ public abstract class PartBottom extends BoatPart{
 
 		@Override
 		public double getSpeedModifier(){
-			return 0.965D;
+			return 0.98D;
 		}
 
 		@Override
 		public int getPartConstructorID() {
-			return partConstructorID;
+			return PartWoodenBottom.partConstructorID;
 		}
 
 	}

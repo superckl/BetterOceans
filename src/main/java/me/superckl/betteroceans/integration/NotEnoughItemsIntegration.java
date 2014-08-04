@@ -12,7 +12,7 @@ public class NotEnoughItemsIntegration {
 
 	public static void preInit(){
 		API.registerRecipeHandler(new BoatRecipeHandler());
-		LogHelper.info("Hooked NEI");
+		LogHelper.debug("Hooked NEI");
 	}
 
 

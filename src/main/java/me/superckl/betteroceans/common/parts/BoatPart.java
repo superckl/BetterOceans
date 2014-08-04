@@ -1,6 +1,5 @@
 package me.superckl.betteroceans.common.parts;
 
-import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,10 +9,10 @@ import lombok.RequiredArgsConstructor;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.utility.ConstructorWrapper;
 import me.superckl.betteroceans.common.utility.LogHelper;
+import me.superckl.betteroceans.common.utility.StringHelper;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
@@ -21,7 +20,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Parent class for all BoatParts. This contains the id to {@link ConstructorWrapper} mappings as well as a helper deserialize method;
- * 
+ *
  * NOTE: if your constructor takes a primitive argument, you must use the wrapped form or deserialization will fail.
  * See {@link ConstructorWrapper} for more information.
  */
@@ -32,13 +31,13 @@ public abstract class BoatPart {
 	@Getter
 	private static Map<Integer, ConstructorWrapper<? extends BoatPart>> parts = new HashMap<Integer, ConstructorWrapper<? extends BoatPart>>();
 
-	public static <T extends BoatPart> int registerPart(final Class<T> partClass, Object ... arguments){
+	public static <T extends BoatPart> int registerPart(final Class<T> partClass, final Object ... arguments){
 		BoatPart.parts.put(BoatPart.nextID, new ConstructorWrapper<T>(partClass, arguments));
-		LogHelper.info(partClass.getCanonicalName()+" has ID "+BoatPart.nextID);
+		LogHelper.debug(StringHelper.build("Registered boat part ", partClass.getCanonicalName(), " with ID ", BoatPart.nextID));
 		return BoatPart.nextID++;
 	}
 
-	public static BoatPart deserialize(int id){
+	public static BoatPart deserialize(final int id){
 		/*try {
 			final Class<? extends BoatPart> clazz = BoatPart.parts.get(comp.getInteger("ID"));
 			if(clazz == null)
@@ -57,7 +56,7 @@ public abstract class BoatPart {
 			LogHelper.error("Failed to deserialize boat part!");
 			e.printStackTrace();
 		}*/
-		return parts.get(id).newInstance();
+		return BoatPart.parts.get(id).newInstance();
 	}
 
 	protected ResourceLocation texture;
@@ -94,7 +93,7 @@ public abstract class BoatPart {
 	 */
 	@SideOnly(Side.CLIENT)
 	public abstract List<ModelRenderer> getRenderers(final ModelBase base);
-	
+
 	public abstract int getPartConstructorID();
 	public static enum Type{
 		BOTTOM,
