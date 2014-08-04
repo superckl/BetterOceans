@@ -46,7 +46,6 @@ public class BetterOceans {
 			Class.forName(BoatParts.class.getCanonicalName());//Let's just make sure all the parts get loaded;
 		} catch (final ClassNotFoundException e1) {
 			//This shouldn't happen
-			e1.printStackTrace();
 		}
 	}
 

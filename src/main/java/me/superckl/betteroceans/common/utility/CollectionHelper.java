@@ -15,4 +15,11 @@ public class CollectionHelper {
 		return null;
 	}
 
+	public static <T> int find(final T toFind, final T[] in){
+		for(int i = 0; i < in.length; i++)
+			if(in[i] == toFind)
+				return i;
+		return -1;
+	}
+
 }

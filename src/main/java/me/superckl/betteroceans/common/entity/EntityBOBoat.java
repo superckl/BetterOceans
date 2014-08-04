@@ -160,6 +160,7 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 	public boolean interactFirst(final EntityPlayer player){
 		if(player.isSneaking()){
 			if(this.isComplete()){
+				//TODO this should be done in the item
 				if(this.hasNetAttatched()){
 					player.inventory.addItemStackToInventory(this.attachedNet.toItemStack());
 					this.attachNet(null);
@@ -173,10 +174,8 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 					player.getHeldItem().stackSize--;
 					return true;
 				}
-			}else{
-				//TODO try attach part
 			}
-		} else if(this.isComplete()){
+		}else if(this.isComplete())
 			if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != player)
 			{
 				if(this.passenger != null  && this.passenger instanceof EntityPlayer && this.passenger != player)
@@ -197,9 +196,6 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 
 				return true;
 			}
-		} else
-			//TODO try attatch part
-			return true;
 		return false;
 	}
 
@@ -394,7 +390,7 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 			if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityLivingBase)
 			{
 				final EntityLivingBase entitylivingbase = (EntityLivingBase)this.riddenByEntity;
-				final float f = this.riddenByEntity.rotationYaw + -entitylivingbase.moveStrafing * 10.0F;
+				final float f = this.riddenByEntity.rotationYaw + -entitylivingbase.moveStrafing * 10.0F; //TODO looking turns too fast
 				this.motionX += -Math.sin(f * (float)Math.PI / 180.0F) * this.speedMultiplier * entitylivingbase.moveForward * 0.04000000074505806D;
 				this.motionZ += Math.cos(f * (float)Math.PI / 180.0F) * this.speedMultiplier * entitylivingbase.moveForward * 0.04000000074505806D;
 			}

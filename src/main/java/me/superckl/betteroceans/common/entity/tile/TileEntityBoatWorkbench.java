@@ -1,30 +1,31 @@
 package me.superckl.betteroceans.common.entity.tile;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import lombok.Getter;
 import me.superckl.betteroceans.common.Rotatable;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.parts.BoatPart;
+import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 
 public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 
 	@Getter
-	private static List<BoatPart> craftableParts = new ArrayList<BoatPart>();//TODO add to menu
-	@Getter
 	private final ItemStack[] inventory = new ItemStack[10];
 	@Getter
-	private EntityBOBoat activeSelection; //Not Modular because no need
+	private EntityBOBoat activeSelection;
 
 	public void setActiveSelection(final EntityBOBoat selection){
 		if(selection.getBoatParts().size() != 1)
@@ -32,6 +33,7 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 		this.activeSelection = selection;
 		if(selection instanceof Rotatable)
 			((Rotatable)selection).setRenderWithRotation(true);
+		this.checkRecipeCompletion();
 	}
 
 	@Override
@@ -104,8 +106,10 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 	}
 
 	private void checkRecipeCompletion(){
-		if(this.activeSelection == null)
+		if(this.activeSelection == null){
+			this.inventory[9] = null;
 			return;
+		}
 		if(RecipeHelper.areItemsPresent(this.activeSelection.getBoatParts().get(0).getCraftingIngredients(), Arrays.copyOf(this.inventory, 9), true))
 			this.inventory[9] = this.activeSelection.getBoatParts().get(0).getCraftingResult();
 		else
@@ -146,21 +150,22 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 	@Override
 	public void readFromNBT(final NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
-		final NBTTagList tagList = tagCompound.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
+		final NBTTagList tagList = tagCompound.getTagList("inventory", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			final NBTTagCompound tag = tagList.getCompoundTagAt(i);
 			final byte slot = tag.getByte("Slot");
 			if (slot >= 0 && slot < this.inventory.length)
 				this.inventory[slot] = ItemStack.loadItemStackFromNBT(tag);
 		}
+		if(tagCompound.hasKey("activeSelection"))
+			this.setActiveSelection(BoatPart.deserialize(tagCompound.getInteger("activeSelection")).getOnePartBoat(this.worldObj));
 	}
 
 	@Override
 	public void writeToNBT(final NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
-
 		final NBTTagList itemList = new NBTTagList();
-		for (int i = 0; i < this.inventory.length; i++) {
+		for (int i = 0; i < this.inventory.length-1; i++) {
 			final ItemStack stack = this.inventory[i];
 			if (stack != null) {
 				final NBTTagCompound tag = new NBTTagCompound();
@@ -169,13 +174,30 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 				itemList.appendTag(tag);
 			}
 		}
-		tagCompound.setTag("Inventory", itemList);
+		tagCompound.setTag("inventory", itemList);
+		if(this.activeSelection != null)
+			tagCompound.setInteger("activeSelection", this.activeSelection.getBoatParts().get(0).getPartConstructorID());
 	}
 
-	public static void addCraftablePart(final BoatPart part){
-		if(part.getCraftingIngredients() == null || part.getCraftingIngredients().isEmpty() || part.getCraftingResult() == null)
-			throw new IllegalArgumentException("The part must be craftable!");
-		TileEntityBoatWorkbench.craftableParts.add(part);
+	@Override
+	public Packet getDescriptionPacket()
+	{
+		final NBTTagCompound comp = new NBTTagCompound();
+		this.writeToNBT(comp);
+		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, comp);
+	}
+
+	@Override
+	public void onDataPacket(final NetworkManager net, final S35PacketUpdateTileEntity pkt)
+	{
+		LogHelper.debug("Received data packet");
+		final NBTTagCompound comp = pkt.func_148857_g();
+		final TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(pkt.func_148856_c(), pkt.func_148855_d(), pkt.func_148854_e());
+		if(te == null || te instanceof TileEntityBoatWorkbench == false){
+			LogHelper.error("Failed to deserialize TileEntity!");
+			return;
+		}
+		((TileEntityBoatWorkbench)te).setActiveSelection(BoatPart.deserialize(comp.getInteger("activeSelection")).getOnePartBoat(Minecraft.getMinecraft().theWorld));
 	}
 
 }

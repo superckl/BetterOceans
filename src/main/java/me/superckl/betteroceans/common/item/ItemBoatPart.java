@@ -42,7 +42,7 @@ public class ItemBoatPart extends ItemBO{
 		super();
 		this.setHasSubtypes(true);
 		this.setCreativeTab(ModTabs.tabItems);
-		this.maxStackSize = 1;
+		this.maxStackSize = 2;
 		this.setUnlocalizedName("boatpart");
 	}
 

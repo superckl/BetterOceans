@@ -14,5 +14,6 @@ public class BoatParts {
 	public static final BoatPart woodenSideRight = new PartSide.PartWoodenSide(false);
 	public static final BoatPart woodenEndFront = new PartEnd.PartWoodenEnd(true);
 	public static final BoatPart woodenEndBack = new PartEnd.PartWoodenEnd(false);
+	public static final BoatPart[] allParts = new BoatPart[] {BoatParts.woodenBottom, BoatParts.woodenSideLeft, BoatParts.woodenSideRight, BoatParts.woodenEndFront, BoatParts.woodenEndBack};
 
 }

@@ -7,11 +7,14 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
+import me.superckl.betteroceans.common.reference.BoatParts;
 import me.superckl.betteroceans.common.utility.ConstructorWrapper;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.StringHelper;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -38,25 +41,15 @@ public abstract class BoatPart {
 	}
 
 	public static BoatPart deserialize(final int id){
-		/*try {
-			final Class<? extends BoatPart> clazz = BoatPart.parts.get(comp.getInteger("ID"));
-			if(clazz == null)
-				return null;
-			Constructor<? extends BoatPart> construct = null;
-			if(!comp.hasKey("boolFlag")){
-				LogHelper.info("no");
-				construct = clazz.getDeclaredConstructor();
-				return construct.newInstance();
-			}else{//Let's try with boolean then
-				LogHelper.info("yes");
-				construct = clazz.getConstructor(boolean.class);
-				return construct.newInstance(comp.getBoolean("boolFlag"));
-			}
-		} catch (final Exception e) {
-			LogHelper.error("Failed to deserialize boat part!");
-			e.printStackTrace();
-		}*/
+
 		return BoatPart.parts.get(id).newInstance();
+	}
+
+	public static BoatPart getPartByTypeAndMaterial(final Type type, final Material material){
+		for(final BoatPart part:BoatParts.allParts)
+			if(part.getType() == type && part.getMaterial() == material)
+				return BoatPart.parts.get(part.getPartConstructorID()).newInstance();
+		return new PartBottom.PartWoodenBottom(); //Temp while all materials not done
 	}
 
 	protected ResourceLocation texture;
@@ -80,7 +73,7 @@ public abstract class BoatPart {
 	public EntityBOBoat getOnePartBoat(final World world){
 		if(this.entity == null){
 			this.entity = new EntityBOBoat(world);
-			this.entity.addPart(this);
+			this.entity.getBoatParts().add(this);
 		}
 		return this.entity;
 	}
@@ -103,12 +96,14 @@ public abstract class BoatPart {
 
 	@RequiredArgsConstructor
 	public static enum Material{
-		WOOD("textures/entity/boat.png"),
-		IRON(""),//TODO
-		GLASS("");//TODO
+		WOOD("textures/entity/boat.png", new ItemStack(Blocks.planks)),
+		IRON("", new ItemStack(Items.iron_ingot)),//TODO
+		GLASS("", new ItemStack(Blocks.glass));//TODO
 
 		@Getter
 		private final String defaultResourceLocation;
+		@Getter
+		private final ItemStack itemRepresentation;
 
 	}
 
