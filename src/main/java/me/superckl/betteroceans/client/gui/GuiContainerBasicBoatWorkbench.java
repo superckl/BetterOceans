@@ -46,9 +46,7 @@ public class GuiContainerBasicBoatWorkbench extends GuiContainer{
 		super(new ContainerBoatWorkbench(inventoryPlayer, te));
 		this.xSize = 256;
 		this.ySize = 166;
-		LogHelper.info("loading gui");
 		if(te.getActiveSelection() != null){
-			LogHelper.info("found selection");
 			this.activePart = te.getActiveSelection().getBoatParts().get(0);
 			this.partStack = this.activePart.getCraftingResult();
 			this.typeIndex = CollectionHelper.find(this.activePart.getType(), Type.values());
@@ -66,30 +64,32 @@ public class GuiContainerBasicBoatWorkbench extends GuiContainer{
 		final int spacing = leftover/4;
 		int x = 176;
 		x += spacing;
-		this.buttonList.add(new ArrowButton(0, i+x, j+103, 16, 20, "", true));
+		this.buttonList.add(new ArrowButton(0, i+x, j+106, 16, 20, "", true));
 		x+=spacing+14;
 		this.partX = x;
 		x+=spacing+16;
-		this.buttonList.add(new ArrowButton(1, i+x, j+103, 16, 20, "", false));
+		this.buttonList.add(new ArrowButton(1, i+x, j+106, 16, 20, "", false));
 		x=176+spacing;
-		this.buttonList.add(new ArrowButton(2, i+x, j+138, 16, 20, "", true));
+		this.buttonList.add(new ArrowButton(2, i+x, j+139, 16, 20, "", true));
 		x+=spacing+14;
 		this.materialX = x;
 		x+=spacing+16;
-		this.buttonList.add(new ArrowButton(3, i+x, j+138, 16, 20, "", false));
+		this.buttonList.add(new ArrowButton(3, i+x, j+139, 16, 20, "", false));
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(final int param1, final int param2){
-		this.fontRendererObj.drawString(LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("basicboatbench")), 15+(162-this.fontRendererObj.getStringWidth(LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("basicboatbench"))))/2, 8, 0x404040);
+		String name = LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("basicboatbench"));
+		final int i = this.xSize/ 2;
+		this.fontRendererObj.drawString(name, i-(this.fontRendererObj.getStringWidth(name))/2, 8, 0x404040);
 		int x = 176;
 		final int width = 77;
-		this.fontRendererObj.drawString("Part", x+(width-this.fontRendererObj.getStringWidth("Part"))/2, 103-this.fontRendererObj.FONT_HEIGHT-1, 0x404040);
-		this.fontRendererObj.drawString("Material", x+(width-this.fontRendererObj.getStringWidth("Material"))/2, 138-this.fontRendererObj.FONT_HEIGHT-1, 0x404040);
+		this.fontRendererObj.drawString("Part", x+(width-this.fontRendererObj.getStringWidth("Part"))/2, 106-this.fontRendererObj.FONT_HEIGHT-1, 0x404040);
+		this.fontRendererObj.drawString("Material", x+(width-this.fontRendererObj.getStringWidth("Material"))/2, 139-this.fontRendererObj.FONT_HEIGHT-1, 0x404040);
 		net.minecraft.client.renderer.RenderHelper.enableGUIStandardItemLighting();
 		if(this.activePart != null){
-			GuiScreen.itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), this.partStack, this.partX, 105);
-			GuiScreen.itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), Material.values()[this.materialIndex].getItemRepresentation(), this.materialX, 140);
+			GuiScreen.itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), this.partStack, this.partX, 108);
+			GuiScreen.itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), Material.values()[this.materialIndex].getItemRepresentation(), this.materialX, 141);
 		}
 		final TileEntityBoatWorkbench te = ((ContainerBoatWorkbench)this.inventorySlots).getTileEntity();
 		if(te.getActiveSelection() == null)
@@ -100,7 +100,7 @@ public class GuiContainerBasicBoatWorkbench extends GuiContainer{
 			return;
 
 		final int y = 76;
-		this.fontRendererObj.drawString("Requires:", x+(width-this.fontRendererObj.getStringWidth("Requires:"))/2, 66, 0xdd0000);
+		this.fontRendererObj.drawString("Requires", x+(width-this.fontRendererObj.getStringWidth("Requires:"))/2, 66, 0xdd0000);
 		final int leftover = width - 16*required.size();
 		final int spacing = leftover/(required.size()+1);
 		x+=spacing;

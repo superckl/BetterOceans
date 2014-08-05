@@ -17,14 +17,12 @@ public class StaminaExtendedProperties implements IExtendedEntityProperties{
 
 	@Override
 	public void saveNBTData(final NBTTagCompound compound) {
-		LogHelper.info("saving "+this.getStamina());
 		compound.setInteger("swimStamina", this.getStamina());
 	}
 
 	@Override
 	public void loadNBTData(final NBTTagCompound compound) {
 		LogHelper.info(compound.hasKey("swimStamina"));
-		LogHelper.info("loaded "+compound.getInteger("swimStamina"));
 		this.setStamina(compound.getInteger("swimStamina"));
 	}
 

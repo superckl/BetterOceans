@@ -14,7 +14,6 @@ public class MessageSelectPartHandler implements IMessageHandler<MessageSelectBo
 	@Override
 	public IMessage onMessage(final MessageSelectBoatPart message, final MessageContext ctx) {
 		final TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(message.getX(), message.getY(), message.getZ());
-		LogHelper.info("received select part packet");
 		if(te == null || te instanceof TileEntityBoatWorkbench == false){
 			LogHelper.error("Failed to deserialize TileEntity");
 			return null;

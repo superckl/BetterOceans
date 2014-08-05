@@ -20,7 +20,6 @@ public class ArrowButton extends GuiButton{
 
 	@Override
 	public void drawButton(final Minecraft mc, final int p_146112_2_, final int p_146112_3_){
-		super.drawButton(mc, p_146112_2_, p_146112_3_);
 		if(!this.visible)
 			return;
 		if(this.left)
