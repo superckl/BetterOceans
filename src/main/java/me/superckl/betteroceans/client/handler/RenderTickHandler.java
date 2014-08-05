@@ -52,11 +52,17 @@ public class RenderTickHandler{
 			e.left.add(String.format("Depth: %d - %s", depth, StringUtils.capitalize(fluid.getName().toLowerCase())));
 			//mc.fontRenderer.drawStringWithShadow(String.format("Depth: %d - %s", depth, StringUtils.capitalize(fluid.getName().toLowerCase())), 5, 5, 0xFFFFFF);
 		}
-		//Stamina gauge
-		if(this.mc.thePlayer != null && this.mc.thePlayer.isInWater() && this.mc.thePlayer.getExtendedProperties("swimStamina") != null){
+		//Stamina gauge, commented until I get the textures
+		/*if(this.mc.thePlayer != null && this.mc.thePlayer.isInWater() && this.mc.thePlayer.getExtendedProperties("swimStamina") != null){
 			final int dim = 16;//???
 			final int radius = dim/2;
-		}
+			int x = this.mc.displayWidth-radius-5;
+			int y = this.mc.displayHeight-radius-5;
+			RenderHelper.drawTexturedCircle(x, y, radius, 100, circleTexture);
+			float perc = ((StaminaExtendedProperties)this.mc.thePlayer.getExtendedProperties("swimStamina")).getStamina()/100F;
+			int minY = (int) ((y+radius)-(dim*perc));
+			RenderHelper.drawTexturedCircle(x, y, radius, x+radius, x-radius, y+radius, minY, (int) (100-80*(1-perc)), staminaTexture);
+		}*/
 	}
 
 }

@@ -37,8 +37,6 @@ public class Config {
 	private boolean otherDecoration;
 	@Getter
 	private boolean seaweedOrKelp;
-	@Getter
-	private boolean removeCoralReef;
 
 	public Config(final File config){
 		this.configFile = new Configuration(config);
@@ -64,7 +62,6 @@ public class Config {
 			this.seaweedToWater = this.configFile.getBoolean("Seaweed Breaks To Water", "general", true, "Determines whether seaweed is replaced by water or air when broken.");
 			this.otherDecoration = this.configFile.getBoolean("Other Mod Ocean Decorations", "world gen", true, "Aloow other mods to generate decorations in oceans.");
 			this.seaweedOrKelp = this.configFile.getBoolean("Seaweed or Kelp", "biomes o plenty", true, "Allows players to use seaweed where kelp is required in recipes.");
-			this.removeCoralReef = this.configFile.getBoolean("Remove BOP Coral Reef", "biomes o plenty", true, "Remove the BOP coral reef biome.");
 			this.configFile.save();
 			this.setConfigElements();
 		}catch(final Exception e){
