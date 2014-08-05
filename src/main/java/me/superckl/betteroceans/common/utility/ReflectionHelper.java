@@ -4,8 +4,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
-import net.minecraft.world.biome.BiomeGenBase;
-
 public class ReflectionHelper {
 
 	public static boolean setFinalStatic(final Class<?> clazz, final Object toPut, final boolean coverTracks, final String ... names){
@@ -64,6 +62,16 @@ public class ReflectionHelper {
 			final Field toGet = ReflectionHelper.find(clazz, names);
 			if(toGet == null)
 				throw new IllegalArgumentException("Could not find "+Arrays.toString(names));
+			return ReflectionHelper.retrieveStatic(toGet, coverTracks);
+		} catch (final Exception e) {
+			LogHelper.warn("Failed to get field in "+clazz.getCanonicalName());
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static Object retrieveStatic(final Field toGet, final boolean coverTracks){
+		try {
 			final boolean access = toGet.isAccessible();
 			toGet.setAccessible(true);
 			final Object obj = toGet.get(null);
@@ -71,7 +79,7 @@ public class ReflectionHelper {
 				toGet.setAccessible(access);
 			return obj;
 		} catch (final Exception e) {
-			LogHelper.warn("Failed to get field in "+clazz.getCanonicalName());
+			LogHelper.warn("Failed to get field in "+toGet.getDeclaringClass().getCanonicalName());
 			e.printStackTrace();
 		}
 		return null;
@@ -82,25 +90,6 @@ public class ReflectionHelper {
 			for(final String name:names)
 				if(field.getName().equals(name))
 					return field;
-		return null;
-	}
-
-	public static Field findBiomeGenField(final int id){
-		try {
-			for(final Field field:((Class<?>)BiomeGenBase.class).getDeclaredFields()){
-				field.setAccessible(true);
-				if((field.getModifiers() & Modifier.STATIC) == Modifier.STATIC && BiomeGenBase.class.isAssignableFrom(field.getType())){
-					final Object obj = field.get(null);
-					if(obj == null)
-						continue;
-					if(((BiomeGenBase)obj).biomeID == id)
-						return field;
-				}
-			}
-		} catch (final Exception e) {
-			LogHelper.error("Failed to find biome field: "+id);
-			e.printStackTrace();
-		}
 		return null;
 	}
 

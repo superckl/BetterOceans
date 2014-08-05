@@ -53,4 +53,24 @@ public class RenderHelper {
 		OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
 	}
 
+	public static void drawTexturedCircle(final int x, final int y, final int radius, final int steps, final ResourceLocation texture){
+		RenderHelper.drawTexturedCircle(x, y, radius, x+radius, x-radius, y+radius, y-radius, steps, texture);
+	}
+
+	public static void drawTexturedCircle(final int x, final int y, final int radius, final int maxX, final int minX, final int maxY, final int minY, final int steps, final ResourceLocation texture){
+		//We will assume the texture is radius*2 by radius*2 pixels
+		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+		final int cornerX = x-radius;
+		final int cornerY = y-radius;
+		final Tessellator tessellator = Tessellator.instance;
+		tessellator.startDrawingQuads();
+		final int increment = (int) (2*Math.PI/steps);
+		for(int step = 0; step < 2*Math.PI; step +=increment){
+			final double newX = Math.max(Math.min(radius*Math.cos(step)+x, maxX), minX);
+			final double newY = Math.max(Math.min(radius*Math.cos(step)+y, maxY), minY);
+			tessellator.addVertexWithUV(newX, newY, 0, newX-cornerX, newY-cornerY);
+		}
+		tessellator.draw();
+	}
+
 }
