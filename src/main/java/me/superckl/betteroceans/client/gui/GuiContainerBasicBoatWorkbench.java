@@ -13,7 +13,6 @@ import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.NetworkData;
 import me.superckl.betteroceans.common.utility.CollectionHelper;
 import me.superckl.betteroceans.common.utility.ItemStackHelper;
-import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
 import me.superckl.betteroceans.common.utility.RenderHelper;
 import me.superckl.betteroceans.common.utility.StringHelper;
@@ -79,9 +78,9 @@ public class GuiContainerBasicBoatWorkbench extends GuiContainer{
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(final int param1, final int param2){
-		String name = LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("basicboatbench"));
+		final String name = LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("basicboatbench"));
 		final int i = this.xSize/ 2;
-		this.fontRendererObj.drawString(name, i-(this.fontRendererObj.getStringWidth(name))/2, 8, 0x404040);
+		this.fontRendererObj.drawString(name, i-this.fontRendererObj.getStringWidth(name)/2, 8, 0x404040);
 		int x = 176;
 		final int width = 77;
 		this.fontRendererObj.drawString("Part", x+(width-this.fontRendererObj.getStringWidth("Part"))/2, 106-this.fontRendererObj.FONT_HEIGHT-1, 0x404040);
