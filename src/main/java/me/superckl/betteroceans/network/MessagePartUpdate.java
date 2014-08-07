@@ -37,7 +37,6 @@ public class MessagePartUpdate implements IMessage{
 	@Override
 	public void fromBytes(final ByteBuf buf) {
 		final Entity ent = Minecraft.getMinecraft().theWorld.getEntityByID(buf.readInt());
-		LogHelper.info(ent);
 		if(ent == null){
 			LogHelper.error("Failed to deserialize EntityBOBoat!");
 			return;

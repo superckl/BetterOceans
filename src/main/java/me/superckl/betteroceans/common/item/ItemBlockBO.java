@@ -11,17 +11,15 @@ public abstract class ItemBlockBO extends ItemBlock{
 	}
 
 	@Override
-	public String getUnlocalizedName(){
-		return String.format("item.%s", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
-	}
-
-	@Override
 	public String getUnlocalizedName(final ItemStack stack){
-		return String.format("item.%s", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("item.%s", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName(), stack.getItemDamage()));
 	}
 
-	private String getUnwrappedUnlocalizedName(final String unlocalizedName){
-		return unlocalizedName.substring(unlocalizedName.indexOf(".")+1);
+	private String getUnwrappedUnlocalizedName(final String unlocalizedName, final int damage){
+		return unlocalizedName.substring(unlocalizedName.indexOf(".")+1).concat(":").concat(this.isNameDamageReliant() ? Integer.toString(damage):"");
 	}
 
+	protected boolean isNameDamageReliant(){
+		return false;
+	}
 }

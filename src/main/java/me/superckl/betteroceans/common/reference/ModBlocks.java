@@ -1,7 +1,8 @@
 package me.superckl.betteroceans.common.reference;
 
-import me.superckl.betteroceans.common.block.BlockBasicBoatWorkbench;
+import me.superckl.betteroceans.common.block.BlockBoatWorkbench;
 import me.superckl.betteroceans.common.block.BlockSeaweed;
+import me.superckl.betteroceans.common.item.ItemBlockBoatWorkbench;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.ObjectHolder;
@@ -10,11 +11,11 @@ import cpw.mods.fml.common.registry.GameRegistry.ObjectHolder;
 public class ModBlocks {
 
 	public static final BlockSeaweed seaweed = new BlockSeaweed();
-	public static final BlockBasicBoatWorkbench basicBoatWorkbench = new BlockBasicBoatWorkbench();
+	public static final BlockBoatWorkbench basicBoatWorkbench = new BlockBoatWorkbench();
 
 	public static void init(){
 		GameRegistry.registerBlock(ModBlocks.seaweed, Names.SEAWEED);
-		GameRegistry.registerBlock(ModBlocks.basicBoatWorkbench, Names.BASIC_BOAT_WORKBENCH);
+		GameRegistry.registerBlock(ModBlocks.basicBoatWorkbench, ItemBlockBoatWorkbench.class, Names.BASIC_BOAT_WORKBENCH);
 
 		ModBlocks.addRecipes();
 	}

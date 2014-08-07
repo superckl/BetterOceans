@@ -1,7 +1,6 @@
 package me.superckl.betteroceans.common.entity;
 
 import lombok.Getter;
-import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,7 +21,6 @@ public class StaminaExtendedProperties implements IExtendedEntityProperties{
 
 	@Override
 	public void loadNBTData(final NBTTagCompound compound) {
-		LogHelper.info(compound.hasKey("swimStamina"));
 		this.setStamina(compound.getInteger("swimStamina"));
 	}
 

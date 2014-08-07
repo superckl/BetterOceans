@@ -17,7 +17,6 @@ import me.superckl.betteroceans.common.parts.PartEnd;
 import me.superckl.betteroceans.common.parts.PartSide;
 import me.superckl.betteroceans.common.reference.NetworkData;
 import me.superckl.betteroceans.common.utility.BoatHelper;
-import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.network.MessagePartUpdate;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -28,6 +27,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -144,8 +144,10 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 				if (this.riddenByEntity != null)
 					this.riddenByEntity.mountEntity(this);
 
-				if (!flag)
-					this.func_145778_a(Items.boat, 1, 0.0F);
+				if (!flag){
+					this.dropAsParts();
+					this.boatParts.clear();
+				}
 
 				this.setDead();
 			}
@@ -259,8 +261,6 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 		super.onUpdate();
 
 		if(this.isSinking() || this.trySink()){
-			if(!this.isSinking())
-				LogHelper.info("You are sinking!");
 			final float depth = this.getSinkDepth();
 			this.setSinkDepth(Math.abs(depth) > this.height+0.3F ? this.getSinkDepth()+.05F:this.getSinkDepth()+0.0005F);
 			this.yOffset -= Math.abs(depth) > this.height+0.3F ? .05F:0.0005F;
@@ -453,9 +453,8 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 				{
 					this.setDead();
 					//drop the parts, maybe
-					for(final BoatPart part:this.boatParts)
-						if(part.shouldDrop(this.rand))
-							this.func_145778_a(part.getCraftingResult().getItem(), 1, 0F);
+					this.dropAsParts();
+					this.boatParts.clear();
 				}
 			}
 			else
@@ -503,6 +502,15 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 		}
 		if(this.hasNetAttatched())
 			this.attachedNet.postAttahcedUpdate();
+	}
+
+	private void dropAsParts(){
+		for(final BoatPart part:this.boatParts)
+			if(part.shouldDrop(this.rand)){
+				final ItemStack stack = part.getCraftingResult();
+				stack.stackSize = 1;
+				this.entityDropItem(stack, 0F);
+			}
 	}
 
 	@Override

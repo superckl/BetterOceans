@@ -11,16 +11,15 @@ public abstract class ItemBO extends Item{
 	}
 
 	@Override
-	public String getUnlocalizedName(){
-		return String.format("item.%s%s%s", ModData.MOD_ID.toLowerCase(), ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
-	}
-
-	@Override
 	public String getUnlocalizedName(final ItemStack stack){
-		return String.format("item.%s%s%s", ModData.MOD_ID.toLowerCase(), ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("item.%s%s%s", ModData.MOD_ID.toLowerCase(), ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName(), stack.getItemDamage()));
 	}
 
-	protected String getUnwrappedUnlocalizedName(final String unlocalizedName){
-		return unlocalizedName.substring(unlocalizedName.indexOf(".")+1);
+	protected String getUnwrappedUnlocalizedName(final String unlocalizedName, final int damage){
+		return unlocalizedName.substring(unlocalizedName.indexOf(".")+1).concat(":").concat(this.isNameDamageReliant() ? Integer.toString(damage):"");
+	}
+
+	protected boolean isNameDamageReliant(){
+		return false;
 	}
 }

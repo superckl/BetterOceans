@@ -1,5 +1,6 @@
 package me.superckl.betteroceans.common.block;
 
+import java.util.List;
 import java.util.Random;
 
 import me.superckl.betteroceans.BetterOceans;
@@ -9,9 +10,11 @@ import me.superckl.betteroceans.common.reference.ModTabs;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -20,12 +23,20 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockBasicBoatWorkbench extends BlockContainerBO{
+public class BlockBoatWorkbench extends BlockContainerBO{
 
-	public BlockBasicBoatWorkbench() {
+	public BlockBoatWorkbench() {
 		super(Material.wood);
-		this.setBlockName("basicboatbench").setHardness(2.0F).setResistance(5.0F)
+		this.setBlockName("boatbench").setHardness(3.0F).setResistance(5.0F)
 		.setStepSound(Block.soundTypeWood).setCreativeTab(ModTabs.tabBlocks);
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void getSubBlocks(final Item item, final CreativeTabs tab, final List list)
+	{
+		list.add(new ItemStack(item, 1, 0));
+		list.add(new ItemStack(item, 1, 1));
 	}
 
 	@Override
@@ -97,6 +108,8 @@ public class BlockBasicBoatWorkbench extends BlockContainerBO{
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(final int side, final int meta)
 	{
+		if(meta == 1)
+			return null;
 		if(side == 0)
 			return this.icons[2];
 		else if(side == 1)

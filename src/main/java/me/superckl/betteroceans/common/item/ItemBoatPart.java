@@ -52,7 +52,8 @@ public class ItemBoatPart extends ItemBO{
 			return;
 		if(e.entityPlayer.getHeldItem() == null || e.entityPlayer.getHeldItem().getItem() != this)
 			return;
-		if(((EntityBOBoat)e.target).addPart(((EntityBOBoat)e.target).translateItemDamageToPart(e.entityPlayer.getHeldItem().getItemDamage())))
+		if(((EntityBOBoat)e.target).addPart(((EntityBOBoat)e.target).translateItemDamageToPart(e.entityPlayer.getHeldItem().getItemDamage()))
+				&& !e.entityPlayer.capabilities.isCreativeMode)
 			e.entityPlayer.getHeldItem().stackSize--;
 	}
 
@@ -173,12 +174,8 @@ public class ItemBoatPart extends ItemBO{
 	}
 
 	@Override
-	public String getUnlocalizedName(final ItemStack stack){
-		return String.format("item.%s%s%s", ModData.MOD_ID.toLowerCase(), ":", this.getUnwrappedUnlocalizedName("boatpart", stack));
-	}
-
-	protected String getUnwrappedUnlocalizedName(final String unlocalizedName, final ItemStack stack){
-		return unlocalizedName.substring(unlocalizedName.indexOf(".")+1)+":"+stack.getItemDamage();
+	protected boolean isNameDamageReliant() {
+		return true;
 	}
 
 }
