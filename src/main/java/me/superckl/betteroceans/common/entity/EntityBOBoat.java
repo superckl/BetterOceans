@@ -51,7 +51,6 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 	@Getter
 	private boolean renderWithRotation;
 	public int renderYawOffset; //We have to do this manually apparently...
-	public Entity passenger;
 
 	private boolean isBoatEmpty;
 	private double speedMultiplier;
@@ -176,24 +175,9 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 				}
 			}
 		}else if(this.isComplete())
-			if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != player)
-			{
-				if(this.passenger != null  && this.passenger instanceof EntityPlayer && this.passenger != player)
-					return true;
-				else{
-					if (!this.worldObj.isRemote)
-					{
-						player.ridingEntity = this;
-						this.passenger = player;
-					}
-					return true;
-				}
-			}
-			else
-			{
+			if(this.riddenByEntity == null){
 				if (!this.worldObj.isRemote)
 					player.mountEntity(this);
-
 				return true;
 			}
 		return false;
@@ -263,6 +247,10 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 		this.velocityZ = this.motionZ = z;
 	}
 
+	private boolean trySink(){
+		return this.isComplete() && this.riddenByEntity != null && this.rand.nextDouble() < 0.00012D*BoatHelper.compoundSinkModifiers(this);
+	}
+
 	@Override
 	public void onUpdate()
 	{
@@ -270,7 +258,7 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 			this.attachedNet.preAttatchedUpdate();
 		super.onUpdate();
 
-		if(this.isSinking() || this.rand.nextDouble() < 0.00012D*BoatHelper.compoundSinkModifiers(this)){
+		if(this.isSinking() || this.trySink()){
 			if(!this.isSinking())
 				LogHelper.info("You are sinking!");
 			final float depth = this.getSinkDepth();
@@ -459,17 +447,15 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 
 			this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
-			if (this.isCollidedHorizontally && d10 > 0.2D)
+			if (this.isCollidedHorizontally && d10 > 0.2D*BoatHelper.compoundIntegrityFactors(this))
 			{
 				if (!this.worldObj.isRemote && !this.isDead)
 				{
 					this.setDead();
-
-					for (l = 0; l < 3; ++l)
-						this.func_145778_a(Item.getItemFromBlock(Blocks.planks), 1, 0.0F);
-
-					for (l = 0; l < 2; ++l)
-						this.func_145778_a(Items.stick, 1, 0.0F);
+					//drop the parts, maybe
+					for(final BoatPart part:this.boatParts)
+						if(part.shouldDrop(this.rand))
+							this.func_145778_a(part.getCraftingResult().getItem(), 1, 0F);
 				}
 			}
 			else

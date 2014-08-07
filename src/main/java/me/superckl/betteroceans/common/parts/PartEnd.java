@@ -3,6 +3,7 @@ package me.superckl.betteroceans.common.parts;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -82,6 +83,11 @@ public abstract class PartEnd extends BoatPart{
 		@Override
 		public double getSpeedModifier(){
 			return 0.988D;
+		}
+
+		@Override
+		public boolean shouldDrop(final Random random) {
+			return random.nextDouble() < .9D;
 		}
 
 		@Override

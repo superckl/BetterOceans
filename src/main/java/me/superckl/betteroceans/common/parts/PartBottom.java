@@ -3,6 +3,7 @@ package me.superckl.betteroceans.common.parts;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import me.superckl.betteroceans.common.reference.ModItems;
 import net.minecraft.client.model.ModelBase;
@@ -102,6 +103,11 @@ public abstract class PartBottom extends BoatPart{
 		@Override
 		public int getPartConstructorID() {
 			return PartWoodenBottom.partConstructorID;
+		}
+
+		@Override
+		public boolean shouldDrop(final Random random) {
+			return random.nextDouble() < .9D;
 		}
 
 	}

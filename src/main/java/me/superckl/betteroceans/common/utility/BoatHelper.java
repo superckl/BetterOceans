@@ -34,6 +34,13 @@ public class BoatHelper {
 		return modifier;
 	}
 
+	public static double compoundIntegrityFactors(final EntityModularBoat boat){
+		double modifier = 1D;
+		for(final BoatPart part:boat.getBoatParts())
+			modifier *= part.getIntegrityFactor();
+		return modifier;
+	}
+
 	public static boolean hasSide(final EntityModularBoat boat, final boolean left){
 		for(final BoatPart part:boat.getBoatParts())
 			if(part instanceof PartSide)

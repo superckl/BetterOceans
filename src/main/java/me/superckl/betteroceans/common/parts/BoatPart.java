@@ -3,6 +3,7 @@ package me.superckl.betteroceans.common.parts;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -58,13 +59,28 @@ public abstract class BoatPart {
 	public abstract Type getType();
 	public abstract List<ItemStack> getCraftingIngredients();
 	public abstract Material getMaterial();
+	public abstract ItemStack getCraftingResult();
+	public abstract int getMaxNumberOnBoat();
+	public abstract int getPartConstructorID();
+	public abstract boolean shouldDrop(final Random random);
+	/**
+	 * Used to determine if the boat will break upon impact. wooden parts have a modifier of .85.
+	 * @return
+	 */
+	public double getIntegrityFactor(){
+		return this.getMaterial().getDefaultIntegrityFactor();
+	}
+
+	public int getComplexity(){
+		return this.getMaterial().getDefaultComplexity();
+	}
 	public double getSpeedModifier(){
 		return 1D;
 	}
 	public double getSinkChanceModifier(){
 		return 1D;
 	}
-	public abstract ItemStack getCraftingResult();
+
 	public ResourceLocation getTexture(){
 		if(this.texture == null)
 			this.texture = new ResourceLocation(this.getMaterial().getDefaultResourceLocation());
@@ -78,8 +94,6 @@ public abstract class BoatPart {
 		return this.entity;
 	}
 
-	public abstract int getMaxNumberOnBoat();
-
 	/**
 	 * This is called every time the entity is rendered. DO NOT MAKE A NEW LIST EVERY TIME! LAzily initialize it and store it.
 	 * Make sure to add @SideOnly with Side.Client
@@ -87,7 +101,6 @@ public abstract class BoatPart {
 	@SideOnly(Side.CLIENT)
 	public abstract List<ModelRenderer> getRenderers(final ModelBase base);
 
-	public abstract int getPartConstructorID();
 	public static enum Type{
 		BOTTOM,
 		SIDE,
@@ -96,14 +109,18 @@ public abstract class BoatPart {
 
 	@RequiredArgsConstructor
 	public static enum Material{
-		WOOD("textures/entity/boat.png", new ItemStack(Blocks.planks)),
-		IRON("", new ItemStack(Items.iron_ingot)),//TODO
-		GLASS("", new ItemStack(Blocks.glass));//TODO
+		WOOD("textures/entity/boat.png", new ItemStack(Blocks.planks), 0, .85D),
+		IRON("", new ItemStack(Items.iron_ingot), 1, 1.2D),//TODO
+		GLASS("", new ItemStack(Blocks.glass), 0, .6D);//TODO
 
 		@Getter
 		private final String defaultResourceLocation;
 		@Getter
 		private final ItemStack itemRepresentation;
+		@Getter
+		private final int defaultComplexity;
+		@Getter
+		private final double defaultIntegrityFactor;
 
 	}
 
