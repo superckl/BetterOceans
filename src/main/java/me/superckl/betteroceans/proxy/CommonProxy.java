@@ -12,7 +12,7 @@ import me.superckl.betteroceans.common.handler.GenEventHandler;
 import me.superckl.betteroceans.common.handler.PlayerTickHandler;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.reference.NetworkData;
-import me.superckl.betteroceans.common.utility.ReflectionHelper;
+import me.superckl.betteroceans.common.utility.BOReflectionHelper;
 import me.superckl.betteroceans.network.MessagePartUpdate;
 import me.superckl.betteroceans.network.MessagePartUpdateHandler;
 import me.superckl.betteroceans.network.MessageSelectBoatPart;
@@ -56,12 +56,12 @@ public abstract class CommonProxy implements IProxy{
 
 	@Override
 	public void registerNetworkHandlers(){
-		ReflectionHelper.setFinalStatic(NetworkData.class, NetworkRegistry.INSTANCE.newSimpleChannel(NetworkData.PART_SELECT_CHANNEL_NAME),
-				true, "PART_SELECT_CHANNEL");
+		BOReflectionHelper.setPrivateFinalValue(NetworkData.class, null, NetworkRegistry.INSTANCE.newSimpleChannel(NetworkData.PART_SELECT_CHANNEL_NAME),
+				"PART_SELECT_CHANNEL");
 		NetworkData.PART_SELECT_CHANNEL.registerMessage(MessageSelectPartHandler.class,
 				MessageSelectBoatPart.class, 0, Side.SERVER);
-		ReflectionHelper.setFinalStatic(NetworkData.class, NetworkRegistry.INSTANCE.newSimpleChannel(NetworkData.UPDATE_PARTS_CHANNEL_NAME),
-				true, "UPDATE_PARTS_CHANNEL");
+		BOReflectionHelper.setPrivateFinalValue(NetworkData.class, null, NetworkRegistry.INSTANCE.newSimpleChannel(NetworkData.UPDATE_PARTS_CHANNEL_NAME),
+				"UPDATE_PARTS_CHANNEL");
 		NetworkData.UPDATE_PARTS_CHANNEL.registerMessage(MessagePartUpdateHandler.class, MessagePartUpdate.class, 0, Side.CLIENT);
 	}
 

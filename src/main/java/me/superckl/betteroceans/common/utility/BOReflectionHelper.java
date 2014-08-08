@@ -4,9 +4,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
-public class ReflectionHelper {
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 
-	public static boolean setFinalStatic(final Class<?> clazz, final Object toPut, final boolean coverTracks, final String ... names){
+public class BOReflectionHelper {
+
+	/*public static boolean setFinalStatic(final Class<?> clazz, final Object toPut, final boolean coverTracks, final String ... names){
 		try {
 			final Field toSet = ReflectionHelper.find(clazz, names);
 			if(toSet == null)
@@ -91,7 +94,43 @@ public class ReflectionHelper {
 				if(field.getName().equals(name))
 					return field;
 		return null;
+	}*/
+	
+	public static <T> Field removeFinal(Class <? super T > clazz, String... fieldNames)
+	{
+    	Field field = ReflectionHelper.findField(clazz, ObfuscationReflectionHelper.remapFieldNames(clazz.getName(), fieldNames));
+    	
+    	try
+    	{
+    		Field modifiersField = Field.class.getDeclaredField("modifiers");
+    		modifiersField.setAccessible(true);
+    		modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+    	}
+    	catch (Exception e)
+    	{
+    		e.printStackTrace();
+    	}
+    	
+    	return field;
 	}
+	
+    public static <T, E> void setPrivateFinalValue(Class <? super T > classToAccess, T instance, E value, String... fieldNames)
+    {
+    	Field field = ReflectionHelper.findField(classToAccess, ObfuscationReflectionHelper.remapFieldNames(classToAccess.getName(), fieldNames));
+    	
+    	try
+    	{
+    		Field modifiersField = Field.class.getDeclaredField("modifiers");
+    		modifiersField.setAccessible(true);
+    		modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+
+    		field.set(instance, value);
+    	}
+    	catch (Exception e)
+    	{
+    		e.printStackTrace();
+    	}
+    }
 
 	public static <T> Class<?>[] toClassArray(final T[] array){
 		final Class<?>[] classArray = new Class<?>[array.length];

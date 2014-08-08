@@ -1,44 +1,22 @@
-package me.superckl.betteroceans.common.gen;
+package me.superckl.betteroceans.common.gen.bop;
 
 import java.util.Random;
 
-import me.superckl.betteroceans.BetterOceans;
-import me.superckl.betteroceans.common.reference.ModData;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeDecorator;
-import net.minecraft.world.biome.BiomeGenBase;
+import biomesoplenty.api.biome.BOPBiome;
+import biomesoplenty.api.content.BOPCBiomes;
+import biomesoplenty.common.biome.overworld.ocean.BiomeGenKelpForest;
+import biomesoplenty.common.core.BOPBiomes;
 
-public class BiomeGenBetterOcean extends BiomeGenBase{
+public class BiomeGenKelpForestOverride extends BiomeGenKelpForest{
 
-	public BiomeGenBetterOcean(final int id) {
-		super(id); //The super constructor replaces the old gen in the biome array
-		this.setColor(112).setBiomeName(ModData.OCEAN_BIOME_NAME).setHeight(BiomeGenBase.height_Oceans);
-		this.spawnableCreatureList.clear();
-		this.topBlock = Blocks.sand;
-		this.fillerBlock = Blocks.sand;
-		this.rootHeight = -.8F;
-		this.heightVariation = .18F;
+	public BiomeGenKelpForestOverride() {
+		super(BOPCBiomes.kelpForest.biomeID);
 	}
-
-	@Override
-	public void decorate(final World world, final Random random, final int chunkX, final int chunkZ){
-		super.decorate(world, random, chunkX, chunkZ);
-	}
-
-	@Override
-	public BiomeDecorator createBiomeDecorator(){
-		return BetterOceans.getInstance().getConfig().isOtherDecoration() ? this.getModdedBiomeDecorator(new BiomeDecoratorBetterOcean()):new BiomeDecoratorBetterOcean();
-	}
-
-	@Override
-	public BiomeGenBase.TempCategory getTempCategory()
-	{
-		return BiomeGenBase.TempCategory.OCEAN;
-	}
-
+	
 	@Override
 	public void genTerrainBlocks(final World world, final Random random, final Block[] p_150560_3_, final byte[] p_150560_4_, final int p_150560_5_, final int p_150560_6_, final double p_150560_7_)
 	{

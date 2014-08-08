@@ -24,7 +24,7 @@ public class ConstructorWrapper<T> {
 	 */
 	public T newInstance(){
 		try {
-			return this.clazz.getDeclaredConstructor(ReflectionHelper.toClassArray(this.arguments)).newInstance(this.arguments);
+			return this.clazz.getDeclaredConstructor(BOReflectionHelper.toClassArray(this.arguments)).newInstance(this.arguments);
 		} catch (final Exception e) {
 			LogHelper.error("Failed to instantiate new part!");
 			e.printStackTrace();

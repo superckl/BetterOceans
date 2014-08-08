@@ -9,12 +9,13 @@ import lombok.Getter;
 import lombok.experimental.ExtensionMethod;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.utility.LogHelper;
-import me.superckl.betteroceans.common.utility.ReflectionHelper;
+import me.superckl.betteroceans.common.utility.BOReflectionHelper;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.client.config.IConfigElement;
 import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 
 @ExtensionMethod(LogHelper.class)
 public class Config {
@@ -83,7 +84,7 @@ public class Config {
 		for(final String cat:this.configFile.getCategoryNames())
 			elements.addAll(new ConfigElement(this.configFile.getCategory(cat)).getChildElements());
 		elements = Collections.unmodifiableList(elements);
-		ReflectionHelper.setFinalStatic(ModData.class, elements, true, "CONFIG_ELEMENTS");
+		BOReflectionHelper.setPrivateFinalValue(ModData.class, null, elements, "CONFIG_ELEMENTS");
 	}
 
 }
