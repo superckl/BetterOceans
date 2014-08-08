@@ -8,14 +8,13 @@ import java.util.List;
 import lombok.Getter;
 import lombok.experimental.ExtensionMethod;
 import me.superckl.betteroceans.common.reference.ModData;
-import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.BOReflectionHelper;
+import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.client.config.IConfigElement;
 import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 
 @ExtensionMethod(LogHelper.class)
 public class Config {

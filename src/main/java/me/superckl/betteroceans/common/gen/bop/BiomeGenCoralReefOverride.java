@@ -7,19 +7,20 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import biomesoplenty.api.content.BOPCBiomes;
-import biomesoplenty.common.biome.overworld.ocean.BiomeGenKelpForest;
+import biomesoplenty.common.biome.overworld.ocean.BiomeGenCoralReef;
 
-public class BiomeGenKelpForestOverride extends BiomeGenKelpForest{
+public class BiomeGenCoralReefOverride extends BiomeGenCoralReef{
 
-	public BiomeGenKelpForestOverride() {
-		super(BOPCBiomes.kelpForest.biomeID);
-		this.setBiomeName("Better Kelp Forest");
-		this.zoom = .1D;
-		this.threshold = .5D;
+	public BiomeGenCoralReefOverride() {
+		super(BOPCBiomes.coralReef.biomeID);
+		this.setBiomeName("Better Coral Reef");
 
-		this.theBiomeDecorator.bopFeatures.kelpPerChunk = 800;
-		this.theBiomeDecorator.bopFeatures.kelpThickPerChunk = 800;
-		this.theBiomeDecorator.bopFeatures.shortKelpPerChunk = 150;
+		this.zoom = 0.3D;
+		this.threshold = 0.23D;
+
+		this.theBiomeDecorator.bopFeatures.coralPerChunk = 250;
+		this.theBiomeDecorator.bopFeatures.shortKelpPerChunk = 80;
+		this.theBiomeDecorator.bopFeatures.generateSponge = true;
 		this.theBiomeDecorator.bopFeatures.seaweedPerChunk = 10;
 	}
 

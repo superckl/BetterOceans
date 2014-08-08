@@ -4,6 +4,8 @@ import java.util.List;
 
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.parts.BoatPart;
+import me.superckl.betteroceans.common.parts.BoatPart.Material;
+import me.superckl.betteroceans.common.parts.BoatPart.Type;
 import me.superckl.betteroceans.common.parts.PartBottom;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModTabs;
@@ -176,6 +178,24 @@ public class ItemBoatPart extends ItemBO{
 		} else
 			return 2;
 		return 0;
+	}
+
+	public static Material translateDamageToMaterial(final int damage){
+		if((damage & 8) == 8)
+			return Material.WOOD;
+		else if((damage & 16) == 16)
+			return Material.IRON;
+		return Material.WOOD;
+	}
+
+	public static Type translateDamageToType(final int damage){
+		if((damage & 1) == 1)
+			return Type.BOTTOM;
+		else if((damage & 2) == 2)
+			return Type.SIDE;
+		else if((damage & 4) == 4)
+			return Type.END;
+		return Type.BOTTOM;
 	}
 
 	@Override

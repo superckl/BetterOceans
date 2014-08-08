@@ -87,6 +87,10 @@ public abstract class BoatPart {
 		return true;
 	}
 
+	public String getNiceName(){
+		return this.getCraftingResult().getDisplayName();
+	}
+
 	/**
 	 * If this returns true, {@link #getRequiredTypesWithComplexities(Map) getRequiredTypesWithComplexities} will not be called and {@link #getRequiredComplexity() getRequiredComplexity} will.
 	 * The returned value will be compared to {@link EntityModularBoat#getOverallComplexity() getOverallComplexity}.
