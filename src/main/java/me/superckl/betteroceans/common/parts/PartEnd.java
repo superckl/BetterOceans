@@ -56,6 +56,13 @@ public abstract class PartEnd extends BoatPart{
 		return 2;
 	}
 
+	@Override
+	public void getRequiredTypesWithComplexities(final List<TypeRequirement> required) {
+		required.add(new TypeRequirement(Type.BOTTOM, this.getComplexity()));
+		required.add(new TypeRequirement(Type.SIDE, this.getComplexity()));
+		required.add(new TypeRequirement(Type.SIDE, this.getComplexity()));
+	}
+
 	public static class PartWoodenEnd extends PartEnd{
 
 		private static int frontID = BoatPart.registerPart(PartWoodenEnd.class, true);

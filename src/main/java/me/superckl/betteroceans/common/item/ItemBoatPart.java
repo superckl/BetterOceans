@@ -3,6 +3,7 @@ package me.superckl.betteroceans.common.item;
 import java.util.List;
 
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
+import me.superckl.betteroceans.common.parts.BoatPart;
 import me.superckl.betteroceans.common.parts.PartBottom;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModTabs;
@@ -52,9 +53,12 @@ public class ItemBoatPart extends ItemBO{
 			return;
 		if(e.entityPlayer.getHeldItem() == null || e.entityPlayer.getHeldItem().getItem() != this)
 			return;
-		if(((EntityBOBoat)e.target).addPart(((EntityBOBoat)e.target).translateItemDamageToPart(e.entityPlayer.getHeldItem().getItemDamage()))
-				&& !e.entityPlayer.capabilities.isCreativeMode)
-			e.entityPlayer.getHeldItem().stackSize--;
+		final BoatPart part = ((EntityBOBoat)e.target).translateItemDamageToPart(e.entityPlayer.getHeldItem().getItemDamage());
+		if(part != null && ((EntityBOBoat)e.target).addPart(part)){
+			if(!e.entityPlayer.capabilities.isCreativeMode)
+				e.entityPlayer.getHeldItem().stackSize--;
+			e.setCanceled(true);
+		}
 	}
 
 	/**
@@ -121,7 +125,7 @@ public class ItemBoatPart extends ItemBO{
 
 					final EntityBOBoat entityboat = new EntityBOBoat(world, i + 0.5F, j + 1.0F, k + 0.5F);
 					entityboat.rotationYaw = ((MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) - 1) * 90;
-					entityboat.getBoatParts().add(new PartBottom.PartWoodenBottom());
+					entityboat.addPart(new PartBottom.PartWoodenBottom(), false, true);
 
 					if (!world.getCollidingBoundingBoxes(entityboat, entityboat.boundingBox.expand(-0.1D, -0.1D, -0.1D)).isEmpty())
 						return stack;

@@ -8,6 +8,7 @@ import java.util.Random;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
+import me.superckl.betteroceans.common.entity.EntityModularBoat;
 import me.superckl.betteroceans.common.reference.BoatParts;
 import me.superckl.betteroceans.common.utility.ConstructorWrapper;
 import me.superckl.betteroceans.common.utility.LogHelper;
@@ -37,12 +38,12 @@ public abstract class BoatPart {
 
 	public static <T extends BoatPart> int registerPart(final Class<T> partClass, final Object ... arguments){
 		BoatPart.parts.put(BoatPart.nextID, new ConstructorWrapper<T>(partClass, arguments));
-		LogHelper.debug(StringHelper.build("Registered boat part ", partClass.getCanonicalName(), " with ID ", BoatPart.nextID));
+		LogHelper.info(StringHelper.build("Registered boat part ", partClass.getCanonicalName(), " with ID ", BoatPart.nextID));
 		return BoatPart.nextID++;
 	}
 
 	public static BoatPart deserialize(final int id){
-
+		LogHelper.info("deserialzing "+id+" to "+BoatPart.parts.get(id).newInstance().getType());
 		return BoatPart.parts.get(id).newInstance();
 	}
 
@@ -64,6 +65,13 @@ public abstract class BoatPart {
 	public abstract int getPartConstructorID();
 	public abstract boolean shouldDrop(final Random random);
 	/**
+	 * This method will not be called if {@link #useOverallComplexity() useOverallComplexity} returns true.
+	 * The check that must be run iterates through all parts and requirements, twice. If this method is not necessary, don't use it;
+	 * @param required The map to be filled with required {@link Type};
+	 */
+	public abstract void getRequiredTypesWithComplexities(final List<TypeRequirement> required);
+
+	/**
 	 * Used to determine if the boat will break upon impact. wooden parts have a modifier of .85.
 	 * @return
 	 */
@@ -74,6 +82,26 @@ public abstract class BoatPart {
 	public int getComplexity(){
 		return this.getMaterial().getDefaultComplexity();
 	}
+
+	public boolean affectsOverallComplexity(){
+		return true;
+	}
+
+	/**
+	 * If this returns true, {@link #getRequiredTypesWithComplexities(Map) getRequiredTypesWithComplexities} will not be called and {@link #getRequiredComplexity() getRequiredComplexity} will.
+	 * The returned value will be compared to {@link EntityModularBoat#getOverallComplexity() getOverallComplexity}.
+	 */
+	public boolean useOverallComplexity(){
+		return false;
+	}
+
+	/**
+	 * This method will only be called if {@link #useOverallComplexity() useOverallComplexity} returns true.
+	 */
+	public int getRequiredComplexity(){
+		return this.getComplexity();
+	}
+
 	public double getSpeedModifier(){
 		return 1D;
 	}
@@ -89,7 +117,7 @@ public abstract class BoatPart {
 	public EntityBOBoat getOnePartBoat(final World world){
 		if(this.entity == null){
 			this.entity = new EntityBOBoat(world);
-			this.entity.getBoatParts().add(this);
+			this.entity.addPart(this, false, true);
 		}
 		return this.entity;
 	}
@@ -109,9 +137,9 @@ public abstract class BoatPart {
 
 	@RequiredArgsConstructor
 	public static enum Material{
-		WOOD("textures/entity/boat.png", new ItemStack(Blocks.planks), 0, .85D),
-		IRON("", new ItemStack(Items.iron_ingot), 1, 1.2D),//TODO
-		GLASS("", new ItemStack(Blocks.glass), 0, .6D);//TODO
+		WOOD("textures/entity/boat.png", new ItemStack(Blocks.planks), 1, .85D),
+		IRON("", new ItemStack(Items.iron_ingot), 2, 1.2D),//TODO
+		GLASS("", new ItemStack(Blocks.glass), 1, .6D);//TODO
 
 		@Getter
 		private final String defaultResourceLocation;

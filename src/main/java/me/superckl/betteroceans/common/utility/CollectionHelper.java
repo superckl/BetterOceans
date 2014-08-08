@@ -19,4 +19,13 @@ public class CollectionHelper {
 		return -1;
 	}
 
+	public static <T> boolean isNull(final T[] array){
+		if(array == null)
+			return true;
+		for(final T t:array)
+			if(t != null)
+				return false;
+		return true;
+	}
+
 }

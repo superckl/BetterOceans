@@ -75,6 +75,21 @@ public abstract class PartBottom extends BoatPart{
 		return 1;
 	}
 
+	@Override
+	public boolean useOverallComplexity(){
+		return true;
+	}
+
+	@Override
+	public int getRequiredComplexity(){
+		return 0;
+	}
+
+	@Override
+	public void getRequiredTypesWithComplexities(final List<TypeRequirement> required){
+		throw new UnsupportedOperationException("This doesn't do anything!");
+	}
+
 
 	public static class PartWoodenBottom extends PartBottom{
 

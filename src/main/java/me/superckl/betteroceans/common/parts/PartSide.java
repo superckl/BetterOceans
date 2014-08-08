@@ -85,6 +85,12 @@ public abstract class PartSide extends BoatPart{
 		return 2;
 	}
 
+	@Override
+	public void getRequiredTypesWithComplexities(final List<TypeRequirement> required) {
+		required.add(new TypeRequirement(Type.BOTTOM, this.getComplexity()));
+
+	}
+
 	public static class PartWoodenSide extends PartSide{
 
 		private static int leftID = BoatPart.registerPart(PartWoodenSide.class, true);
@@ -121,10 +127,12 @@ public abstract class PartSide extends BoatPart{
 
 		@Override
 		public int getPartConstructorID() {
-			if(this.leftSide)
-				return PartWoodenSide.leftID;
-			return PartWoodenSide.rightID;
+			return this.leftSide ? PartWoodenSide.leftID:PartWoodenSide.rightID;
 		}
+
+
+
+
 
 	}
 

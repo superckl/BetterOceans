@@ -17,6 +17,7 @@ import me.superckl.betteroceans.common.parts.PartEnd;
 import me.superckl.betteroceans.common.parts.PartSide;
 import me.superckl.betteroceans.common.reference.NetworkData;
 import me.superckl.betteroceans.common.utility.BoatHelper;
+import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.network.MessagePartUpdate;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -615,11 +616,6 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 		return BoatHelper.hasParts(this, Type.BOTTOM, Type.SIDE, Type.SIDE, Type.END, Type.END);
 	}
 
-	@Override
-	public boolean addPart(final BoatPart part) {
-		return this.addPart(part, false); //TODO do other check
-	}
-
 	public BoatPart translateItemDamageToPart(final int damage){
 		if((damage & 1) == 1){
 			if((damage & 8) == 8)
@@ -644,18 +640,41 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 		return null;
 	}
 
-	private boolean addPart(final BoatPart part, final boolean skipCheck){
-		if(skipCheck){
-			this.boatParts.add(part);
-			return true;
-		}
-		final Type[] types = new Type[part.getMaxNumberOnBoat()];
-		Arrays.fill(types, part.getType());
-		if(BoatHelper.hasParts(this, types))
+	@Override
+	public boolean addPart(final BoatPart part) {
+		return this.addPart(part, true); //TODO do other check
+	}
+
+	/**
+	 * @param syncClient This should never be true on client worlds. The method, however, checks for remote worlds.
+	 */
+	public boolean addPart(final BoatPart part, final boolean syncClient){
+		return this.addPart(part, syncClient, false);
+	}
+
+	/**
+	 * @param syncClient This should never be true on client worlds. The method, however, checks for remote worlds.
+	 */
+	public boolean addPart(final BoatPart part, final boolean syncClient, final boolean skipCheck){
+		if(part == null)
 			return false;
+		if (!skipCheck) {
+			final Type[] types = new Type[part.getMaxNumberOnBoat()];
+			Arrays.fill(types, part.getType());
+			if (BoatHelper.hasParts(this, types))
+				return false;
+			if(part.useOverallComplexity()){
+				if(part.getRequiredComplexity() > this.getOverallComplexity())
+					return false;
+			}else if(!BoatHelper.areRequirementsSatisfied(part, this))
+				return false;
+		}
 		this.boatParts.add(part);
-		if(!this.worldObj.isRemote)
+		LogHelper.info("Added part "+part.getType());
+		if(syncClient && !this.worldObj.isRemote){
 			this.syncParts();
+			LogHelper.info("synced");
+		}
 		return true;
 	}
 
