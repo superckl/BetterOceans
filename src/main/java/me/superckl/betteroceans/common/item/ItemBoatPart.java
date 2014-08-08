@@ -37,6 +37,7 @@ public class ItemBoatPart extends ItemBO{
 	 *
 	 * Materials:
 	 * 8 - Wood
+	 * 16- iron
 	 */
 
 	public ItemBoatPart() {

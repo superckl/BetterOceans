@@ -31,7 +31,9 @@ public class RenderTickHandler{
 	public void onRenderTick(final RenderGameOverlayEvent.Text e){
 		//Depth Sounder
 		if(this.mc.thePlayer != null && this.mc.thePlayer.getHeldItem() != null && this.mc.thePlayer.getHeldItem().getItem() == ModItems.depthSounder){
-			final int x = (int) Math.floor(this.mc.thePlayer.posX); int y = (int) Math.floor(this.mc.thePlayer.posY)-1; final int z = (int) Math.floor(this.mc.thePlayer.posZ);
+			final int x = (int) Math.floor(this.mc.thePlayer.posX);
+			int y = (int) Math.floor(this.mc.thePlayer.posY)-1;
+			final int z = (int) Math.floor(this.mc.thePlayer.posZ);
 			Fluid fluid = FluidRegistry.lookupFluidForBlock(this.mc.thePlayer.worldObj.getBlock(x, y, z));
 			if(fluid == null && this.mc.thePlayer.ridingEntity != null){
 				y = (int) Math.floor(this.mc.thePlayer.ridingEntity.posY);

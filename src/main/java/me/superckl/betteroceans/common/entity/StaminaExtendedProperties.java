@@ -34,6 +34,8 @@ public class StaminaExtendedProperties implements IExtendedEntityProperties{
 	}
 
 	public void playerTick(){
+		if(this.player.capabilities.isCreativeMode)
+			return;
 		if(this.player.isInWater() && this.player.motionY != -0.02D)
 			this.swimTick();
 		else

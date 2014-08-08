@@ -16,7 +16,7 @@ public abstract class ItemBO extends Item{
 	}
 
 	protected String getUnwrappedUnlocalizedName(final String unlocalizedName, final int damage){
-		return unlocalizedName.substring(unlocalizedName.indexOf(".")+1).concat(":").concat(this.isNameDamageReliant() ? Integer.toString(damage):"");
+		return unlocalizedName.substring(unlocalizedName.indexOf(".")+1).concat(this.isNameDamageReliant() ? Integer.toString(damage).concat(":"):"");
 	}
 
 	protected boolean isNameDamageReliant(){

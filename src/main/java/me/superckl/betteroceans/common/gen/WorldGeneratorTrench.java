@@ -94,6 +94,7 @@ public class WorldGeneratorTrench implements IWorldGenerator{
 		}
 	}*/
 
+	//TODO taper ends
 	@Override
 	public void generate(final Random random, final int chunkX, final int chunkZ, final World world,
 			final IChunkProvider chunkGenerator, final IChunkProvider chunkProvider) {
@@ -103,7 +104,7 @@ public class WorldGeneratorTrench implements IWorldGenerator{
 			return;
 		if(BlockHelper.getMinHeightInChunk(world, chunkX, chunkZ, Blocks.water) < 15)
 			return; //We aren't generating a trench in that shallow water...
-		if(BiomeHelper.distanceToNearestNonOcean(world, chunkX, chunkZ, 5) < 5)
+		if(BiomeHelper.distanceToNearestNonOcean(world, chunkX, chunkZ, 7) < 7)
 			return; //To close to shore;
 		if(random.nextInt(50) != 0) //200
 			return;
@@ -128,7 +129,7 @@ public class WorldGeneratorTrench implements IWorldGenerator{
 				offsetYCounter = Math.max(5, random.nextInt(30));
 			}
 			if(ledgeWidthCounter <= 0){
-				ledgeWidth = random.nextInt(3)+1;
+				ledgeWidth = random.nextInt(4)+2;
 				ledgeWidthCounter = Math.max(5, random.nextInt(30));
 			}
 			if(genAcrossX){
@@ -207,10 +208,10 @@ public class WorldGeneratorTrench implements IWorldGenerator{
 							y = world.getTopSolidOrLiquidBlock(ledgeX, ledgeZ+nudge+j);
 						for(int k = from0+ledgeHeights[currentLedge]+sum; k < y; k++)
 							if(genAcrossX)
-								world.setBlock(ledgeX+j, k, ledgeZ,
+								world.setBlock(ledgeX+nudge+j, k, ledgeZ,
 										world.getBlock(ledgeX+nudge+j, k, ledgeZ) == Blocks.air ? Blocks.air:Blocks.water);
 							else
-								world.setBlock(ledgeX, k, ledgeZ+j,
+								world.setBlock(ledgeX, k, ledgeZ+nudge+j,
 										world.getBlock(ledgeX, k, ledgeZ+nudge+j) == Blocks.air ? Blocks.air:Blocks.water);
 					}
 				}

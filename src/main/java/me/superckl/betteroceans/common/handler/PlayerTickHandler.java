@@ -23,9 +23,11 @@ public class PlayerTickHandler {
 			((StaminaExtendedProperties)e.player.getExtendedProperties("swimStamina")).playerTick();
 		}else if(e.phase == Phase.START && e.side == Side.CLIENT)
 			if(((StaminaExtendedProperties)e.player.getExtendedProperties("swimStamina")).isExhausted()){
-				e.player.motionX*=.25;
-				e.player.motionZ*=.25;
-				e.player.motionY-=0.03999999910593033D; //Jump boost factor in water
+				if (!e.player.capabilities.isFlying) {
+					e.player.motionX *= .25;
+					e.player.motionZ *= .25;
+					e.player.motionY -= 0.03999999910593033D; //Jump boost factor in water
+				}
 				//e.player.capabilities.setFlySpeed(0F);
 				//e.player.capabilities.setPlayerWalkSpeed(0F);
 				this.wasExhausted = true;
