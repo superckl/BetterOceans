@@ -49,9 +49,9 @@ public class WorldGeneratorSeaweed implements IWorldGenerator{
 				toStack = (int) Math.round(random.nextDouble()*maxStack);
 			final int height = toStack+1;
 			int startY = newY;
-			world.setBlock(newX, startY, newZ, ModBlocks.seaweed, BlockSeaweed.getMetaFor(height, 0), 1 & 2);
+			world.setBlock(newX, startY, newZ, ModBlocks.seaweed, BlockSeaweed.getMetaFor(height, 0), 1 + 2);
 			while(toStack > 0){
-				world.setBlock(newX, ++startY, newZ, ModBlocks.seaweed, BlockSeaweed.getMetaFor(height, height-toStack), 1 & 2);
+				world.setBlock(newX, ++startY, newZ, ModBlocks.seaweed, BlockSeaweed.getMetaFor(height, height-toStack), 1 + 2);
 				toStack--;
 			}
 		}

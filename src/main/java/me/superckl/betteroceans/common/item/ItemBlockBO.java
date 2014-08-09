@@ -22,4 +22,5 @@ public abstract class ItemBlockBO extends ItemBlock{
 	protected boolean isNameDamageReliant(){
 		return false;
 	}
+
 }

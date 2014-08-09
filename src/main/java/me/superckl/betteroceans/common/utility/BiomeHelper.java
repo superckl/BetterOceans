@@ -1,14 +1,17 @@
 package me.superckl.betteroceans.common.utility;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.common.gen.BiomeGenBetterDeepOcean;
 import me.superckl.betteroceans.common.gen.BiomeGenBetterOcean;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
 
 public class BiomeHelper {
+
+	public static final List<Integer> oceanBiomeIDs = new ArrayList<Integer>();
 
 	public static final void replaceOceanBiomes(){
 		if(!BetterOceans.getInstance().getConfig().isOverrideOcean()){
@@ -17,28 +20,30 @@ public class BiomeHelper {
 		}
 		final BiomeGenBetterOcean boO = new BiomeGenBetterOcean(BiomeGenBase.ocean.biomeID);
 		final BiomeGenBetterDeepOcean boDO = new BiomeGenBetterDeepOcean(BiomeGenBase.deepOcean.biomeID);
-		BiomeGenBase.getBiomeGenArray()[BiomeGenBase.ocean.biomeID] = boO;
-		BiomeGenBase.getBiomeGenArray()[BiomeGenBase.deepOcean.biomeID] = boDO;
-		BiomeDictionary.registerBiomeType(boO, Type.OCEAN);
-		BiomeDictionary.registerBiomeType(boDO, Type.OCEAN);
 		BOReflectionHelper.setPrivateFinalValue(BiomeGenBase.class, null, boO, "ocean");
 		BOReflectionHelper.setPrivateFinalValue(BiomeGenBase.class, null, boDO, "deepOcean");
+		BiomeHelper.oceanBiomeIDs.add(boO.biomeID);
+		BiomeHelper.oceanBiomeIDs.add(boDO.biomeID);
 		LogHelper.debug("Succesfully replaced Ocean biomes!");
-		/*if(!ReflectionHelper.setFinalStatic(BiomeGenBase.class, boO, true, "ocean", "field_76771_b"))
-				LogHelper.fatal("Failed to override ocean biome! Loading worlds generated with Better Oceans may have unpredictable results!");
-			else
-				BiomeGenBase.getBiomeGenArray()[boO.biomeID] = boO;
-			if(!ReflectionHelper.setFinalStatic(BiomeGenBase.class, boDO, true, "deepOcean", "field_150575_M"))
-				LogHelper.fatal("Failed to override deep ocean biome! Loading worlds generated with Better Oceans may have unpredictable results!");
-			else
-				BiomeGenBase.getBiomeGenArray()[boDO.biomeID] = boDO;*/
 	}
 
-	public static boolean isOcean(final World world, final int chunkX, final int chunkZ){
+	public static boolean isOcean(final World world, final int chunkX, final int chunkZ, final int ... additions){
 		final int baseX = chunkX << 4; final int baseZ = chunkZ << 4;
 		for(int i = 0; i < 16; i++){
 			final int id = world.getBiomeGenForCoords(baseX+i, baseZ+i).biomeID;
-			if(id != BiomeGenBase.ocean.biomeID && id != BiomeGenBase.deepOcean.biomeID)
+			boolean match = false;
+			for(final Integer integ:BiomeHelper.oceanBiomeIDs)
+				if(id == integ.intValue()){
+					match = true;
+					break;
+				}
+			if(!match)
+				for(final int j:additions)
+					if(id == j){
+						match = true;
+						break;
+					}
+			if(!match)
 				return false;
 		}
 		return true;

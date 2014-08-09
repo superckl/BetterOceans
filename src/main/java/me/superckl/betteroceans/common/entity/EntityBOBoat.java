@@ -140,7 +140,7 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 			this.setBeenAttacked();
 			final boolean flag = source.getEntity() instanceof EntityPlayer && ((EntityPlayer)source.getEntity()).capabilities.isCreativeMode;
 
-			if (flag || this.getDamageTaken() > 40.0F)
+			if (flag || this.getDamageTaken() > 40.0F*Math.max(BoatHelper.compoundIntegrityFactors(this), 0.8F))
 			{
 				if (this.riddenByEntity != null)
 					this.riddenByEntity.mountEntity(this);

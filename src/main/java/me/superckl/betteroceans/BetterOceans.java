@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.superckl.betteroceans.common.reference.BoatParts;
 import me.superckl.betteroceans.common.reference.ModBlocks;
 import me.superckl.betteroceans.common.reference.ModData;
+import me.superckl.betteroceans.common.reference.ModFluids;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.utility.BiomeHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
@@ -38,6 +39,7 @@ public class BetterOceans {
 		BetterOceans.proxy.registerNetworkHandlers();
 		ModItems.init();
 		ModBlocks.init();
+		ModFluids.init();
 		BetterOceans.proxy.registerWorldGenerators();
 		BetterOceans.proxy.registerEntities();
 		BetterOceans.proxy.registerRenderers();

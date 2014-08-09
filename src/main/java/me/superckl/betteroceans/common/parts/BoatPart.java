@@ -38,12 +38,11 @@ public abstract class BoatPart {
 
 	public static <T extends BoatPart> int registerPart(final Class<T> partClass, final Object ... arguments){
 		BoatPart.parts.put(BoatPart.nextID, new ConstructorWrapper<T>(partClass, arguments));
-		LogHelper.info(StringHelper.build("Registered boat part ", partClass.getCanonicalName(), " with ID ", BoatPart.nextID));
+		LogHelper.debug(StringHelper.build("Registered boat part ", partClass.getCanonicalName(), " with ID ", BoatPart.nextID));
 		return BoatPart.nextID++;
 	}
 
 	public static BoatPart deserialize(final int id){
-		LogHelper.info("deserialzing "+id+" to "+BoatPart.parts.get(id).newInstance().getType());
 		return BoatPart.parts.get(id).newInstance();
 	}
 

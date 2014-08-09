@@ -6,6 +6,7 @@ import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatWorkbench;
 import me.superckl.betteroceans.common.gen.WorldGeneratorSeaweed;
 import me.superckl.betteroceans.common.gen.WorldGeneratorTrench;
+import me.superckl.betteroceans.common.handler.BucketEventHandler;
 import me.superckl.betteroceans.common.handler.EntityEventHandler;
 import me.superckl.betteroceans.common.handler.FuelHandler;
 import me.superckl.betteroceans.common.handler.GenEventHandler;
@@ -42,6 +43,7 @@ public abstract class CommonProxy implements IProxy{
 		MinecraftForge.TERRAIN_GEN_BUS.register(new GenEventHandler());
 		MinecraftForge.EVENT_BUS.register(ModItems.boatPart);
 		MinecraftForge.EVENT_BUS.register(new EntityEventHandler());
+		MinecraftForge.EVENT_BUS.register(new BucketEventHandler());
 		GameRegistry.registerFuelHandler(new FuelHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(BetterOceans.getInstance(), new GuiHandlerBetterOceans());
 		FMLCommonHandler.instance().bus().register(new PlayerTickHandler());

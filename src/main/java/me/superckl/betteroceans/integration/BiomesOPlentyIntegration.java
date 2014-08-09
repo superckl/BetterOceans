@@ -8,6 +8,7 @@ import me.superckl.betteroceans.Config;
 import me.superckl.betteroceans.common.gen.bop.BiomeGenCoralReefOverride;
 import me.superckl.betteroceans.common.gen.bop.BiomeGenKelpForestOverride;
 import me.superckl.betteroceans.common.reference.ModItems;
+import me.superckl.betteroceans.common.utility.BiomeHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
 import net.minecraft.item.ItemStack;
@@ -37,9 +38,11 @@ public class BiomesOPlentyIntegration{
 			while(lit.hasNext())
 				if((entry = lit.next()).biome.biomeID == kelp.biomeID){
 					lit.set(new BiomeEntry(kelp, entry.itemWeight));
+					BiomeHelper.oceanBiomeIDs.add(kelp.biomeID);
 					LogHelper.debug("Extended Kelp Forest...");
 				}else if(entry.biome.biomeID == coral.biomeID){
 					lit.set(new BiomeEntry(coral, entry.itemWeight));
+					BiomeHelper.oceanBiomeIDs.add(coral.biomeID);
 					LogHelper.debug("Extended Coral Reef...");
 				}
 		}
