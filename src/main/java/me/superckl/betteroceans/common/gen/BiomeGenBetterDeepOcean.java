@@ -4,8 +4,6 @@ import java.util.Random;
 
 import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.common.reference.ModData;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeDecorator;
@@ -18,9 +16,8 @@ public class BiomeGenBetterDeepOcean extends BiomeGenBase{
 		this.setColor(48).setBiomeName(ModData.DEEP_OCEAN_BIOME_NAME).setHeight(BiomeGenBase.height_DeepOceans);
 		this.spawnableCreatureList.clear();
 		this.topBlock = Blocks.sand;
-		this.fillerBlock = Blocks.sand;
-		this.rootHeight = -1.2F;
-		this.heightVariation = 0.27F;
+		this.rootHeight = -1.6F;
+		this.heightVariation = 0.29F;
 	}
 
 	@Override
@@ -39,7 +36,7 @@ public class BiomeGenBetterDeepOcean extends BiomeGenBase{
 		return BiomeGenBase.TempCategory.OCEAN;
 	}
 
-	@Override
+	/*	@Override
 	public void genTerrainBlocks(final World world, final Random random, final Block[] p_150560_3_, final byte[] p_150560_4_, final int p_150560_5_, final int p_150560_6_, final double p_150560_7_)
 	{
 		Block block = this.topBlock;
@@ -121,6 +118,6 @@ public class BiomeGenBetterDeepOcean extends BiomeGenBase{
 					k = -1;
 			}
 		}
-	}
+	}*/
 
 }

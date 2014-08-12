@@ -5,7 +5,7 @@ import java.util.List;
 
 import cpw.mods.fml.client.config.IConfigElement;
 
-public class ModData {
+public abstract class ModData {
 
 	public static final String MOD_ID = "BetterOceans";
 	public static final String MOD_NAME = "Better Oceans";

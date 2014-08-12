@@ -7,9 +7,10 @@ import me.superckl.betteroceans.common.fluid.block.BlockFluidSeaweedOil;
 import me.superckl.betteroceans.common.item.ItemBlockBoatWorkbench;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.GameRegistry.ObjectHolder;
 
-//@ObjectHolder(ModData.MOD_ID)
-public class ModBlocks {
+@ObjectHolder(ModData.MOD_ID)
+public abstract class ModBlocks {
 
 	public static final BlockSeaweed seaweed = new BlockSeaweed();
 	public static final BlockBoatWorkbench basicBoatWorkbench = new BlockBoatWorkbench();

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.common.reference.ModData;
+import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -17,9 +18,7 @@ public class BiomeGenBetterOcean extends BiomeGenBase{
 		super(id); //The super constructor replaces the old gen in the biome array
 		this.setColor(112).setBiomeName(ModData.OCEAN_BIOME_NAME).setHeight(BiomeGenBase.height_Oceans);
 		this.spawnableCreatureList.clear();
-		this.topBlock = Blocks.sand;
-		this.fillerBlock = Blocks.sand;
-		this.rootHeight = -.8F;
+		this.rootHeight = -1.2F;
 		this.heightVariation = .18F;
 	}
 
@@ -42,6 +41,7 @@ public class BiomeGenBetterOcean extends BiomeGenBase{
 	@Override
 	public void genTerrainBlocks(final World world, final Random random, final Block[] p_150560_3_, final byte[] p_150560_4_, final int p_150560_5_, final int p_150560_6_, final double p_150560_7_)
 	{
+		//LogHelper.info("gen");
 		Block block = this.topBlock;
 		byte b0 = (byte)(this.field_150604_aj & 255);
 		Block block1 = this.fillerBlock;
@@ -87,7 +87,8 @@ public class BiomeGenBetterOcean extends BiomeGenBase{
 								}
 								else
 								{
-									block = Blocks.water;
+									LogHelper.info("ran");
+									block = Blocks.glass;
 									b0 = 0;
 								}
 

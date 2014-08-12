@@ -3,7 +3,7 @@ package me.superckl.betteroceans.common.reference;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
-public class NetworkData {
+public abstract class NetworkData {
 
 	//TODO change to parts
 

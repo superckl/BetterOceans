@@ -13,7 +13,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.ObjectHolder;
 
 @ObjectHolder(ModData.MOD_ID)
-public class ModItems {
+public abstract class ModItems {
 
 	public static final ItemSeaweed itemSeaweed = new ItemSeaweed();
 	public static final ItemCookedSeaweed cookedSeaweed = new ItemCookedSeaweed();

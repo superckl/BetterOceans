@@ -5,7 +5,7 @@ import me.superckl.betteroceans.common.parts.PartBottom;
 import me.superckl.betteroceans.common.parts.PartEnd;
 import me.superckl.betteroceans.common.parts.PartSide;
 
-public class BoatParts {
+public abstract class BoatParts {
 
 	//These are just for reference, don't use them for boats. make new ones
 

@@ -12,7 +12,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ModFluids {
+public abstract class ModFluids {
 
 	public static final FluidSaltWater saltWater = new FluidSaltWater("salt_water");
 	public static final FluidSeaweedOil seaweedOil = new FluidSeaweedOil("seaweed_oil");

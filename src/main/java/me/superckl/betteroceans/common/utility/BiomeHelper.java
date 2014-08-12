@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.superckl.betteroceans.BetterOceans;
+import me.superckl.betteroceans.asm.ClassTransformer;
 import me.superckl.betteroceans.common.gen.BiomeGenBetterDeepOcean;
 import me.superckl.betteroceans.common.gen.BiomeGenBetterOcean;
 import net.minecraft.world.World;
@@ -20,8 +21,8 @@ public class BiomeHelper {
 		}
 		final BiomeGenBetterOcean boO = new BiomeGenBetterOcean(BiomeGenBase.ocean.biomeID);
 		final BiomeGenBetterDeepOcean boDO = new BiomeGenBetterDeepOcean(BiomeGenBase.deepOcean.biomeID);
-		BOReflectionHelper.setPrivateFinalValue(BiomeGenBase.class, null, boO, "ocean");
-		BOReflectionHelper.setPrivateFinalValue(BiomeGenBase.class, null, boDO, "deepOcean");
+		BOReflectionHelper.setPrivateFinalValue(BiomeGenBase.class, null, boO, ClassTransformer.field_ocean);
+		BOReflectionHelper.setPrivateFinalValue(BiomeGenBase.class, null, boDO, ClassTransformer.field_deepOcean);
 		BiomeHelper.oceanBiomeIDs.add(boO.biomeID);
 		BiomeHelper.oceanBiomeIDs.add(boDO.biomeID);
 		LogHelper.debug("Succesfully replaced Ocean biomes!");

@@ -5,7 +5,7 @@ import net.minecraft.item.Item;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ModTabs{
+public abstract class ModTabs{
 
 	public static final CreativeTabs tabBlocks = new CreativeTabs(ModData.MOD_ID+":blocks") {
 
