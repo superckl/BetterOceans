@@ -7,6 +7,9 @@ import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.asm.ClassTransformer;
 import me.superckl.betteroceans.common.gen.BiomeGenBetterDeepOcean;
 import me.superckl.betteroceans.common.gen.BiomeGenBetterOcean;
+import me.superckl.betteroceans.common.reference.ModBlocks;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
@@ -30,34 +33,35 @@ public class BiomeHelper {
 
 	public static boolean isOcean(final World world, final int chunkX, final int chunkZ, final int ... additions){
 		final int baseX = chunkX << 4; final int baseZ = chunkZ << 4;
-		for(int i = 0; i < 16; i++){
-			final int id = world.getBiomeGenForCoords(baseX+i, baseZ+i).biomeID;
-			boolean match = false;
-			for(final Integer integ:BiomeHelper.oceanBiomeIDs)
-				if(id == integ.intValue()){
-					match = true;
-					break;
-				}
-			if(!match)
-				for(final int j:additions)
-					if(id == j){
-						match = true;
-						break;
-					}
-			if(!match)
-				return false;
-		}
+		for(int i = 0; i < 16; i++)
+			for(int j = 0; j < 16; j++)
+				if(!BiomeHelper.isOceanPrecise(world, baseX+i, baseZ+j, additions))
+					return false;
 		return true;
+	}
+
+	public static boolean isOceanPrecise(final World world, final int x, final int z, final int ... additions){
+		final int id = world.getBiomeGenForCoords(x, z).biomeID;
+		for(final Integer integ:BiomeHelper.oceanBiomeIDs)
+			if(id == integ.intValue())
+				return true;
+		for(final int j:additions)
+			if(id == j)
+				return true;
+		return false;
 	}
 
 	public static boolean isBeach(final World world, final int chunkX, final int chunkZ){
 		final int baseX = chunkX << 4; final int baseZ = chunkZ << 4;
-		for(int i = 0; i < 16; i++){
-			final int id = world.getBiomeGenForCoords(baseX+i, baseZ+i).biomeID;
-			if(id != BiomeGenBase.beach.biomeID)
-				return false;
-		}
+		for(int i = 0; i < 16; i++)
+			for(int j = 0; j < 16; j++)
+				if(!BiomeHelper.isBeachPrecise(world, baseX+i, baseZ+j))
+					return false;
 		return true;
+	}
+
+	public static boolean isBeachPrecise(final World world, final int x, final int z){
+		return world.getBiomeGenForCoords(x, z).biomeID == BiomeGenBase.beach.biomeID;
 	}
 
 	public static int distanceToNearestNonOcean(final World world, final int chunkX, final int chunkZ, final int cap){
@@ -81,6 +85,28 @@ public class BiomeHelper {
 					return i;
 		}
 		return cap;
+	}
+
+	public static boolean isWaterSalineAt(final World world, final int x, final int z){
+		return BiomeHelper.isOceanPrecise(world, x, z) || BiomeHelper.isBeachPrecise(world, x, z);
+	}
+
+	public static Block getWaterBlockFor(final World world, final int x, final int z){
+		return BiomeHelper.isWaterSalineAt(world, x, z) ? ModBlocks.saltWater:Blocks.water;
+	}
+
+	public static Block getWaterBlockFor(final World world, int blockArrayIndex, final int chunkX, final int chunkZ){
+		blockArrayIndex /= 256;
+		final int z = blockArrayIndex / 16;
+		final int x = blockArrayIndex % 16;
+		return BiomeHelper.getWaterBlockFor(world, x+(chunkX << 4), z+(chunkZ << 4));
+	}
+
+	public static Block getWaterBlockFor(final BiomeGenBase biome){
+		for(final Integer i:BiomeHelper.oceanBiomeIDs)
+			if(i.intValue() == biome.biomeID)
+				return ModBlocks.saltWater;
+		return biome.biomeID == BiomeGenBase.beach.biomeID ? ModBlocks.saltWater:Blocks.water;
 	}
 
 }

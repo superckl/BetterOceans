@@ -2,33 +2,44 @@ package me.superckl.betteroceans.common.fluid.block;
 
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
+import me.superckl.betteroceans.BetterOceans;
+import me.superckl.betteroceans.common.reference.ModData;
+import me.superckl.betteroceans.common.reference.ModFluids;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockFluidSaltWater extends BlockFluidClassic{
+public class BlockFluidSaltWater extends BlockBOFluidClassic{
 
 	public BlockFluidSaltWater(final Fluid fluid, final Material material) {
 		super(fluid, material);
 		this.setBlockName("saltwater");
 	}
 
-	/*@Override
+	@Override
 	public IIcon getIcon(final int side, final int meta)
 	{
-		return side != 0 && side != 1 ? Blocks.flowing_water.getIcon(side, meta) : Blocks.water.getIcon(side, meta);
-	}*/
-	
+		return side != 0 && side != 1 ? this.icons[1]:this.icons[0];
+	}
+
+	private final IIcon[] icons = new IIcon[2];
+
 	@Override
-	public void updateTick(World world, int x, int y, int z, Random random){
+	public void registerBlockIcons(final IIconRegister register) {
+		this.icons[0] = register.registerIcon(ModData.MOD_ID+":saltwater_still");
+		this.icons[1] = register.registerIcon(ModData.MOD_ID+":saltwater_flow");
+		ModFluids.saltWater.setIcons(this.icons[0], this.icons[1]);
+	}
+
+	//Emulate infinite water
+	@Override
+	public void updateTick(final World world, final int x, final int y, final int z, final Random random){
 		super.updateTick(world, x, y, z, random);
-		if(world.getBlockMetadata(x, y, z) == 0)
+		if(!BetterOceans.getInstance().getConfig().isInfiniteSaltwater() || world.getBlockMetadata(x, y, z) == 0)
 			return;
 		int sources = 0;
 		if(world.getBlock(x+1, y, z) == this && world.getBlockMetadata(x+1, y, z) == 0)
@@ -39,134 +50,106 @@ public class BlockFluidSaltWater extends BlockFluidClassic{
 			sources++;
 		if(world.getBlock(x+1, y, z) == this && world.getBlockMetadata(x+1, y, z) == 0)
 			sources++;
+		if(sources >= 2)
+			world.setBlockMetadataWithNotify(x, y, z, 0, 1 + 2);
 	}
-	
+
 	//Emulate vanilla water particles
 	@Override
-    @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random random)
-    {
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(final World world, final int x, final int y, final int z, final Random random)
+	{
 		super.randomDisplayTick(world, x, y, z, random);
-        int l;
+		int l;
 
-        if (this.blockMaterial == Material.water)
-        {
-            if (random.nextInt(10) == 0)
-            {
-                l = world.getBlockMetadata(x, y, z);
+		if (this.blockMaterial == Material.water)
+		{
+			if (random.nextInt(10) == 0)
+			{
+				l = world.getBlockMetadata(x, y, z);
 
-                if (l <= 0 || l >= 8)
-                {
-                    world.spawnParticle("suspended", (double)((float)x + random.nextFloat()), (double)((float)y + random.nextFloat()), (double)((float)z + random.nextFloat()), 0.0D, 0.0D, 0.0D);
-                }
-            }
+				if (l <= 0 || l >= 8)
+					world.spawnParticle("suspended", x + random.nextFloat(), y + random.nextFloat(), z + random.nextFloat(), 0.0D, 0.0D, 0.0D);
+			}
 
-            for (l = 0; l < 0; ++l)
-            {
-                int i1 = random.nextInt(4);
-                int j1 = x;
-                int k1 = z;
+			for (l = 0; l < 0; ++l)
+			{
+				final int i1 = random.nextInt(4);
+				int j1 = x;
+				int k1 = z;
 
-                if (i1 == 0)
-                {
-                    j1 = x - 1;
-                }
+				if (i1 == 0)
+					j1 = x - 1;
 
-                if (i1 == 1)
-                {
-                    ++j1;
-                }
+				if (i1 == 1)
+					++j1;
 
-                if (i1 == 2)
-                {
-                    k1 = z - 1;
-                }
+				if (i1 == 2)
+					k1 = z - 1;
 
-                if (i1 == 3)
-                {
-                    ++k1;
-                }
+				if (i1 == 3)
+					++k1;
 
-                if (world.getBlock(j1, y, k1).getMaterial() == Material.air && (world.getBlock(j1, y - 1, k1).getMaterial().blocksMovement() || world.getBlock(j1, y - 1, k1).getMaterial().isLiquid()))
-                {
-                    float f = 0.0625F;
-                    double d0 = (double)((float)x + random.nextFloat());
-                    double d1 = (double)((float)y + random.nextFloat());
-                    double d2 = (double)((float)z + random.nextFloat());
+				if (world.getBlock(j1, y, k1).getMaterial() == Material.air && (world.getBlock(j1, y - 1, k1).getMaterial().blocksMovement() || world.getBlock(j1, y - 1, k1).getMaterial().isLiquid()))
+				{
+					final float f = 0.0625F;
+					double d0 = x + random.nextFloat();
+					final double d1 = y + random.nextFloat();
+					double d2 = z + random.nextFloat();
 
-                    if (i1 == 0)
-                    {
-                        d0 = (double)((float)x - f);
-                    }
+					if (i1 == 0)
+						d0 = x - f;
 
-                    if (i1 == 1)
-                    {
-                        d0 = (double)((float)(x + 1) + f);
-                    }
+					if (i1 == 1)
+						d0 = x + 1 + f;
 
-                    if (i1 == 2)
-                    {
-                        d2 = (double)((float)z - f);
-                    }
+					if (i1 == 2)
+						d2 = z - f;
 
-                    if (i1 == 3)
-                    {
-                        d2 = (double)((float)(z + 1) + f);
-                    }
+					if (i1 == 3)
+						d2 = z + 1 + f;
 
-                    double d3 = 0.0D;
-                    double d4 = 0.0D;
+					double d3 = 0.0D;
+					double d4 = 0.0D;
 
-                    if (i1 == 0)
-                    {
-                        d3 = (double)(-f);
-                    }
+					if (i1 == 0)
+						d3 = -f;
 
-                    if (i1 == 1)
-                    {
-                        d3 = (double)f;
-                    }
+					if (i1 == 1)
+						d3 = f;
 
-                    if (i1 == 2)
-                    {
-                        d4 = (double)(-f);
-                    }
+					if (i1 == 2)
+						d4 = -f;
 
-                    if (i1 == 3)
-                    {
-                        d4 = (double)f;
-                    }
+					if (i1 == 3)
+						d4 = f;
 
-                    world.spawnParticle("splash", d0, d1, d2, d3, 0.0D, d4);
-                }
-            }
-        }
+					world.spawnParticle("splash", d0, d1, d2, d3, 0.0D, d4);
+				}
+			}
+		}
 
-        if (this.blockMaterial == Material.water && random.nextInt(64) == 0)
-        {
-            l = world.getBlockMetadata(x, y, z);
+		if (this.blockMaterial == Material.water && random.nextInt(64) == 0)
+		{
+			l = world.getBlockMetadata(x, y, z);
 
-            if (l > 0 && l < 8)
-            {
-                world.playSound((double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), "liquid.water", random.nextFloat() * 0.25F + 0.75F, random.nextFloat() * 1.0F + 0.5F, false);
-            }
-        }
+			if (l > 0 && l < 8)
+				world.playSound(x + 0.5F, y + 0.5F, z + 0.5F, "liquid.water", random.nextFloat() * 0.25F + 0.75F, random.nextFloat() * 1.0F + 0.5F, false);
+		}
 
-        double d5;
-        double d6;
-        double d7;
+		double d5;
+		double d6;
+		double d7;
 
-        if (random.nextInt(10) == 0 && World.doesBlockHaveSolidTopSurface(world, x, y - 1, z) && !world.getBlock(x, y - 2, z).getMaterial().blocksMovement())
-        {
-            d5 = (double)((float)x + random.nextFloat());
-            d6 = (double)y - 1.05D;
-            d7 = (double)((float)z + random.nextFloat());
+		if (random.nextInt(10) == 0 && World.doesBlockHaveSolidTopSurface(world, x, y - 1, z) && !world.getBlock(x, y - 2, z).getMaterial().blocksMovement())
+		{
+			d5 = x + random.nextFloat();
+			d6 = y - 1.05D;
+			d7 = z + random.nextFloat();
 
-            if (this.blockMaterial == Material.water)
-            {
-                world.spawnParticle("dripWater", d5, d6, d7, 0.0D, 0.0D, 0.0D);
-            }
-        }
-    }
+			if (this.blockMaterial == Material.water)
+				world.spawnParticle("dripWater", d5, d6, d7, 0.0D, 0.0D, 0.0D);
+		}
+	}
 
 }

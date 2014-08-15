@@ -37,6 +37,8 @@ public class Config {
 	private boolean otherDecoration;
 	@Getter
 	private boolean seaweedOrKelp;
+	@Getter
+	private boolean infiniteSaltwater;
 
 	public Config(final File config){
 		this.configFile = new Configuration(config);
@@ -60,8 +62,9 @@ public class Config {
 			this.seaweedWaterBlockTries = this.configFile.getInt("Seaweed Water Block Attempts", "world gen", 20, 0, Integer.MAX_VALUE, "Defines how many attempts will be done to find a water block in a chunk when generating seaweed.");
 			this.seaweedTries = this.configFile.getInt("Seaweed Tries", "world gen", 3, 0, Integer.MAX_VALUE, "Defines how many attempts will be made to place seaweed around a water block that was found.");
 			this.seaweedToWater = this.configFile.getBoolean("Seaweed Breaks To Water", "general", true, "Determines whether seaweed is replaced by water or air when broken.");
-			this.otherDecoration = this.configFile.getBoolean("Other Mod Ocean Decorations", "world gen", true, "Aloow other mods to generate decorations in oceans.");
+			this.otherDecoration = this.configFile.getBoolean("Other Mod Ocean Decorations", "world gen", true, "Allows other mods to generate decorations in oceans.");
 			this.seaweedOrKelp = this.configFile.getBoolean("Seaweed or Kelp", "biomes o plenty", true, "Allows players to use seaweed where kelp is required in recipes.");
+			this.infiniteSaltwater = this.configFile.getBoolean("Infinite Saltwater", "general", true, "If true, saltwater will emulate vanilla infinite water mechanics.");
 			this.configFile.save();
 			this.setConfigElements();
 		}catch(final Exception e){

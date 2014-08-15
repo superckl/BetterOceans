@@ -1,5 +1,9 @@
 tile.betteroceans:seaweed.name=Seaweed
 tile.betteroceans:basicboatbench.name=Beginner's Boatbench
+tile.betteroceans:saltwater.name=Salt water
+tile.betteroceans:seaweedoil.name=Seaweed Oil
+fluid.betteroceans:saltwater.name=Salt water
+fluid.betteroceans:seaweedoil.name=Seaweed Oil
 item.betteroceans:boatbench:0.name=Beginner's Boatbench
 item.betteroceans:boatbench:1.name=Intermediate Boatbench
 item.betteroceans:seaweed.name=Seaweed

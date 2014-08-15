@@ -14,8 +14,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public abstract class ModFluids {
 
-	public static final FluidSaltWater saltWater = new FluidSaltWater("salt_water");
-	public static final FluidSeaweedOil seaweedOil = new FluidSeaweedOil("seaweed_oil");
+	public static final FluidSaltWater saltWater = new FluidSaltWater("saltwater");
+	public static final FluidSeaweedOil seaweedOil = new FluidSeaweedOil("seaweedoil");
 
 	public static void init(){
 		FluidRegistry.registerFluid(ModFluids.saltWater);
