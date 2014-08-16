@@ -1,18 +1,12 @@
 package me.superckl.betteroceans;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import lombok.Getter;
 import lombok.experimental.ExtensionMethod;
 import me.superckl.betteroceans.common.reference.ModData;
-import me.superckl.betteroceans.common.utility.BOReflectionHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
-import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
-import cpw.mods.fml.client.config.IConfigElement;
 import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -22,23 +16,25 @@ public class Config {
 	@Getter
 	private final Configuration configFile;
 	@Getter
-	private boolean genTrenches;
-	@Getter
 	private boolean genSeaweed;
 	@Getter
-	private boolean overrideOcean;
+	private boolean genTrenches;
 	@Getter
-	private boolean seaweedToWater;
-	@Getter
-	private int seaweedWaterBlockTries;
-	@Getter
-	private int seaweedTries;
+	private boolean infiniteSaltwater;
 	@Getter
 	private boolean otherDecoration;
 	@Getter
+	private boolean overrideOcean;
+	@Getter
+	private boolean removeSubbiomes;
+	@Getter
 	private boolean seaweedOrKelp;
 	@Getter
-	private boolean infiniteSaltwater;
+	private boolean seaweedToWater;
+	@Getter
+	private int seaweedTries;
+	@Getter
+	private int seaweedWaterBlockTries;
 
 	public Config(final File config){
 		this.configFile = new Configuration(config);
@@ -54,19 +50,22 @@ public class Config {
 
 	public void loadValues(){
 		if(this.configFile == null)
-			throw new IllegalStateException("Config file is null!");
+			throw new IllegalStateException("Config file is null! Things are not going to go well!");
 		try{
 			this.genTrenches = this.configFile.getBoolean("Generate Trenches", "world gen", true, "Generate trenches in oceans.");
 			this.overrideOcean = this.configFile.getBoolean("Override Oceans", "world gen", true, "Replace Vanilla oceans with Better Oceans oceans.");
 			this.genSeaweed = this.configFile.getBoolean("Generate Seaweed", "world gen", true, "Generate seaweed in deeper water.");
 			this.seaweedWaterBlockTries = this.configFile.getInt("Seaweed Water Block Attempts", "world gen", 20, 0, Integer.MAX_VALUE, "Defines how many attempts will be done to find a water block in a chunk when generating seaweed.");
 			this.seaweedTries = this.configFile.getInt("Seaweed Tries", "world gen", 3, 0, Integer.MAX_VALUE, "Defines how many attempts will be made to place seaweed around a water block that was found.");
-			this.seaweedToWater = this.configFile.getBoolean("Seaweed Breaks To Water", "general", true, "Determines whether seaweed is replaced by water or air when broken.");
 			this.otherDecoration = this.configFile.getBoolean("Other Mod Ocean Decorations", "world gen", true, "Allows other mods to generate decorations in oceans.");
-			this.seaweedOrKelp = this.configFile.getBoolean("Seaweed or Kelp", "biomes o plenty", true, "Allows players to use seaweed where kelp is required in recipes.");
+
 			this.infiniteSaltwater = this.configFile.getBoolean("Infinite Saltwater", "general", true, "If true, saltwater will emulate vanilla infinite water mechanics.");
+			this.seaweedToWater = this.configFile.getBoolean("Seaweed Breaks To Water", "general", true, "Determines whether seaweed is replaced by water or air when broken.");
+
+			this.seaweedOrKelp = this.configFile.getBoolean("Seaweed or Kelp", "biomes o plenty", true, "Allows players to use seaweed where kelp is required in recipes.");
+			this.removeSubbiomes = this.configFile.getBoolean("Remove SubBiomes", "biomes o plenty", true, "Remove Biomes O' Plenty's ocean subbiomes such as Coral Reef and Kelp Forest.");
+
 			this.configFile.save();
-			this.setConfigElements();
 		}catch(final Exception e){
 			e.warn();
 		}finally{
@@ -79,14 +78,6 @@ public class Config {
 	public void onConfigChange(final OnConfigChangedEvent e){
 		if(e.modID.equals(ModData.MOD_ID))
 			this.loadValues();
-	}
-
-	public void setConfigElements(){
-		List<IConfigElement> elements = new ArrayList<IConfigElement>();
-		for(final String cat:this.configFile.getCategoryNames())
-			elements.addAll(new ConfigElement(this.configFile.getCategory(cat)).getChildElements());
-		elements = Collections.unmodifiableList(elements);
-		BOReflectionHelper.setPrivateFinalValue(ModData.class, null, elements, "CONFIG_ELEMENTS");
 	}
 
 }
