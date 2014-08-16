@@ -12,6 +12,8 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 
 public class BiomeHelper {
 
@@ -26,6 +28,8 @@ public class BiomeHelper {
 		final BiomeGenBetterDeepOcean boDO = new BiomeGenBetterDeepOcean(BiomeGenBase.deepOcean.biomeID);
 		BOReflectionHelper.setPrivateFinalValue(BiomeGenBase.class, null, boO, ClassTransformer.field_ocean);
 		BOReflectionHelper.setPrivateFinalValue(BiomeGenBase.class, null, boDO, ClassTransformer.field_deepOcean);
+		BiomeDictionary.registerBiomeType(boO, Type.OCEAN);
+		BiomeDictionary.registerBiomeType(boDO, Type.OCEAN);
 		BiomeHelper.oceanBiomeIDs.add(boO.biomeID);
 		BiomeHelper.oceanBiomeIDs.add(boDO.biomeID);
 		LogHelper.debug("Succesfully replaced Ocean biomes!");

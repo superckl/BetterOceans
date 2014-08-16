@@ -380,6 +380,7 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 			{
 				final EntityLivingBase entitylivingbase = (EntityLivingBase)this.riddenByEntity;
 				final float f = this.riddenByEntity.rotationYaw + -entitylivingbase.moveStrafing * 10.0F; //TODO looking turns too fast
+				//TODO rotationYaw matters too much
 				this.motionX += -Math.sin(f * (float)Math.PI / 180.0F) * this.speedMultiplier * entitylivingbase.moveForward * 0.04000000074505806D;
 				this.motionZ += Math.cos(f * (float)Math.PI / 180.0F) * this.speedMultiplier * entitylivingbase.moveForward * 0.04000000074505806D;
 			}

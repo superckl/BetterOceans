@@ -34,52 +34,40 @@ public class ClassTransformer implements IClassTransformer{
 				BODummyModContainer.logger.error("Failed to find method in BiomeGenBase to patch! Ye who continue now abandon all hope.");
 				return bytes;
 			}
-			boolean fixed = false;
+			int fixed = 0;
 			for(AbstractInsnNode node:mNode.instructions.toArray())
 				if(node instanceof FieldInsnNode){
+					int index;
 					final FieldInsnNode vNode = (FieldInsnNode) node;
 					if(ClassTransformer.find(vNode.name, ClassTransformer.field_water) != -1){
 						node = vNode.getNext();
 						if(node instanceof VarInsnNode && ((VarInsnNode)node).var == 10){
 
-							/*InsnList list = new InsnList();
-							list.add(new VarInsnNode(Opcodes.ILOAD, 0));
-							list.add(new VarInsnNode(Opcodes.ILOAD, 1));
-							list.add(new VarInsnNode(Opcodes.ILOAD, 2));
-							list.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "me/superckl/betteroceans/common/utility/BiomeHelper", "getWaterBlockFor", "(Lnet/minecraft/world/World;II)V"));*/
-
 							final InsnList list = new InsnList();
 							list.add(new VarInsnNode(Opcodes.ALOAD, 0));
 							list.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "me/superckl/betteroceans/common/utility/BiomeHelper", "getWaterBlockFor", "(Lnet/minecraft/world/biome/BiomeGenBase;)Lnet/minecraft/block/Block;"));
 
-							/*list.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "me/superckl/betteroceans/common/utility/BiomeHelper", "isWaterSalineAt", "(Lnet/minecraft/world/World;II)V"));
-							FieldInsnNode fNode = new FieldInsnNode(Opcodes.GETSTATIC, "me/superckl/betteroceans/common/reference/ModBlocks", "saltWater", "Lme/superckl/betteroceans/common/fluid/block/BlockFluidSaltWater;");
-							FieldInsnNode fNode1 = new FieldInsnNode(Opcodes.GETSTATIC, "net/minecraft/init/Blocks", "water", "Lnet/minecraft/block/Block;");
-							LabelNode label = new LabelNode();
-							LabelNode label1 = new LabelNode();
-							list.add(new JumpInsnNode(Opcodes.IFEQ, label));
-							list.add(fNode1);
-							list.add(new JumpInsnNode(Opcodes.GOTO, label1));
-							list.add(label);
-							//list.add(new FrameN);
-							list.add(fNode);
-							list.add(label1);*/
-
-							mNode.instructions.insertBefore(vNode, list);
+							mNode.instructions.insert(vNode, list);
 							mNode.instructions.remove(vNode);
 
-							/*vNode.owner = "me/superckl/betteroceans/common/reference/ModBlocks";
-							vNode.name = "saltWater";
-							vNode.desc = "Lme/superckl/betteroceans/common/fluid/block/BlockFluidSaltWater;";*/
 							BODummyModContainer.logger.debug("Patched "+name+"."+mNode.name);
 							BODummyModContainer.logger.info("Saltwater injected into top layer.");
-							fixed = true;
-							break;
+							fixed++;
 						}
+					}else if((index = ClassTransformer.find(vNode.name, ClassTransformer.field_gravel)) != -1){
+						vNode.name = ClassTransformer.field_sand[index];
+						vNode.desc = "Lnet/minecraft/block/BlockSand;";
+						BODummyModContainer.logger.debug("Patched "+name+"."+mNode.name);
+						BODummyModContainer.logger.info("Sand injected into bottom layer.");
+						fixed++;
 					}
+					if(fixed >= 2)
+						break;
 				}
-			if(!fixed)
+			if(fixed < 2)
 				BODummyModContainer.logger.error("Failed to patch BiomeGenBase! Ye who continue now abandon all hope.");
+			else
+				BODummyModContainer.logger.info("Sucessfully patched BiomeGenBase!");
 			final ClassWriter cWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 			cNode.accept(cWriter);
 			return cWriter.toByteArray();
@@ -88,7 +76,6 @@ public class ClassTransformer implements IClassTransformer{
 			final ClassReader reader = new ClassReader(bytes);
 			reader.accept(cNode, 0);
 			MethodNode mNode = null;
-			//FMLRelaunchLog.warning("%s", Arrays.toString(cNode.methods.toArray()));
 			for(final MethodNode node:cNode.methods)
 				if(ClassTransformer.find(node.name, ClassTransformer.method_func_147424_a) != -1 && ClassTransformer.find(node.desc, ClassTransformer.desc_func_147424_a) != -1){
 					mNode = node;
@@ -112,25 +99,10 @@ public class ClassTransformer implements IClassTransformer{
 						list.add(new VarInsnNode(Opcodes.ILOAD, 1));
 						list.add(new VarInsnNode(Opcodes.ILOAD, 2));
 						list.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "me/superckl/betteroceans/common/utility/BiomeHelper", "getWaterBlockFor", "(Lnet/minecraft/world/World;III)Lnet/minecraft/block/Block;"));
-						//list.add(new VarInsnNode(Opcodes.ALOAD, 0));
 
-						/*FieldInsnNode fNode = new FieldInsnNode(Opcodes.GETSTATIC, "me/superckl/betteroceans/common/reference/ModBlocks", "saltWater", "Lme/superckl/betteroceans/common/fluid/block/BlockFluidSaltWater;");
-						FieldInsnNode fNode1 = new FieldInsnNode(Opcodes.GETSTATIC, "net/minecraft/init/Blocks", "water", "Lnet/minecraft/block/Block;");
-						LabelNode label = new LabelNode();
-						LabelNode label1 = new LabelNode();
-						list.add(new JumpInsnNode(Opcodes.IFEQ, label));
-						list.add(fNode1);
-						list.add(new JumpInsnNode(Opcodes.GOTO, label1));
-						list.add(label);
-						list.add(fNode);
-						list.add(label1);
-						list.add(new VarInsnNode(Opcodes.ASTORE, 10));*/
 						mNode.instructions.insert(vNode, list);
 						mNode.instructions.remove(vNode);
 
-						/*vNode.owner = "me/superckl/betteroceans/common/reference/ModBlocks";
-						vNode.name = "saltWater";
-						vNode.desc = "Lme/superckl/betteroceans/common/fluid/block/BlockFluidSaltWater;";*/
 						BODummyModContainer.logger.debug("Patched "+name+"."+mNode.name);
 						BODummyModContainer.logger.info("Saltwater injected into base layer.");
 						fixed = true;
@@ -139,6 +111,8 @@ public class ClassTransformer implements IClassTransformer{
 				}
 			if(!fixed)
 				BODummyModContainer.logger.error("Failed to patch ChunkProviderGenerate! Ye who continue now abandon all hope.");
+			else
+				BODummyModContainer.logger.info("Sucessfully patched ChunkProviderGenerate!");
 			final ClassWriter cWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 			cNode.accept(cWriter);
 			return cWriter.toByteArray();
@@ -156,6 +130,8 @@ public class ClassTransformer implements IClassTransformer{
 	public static final String[] field_ocean = {"ocean", "field_76771_b"};
 	public static final String[] field_deepOcean = {"deepOcean", "field_150575_M"};
 	public static final String[] field_water = {"water", "field_150355_j"};
+	public static final String[] field_gravel = {"gravel", "field_150351_n"};
+	public static final String[] field_sand = {"sand", "field_150354_m"};
 	public static final String[] field_worldObj = {"worldObj", "field_73230_p"};
 
 	public static final String[] method_genBiomeTerrain = {"genBiomeTerrain", "func_150560_b"};

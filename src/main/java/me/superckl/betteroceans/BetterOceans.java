@@ -37,9 +37,9 @@ public class BetterOceans {
 		this.config = new Config(e.getSuggestedConfigurationFile());
 		this.config.loadValues();
 		BetterOceans.proxy.registerNetworkHandlers();
+		ModFluids.init();
 		ModItems.init();
 		ModBlocks.init();
-		ModFluids.init();
 		BetterOceans.proxy.registerWorldGenerators();
 		BetterOceans.proxy.registerEntities();
 		BetterOceans.proxy.registerRenderers();

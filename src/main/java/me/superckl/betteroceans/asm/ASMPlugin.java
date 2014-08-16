@@ -22,19 +22,14 @@ public class ASMPlugin implements IFMLLoadingPlugin{
 
 	@Override
 	public String getSetupClass() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void injectData(final Map<String, Object> data) {
-		// TODO Auto-generated method stub
-
-	}
+	public void injectData(final Map<String, Object> data) {}
 
 	@Override
 	public String getAccessTransformerClass() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

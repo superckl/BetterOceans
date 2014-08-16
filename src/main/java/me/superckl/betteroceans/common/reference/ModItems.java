@@ -1,5 +1,7 @@
 package me.superckl.betteroceans.common.reference;
 
+import java.util.Arrays;
+
 import me.superckl.betteroceans.common.item.ItemBOBucket;
 import me.superckl.betteroceans.common.item.ItemBoatPart;
 import me.superckl.betteroceans.common.item.ItemCookedSeaweed;
@@ -9,6 +11,8 @@ import me.superckl.betteroceans.common.utility.RecipeHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.ObjectHolder;
 
@@ -34,10 +38,12 @@ public abstract class ModItems {
 
 	private static void addRecipes(){
 		//Add new recipes
-		/*		final Object[] items = new Object[9];
+		final Object[] items = new Object[9];
 		Arrays.fill(items, 0, 8, ModItems.itemSeaweed);
 		items[8] = Items.bucket;
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.seaweedOil), items); *///TODO
+		final ItemStack seaweedOil = new ItemStack(ModItems.boBucket);
+		ModItems.boBucket.fill(seaweedOil, new FluidStack(ModFluids.saltWater, FluidContainerRegistry.BUCKET_VOLUME), true);
+		GameRegistry.addShapelessRecipe(seaweedOil, items);
 		GameRegistry.addShapedRecipe(new ItemStack(ModItems.depthSounder), "x", "y", "z",
 				'x', Blocks.glass,
 				'y', Items.redstone,
@@ -46,7 +52,7 @@ public abstract class ModItems {
 
 	public static void overrideItems(){
 		RecipeHelper.removeRecipes(new ItemStack(Items.boat));
-		//RecipeHelper.replaceItem(new ItemStack(Items.boat), new ItemStack(ModItems.woodenBoat), false, true); TODO boat part
+		RecipeHelper.replaceItem(new ItemStack(Items.boat), BoatParts.woodenBottom.getCraftingResult(), false, true);
 		Items.boat.setCreativeTab(null);
 	}
 

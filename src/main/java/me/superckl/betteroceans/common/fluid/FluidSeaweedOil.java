@@ -6,7 +6,7 @@ public class FluidSeaweedOil extends Fluid{
 
 	public FluidSeaweedOil(final String fluidName) {
 		super(fluidName);
-		// TODO Auto-generated constructor stub
+		// TODO
 	}
 
 }

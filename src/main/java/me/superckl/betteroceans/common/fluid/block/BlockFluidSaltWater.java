@@ -7,6 +7,7 @@ import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModFluids;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
@@ -33,6 +34,13 @@ public class BlockFluidSaltWater extends BlockBOFluidClassic{
 		this.icons[0] = register.registerIcon(ModData.MOD_ID+":saltwater_still");
 		this.icons[1] = register.registerIcon(ModData.MOD_ID+":saltwater_flow");
 		ModFluids.saltWater.setIcons(this.icons[0], this.icons[1]);
+	}
+
+	@Override
+	public boolean displaceIfPossible(final World world, final int x, final int y, final int z){
+		if(world.getBlock(x, y, z) == Blocks.water)
+			return false; //TODO
+		return super.displaceIfPossible(world, x, y, z);
 	}
 
 	//Emulate infinite water
