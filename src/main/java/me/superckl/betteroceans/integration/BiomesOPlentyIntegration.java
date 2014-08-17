@@ -8,6 +8,7 @@ import me.superckl.betteroceans.Config;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
+import me.superckl.betteroceans.common.utility.StringHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeManager.BiomeEntry;
@@ -24,33 +25,20 @@ public class BiomesOPlentyIntegration{
 			LogHelper.debug("Added seaweed as kelp recipes...");
 		}
 		if(c.isOverrideOcean() && c.isRemoveSubbiomes()){
-			//final BiomeGenKelpForestOverride kelp = new BiomeGenKelpForestOverride();
-			//final BiomeGenCoralReefOverride coral = new BiomeGenCoralReefOverride();
-			//BOPCBiomes.kelpForest = kelp;
-			//BOPCBiomes.coralReef = coral;
 
 			//Remove all ocean biomes
 			LogHelper.debug("Removing BOP ocean subbiomes...");
 			final List<BiomeEntry> entries = BOPBiomeManager.overworldSubBiomes[BiomeGenBase.ocean.biomeID];
 			if(entries != null){
 				final ListIterator<BiomeEntry> lit = entries.listIterator();
-				while(lit.hasNext())
-					BiomeGenBase.getBiomeGenArray()[lit.next().biome.biomeID] = null;
+				BiomeEntry entry;
+				while(lit.hasNext()){
+					BiomeGenBase.getBiomeGenArray()[(entry = lit.next()).biome.biomeID] = null;
+					LogHelper.debug(StringHelper.build("Removed ", entry.biome.biomeName, " subbiome..."));
+				}
 			}
 			BOPBiomeManager.overworldSubBiomes[BiomeGenBase.ocean.biomeID]= null;
 
-			/*final ListIterator<BiomeEntry> lit = entries.listIterator();
-			BiomeEntry entry;
-			while(lit.hasNext())
-				if((entry = lit.next()).biome.biomeID == kelp.biomeID){
-					lit.set(new BiomeEntry(kelp, entry.itemWeight));
-					BiomeHelper.oceanBiomeIDs.add(kelp.biomeID);
-					LogHelper.debug("Extended Kelp Forest...");
-				}else if(entry.biome.biomeID == coral.biomeID){
-					lit.set(new BiomeEntry(coral, entry.itemWeight));
-					BiomeHelper.oceanBiomeIDs.add(coral.biomeID);
-					LogHelper.debug("Extended Coral Reef...");
-				}*/
 		}
 	}
 

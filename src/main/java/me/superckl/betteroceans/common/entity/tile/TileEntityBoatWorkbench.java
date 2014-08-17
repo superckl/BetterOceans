@@ -3,7 +3,7 @@ package me.superckl.betteroceans.common.entity.tile;
 import java.util.Arrays;
 
 import lombok.Getter;
-import me.superckl.betteroceans.common.Rotatable;
+import me.superckl.betteroceans.common.IRenderRotatable;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.parts.BoatPart;
 import me.superckl.betteroceans.common.utility.LogHelper;
@@ -31,8 +31,8 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 		if(selection.getBoatParts().size() != 1)
 			throw new IllegalArgumentException("Active selection must be made of only one part!");
 		this.activeSelection = selection;
-		if(selection instanceof Rotatable)
-			((Rotatable)selection).setRenderWithRotation(true);
+		if(selection instanceof IRenderRotatable)
+			((IRenderRotatable)selection).setRenderWithRotation(true);
 		this.checkRecipeCompletion();
 	}
 

@@ -4,8 +4,6 @@ import java.util.List;
 
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.parts.BoatPart;
-import me.superckl.betteroceans.common.parts.BoatPart.Material;
-import me.superckl.betteroceans.common.parts.BoatPart.Type;
 import me.superckl.betteroceans.common.parts.PartBottom;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModTabs;
@@ -38,8 +36,8 @@ public class ItemBoatPart extends ItemBO{
 	 * 4 - End
 	 *
 	 * Materials:
-	 * 8 - Wood
-	 * 16- iron
+	 * 32 - Wood
+	 * 64 - iron
 	 */
 
 	public ItemBoatPart() {
@@ -149,9 +147,9 @@ public class ItemBoatPart extends ItemBO{
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(final Item item, final CreativeTabs tab, final List list)
 	{
-		list.add(new ItemStack(item, 1, 1 + 8));
-		list.add(new ItemStack(item, 1, 2 + 8));
-		list.add(new ItemStack(item, 1, 4 + 8));
+		list.add(new ItemStack(item, 1, 1 + 32));
+		list.add(new ItemStack(item, 1, 2 + 32));
+		list.add(new ItemStack(item, 1, 4 + 32));
 	}
 
 	private IIcon[] icons;
@@ -170,32 +168,14 @@ public class ItemBoatPart extends ItemBO{
 
 	private int translateDamageToIcon(final int damage){
 		if((damage & 1) == 1){
-			if((damage & 8) == 8)
+			if((damage & 32) == 32)
 				return 0;
 		}else if((damage & 2) == 2){
-			if((damage & 8) == 8)
+			if((damage & 32) == 32)
 				return 1;
 		} else
 			return 2;
 		return 0;
-	}
-
-	public static Material translateDamageToMaterial(final int damage){
-		if((damage & 8) == 8)
-			return Material.WOOD;
-		else if((damage & 16) == 16)
-			return Material.IRON;
-		return Material.WOOD;
-	}
-
-	public static Type translateDamageToType(final int damage){
-		if((damage & 1) == 1)
-			return Type.BOTTOM;
-		else if((damage & 2) == 2)
-			return Type.SIDE;
-		else if((damage & 4) == 4)
-			return Type.END;
-		return Type.BOTTOM;
 	}
 
 	@Override

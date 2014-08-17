@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
-import me.superckl.betteroceans.common.item.ItemBoatPart;
 import me.superckl.betteroceans.common.parts.BoatPart;
+import me.superckl.betteroceans.common.parts.BoatPart.Material;
+import me.superckl.betteroceans.common.parts.BoatPart.Type;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.utility.LogHelper;
@@ -41,7 +42,7 @@ public class NotEnoughItemsIntegration {
 		public void loadCraftingRecipes(final ItemStack result) {
 			if(result.getItem() != ModItems.boatPart)
 				return;
-			final BoatPart part = BoatPart.getPartByTypeAndMaterial(ItemBoatPart.translateDamageToType(result.getItemDamage()), ItemBoatPart.translateDamageToMaterial(result.getItemDamage()));
+			final BoatPart part = BoatPart.getPartByTypeAndMaterial(Type.getByData(result.getItemDamage()), Material.getByData(result.getItemDamage()));
 			if(part == null)
 				return;
 			this.arecipes.add(new CachedRecipe(){

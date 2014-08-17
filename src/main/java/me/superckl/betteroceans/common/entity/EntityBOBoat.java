@@ -3,21 +3,19 @@ package me.superckl.betteroceans.common.entity;
 import io.netty.buffer.ByteBuf;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.superckl.betteroceans.common.Rotatable;
+import me.superckl.betteroceans.common.IRenderRotatable;
 import me.superckl.betteroceans.common.nets.IItemNet;
 import me.superckl.betteroceans.common.nets.INet;
 import me.superckl.betteroceans.common.parts.BoatPart;
 import me.superckl.betteroceans.common.parts.BoatPart.Type;
-import me.superckl.betteroceans.common.parts.PartBottom;
-import me.superckl.betteroceans.common.parts.PartEnd;
-import me.superckl.betteroceans.common.parts.PartSide;
 import me.superckl.betteroceans.common.reference.NetworkData;
 import me.superckl.betteroceans.common.utility.BoatHelper;
-import me.superckl.betteroceans.common.utility.LogHelper;
+import me.superckl.betteroceans.common.utility.ConstructorWrapper;
 import me.superckl.betteroceans.network.MessagePartUpdate;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -34,15 +32,14 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import scala.actors.threadpool.Arrays;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /**
- * Note: Most of the motion code is from the EntityBoat class, credit to Mojang.
+ * Note: Most of the motion code is from the EntityBoat class, credit to Mojang for that.
  */
-public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntityAdditionalSpawnData{
+public class EntityBOBoat extends EntityModularBoat implements IRenderRotatable, IEntityAdditionalSpawnData{
 
 	@Getter
 	private INet attachedNet;
@@ -379,7 +376,7 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 			if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityLivingBase)
 			{
 				final EntityLivingBase entitylivingbase = (EntityLivingBase)this.riddenByEntity;
-				final float f = this.riddenByEntity.rotationYaw + -entitylivingbase.moveStrafing * 10.0F; //TODO looking turns too fast
+				final float f = this.riddenByEntity.rotationYaw + -entitylivingbase.moveStrafing * 10.0F;
 				//this was a bitch
 				final double radianF = Math.toRadians(f);
 				final double radianB = Math.toRadians(this.rotationYaw+90F);
@@ -629,13 +626,41 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 	}
 
 	public BoatPart translateItemDamageToPart(final int damage){
-		if((damage & 1) == 1){
+		final Type type = Type.getByData(damage);
+		BoatPart part = null;
+		if(type == Type.END || type == Type.SIDE){
+			boolean flag = false;
+			if(type == Type.SIDE){
+				final boolean hasLeft = BoatHelper.hasSide(this, true);
+				final boolean hasRight = BoatHelper.hasSide(this, false);
+				if(!hasLeft)
+					flag = true;
+				else if(hasRight)
+					return null; //Something went wrong here.
+			}else{
+				final boolean hasFront = BoatHelper.hasEnd(this, true);
+				final boolean hasBack = BoatHelper.hasEnd(this, false);
+				if(!hasFront)
+					flag = true;
+				else if(hasBack)
+					return null; //Hrmm... Who dun it?
+			}
+			ConstructorWrapper<? extends BoatPart> cons = BoatPart.getWrapperFor(type, BoatPart.Material.getByData(damage));
+			cons = cons.clone();
+			if(cons.getArguments() == null || cons.getArguments().length != 1)
+				return null; //What??? How did that happen...
+			cons.setArguments(flag);
+			part = cons.newInstance();
+		}else
+			part = BoatPart.getPartByTypeAndMaterial(type, BoatPart.Material.getByData(damage));
+
+		/*if((damage & 1) == 1){
 			if((damage & 8) == 8)
 				return new PartBottom.PartWoodenBottom();
 		}else if((damage & 2) == 2){
 			if((damage & 8) == 8){
 				final boolean hasLeft = BoatHelper.hasSide(this, true);
-				final boolean hasRight = BoatHelper.hasSide(this, false);;
+				final boolean hasRight = BoatHelper.hasSide(this, false);
 				if(!hasLeft)
 					return new PartSide.PartWoodenSide(true);
 				else if(!hasRight)
@@ -648,8 +673,8 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 				return new PartEnd.PartWoodenEnd(false);
 			else if(!hasFront)
 				return new PartEnd.PartWoodenEnd(true);
-		}
-		return null;
+		}*/
+		return part;
 	}
 
 	@Override
@@ -682,11 +707,8 @@ public class EntityBOBoat extends EntityModularBoat implements Rotatable, IEntit
 				return false;
 		}
 		this.boatParts.add(part);
-		LogHelper.info("Added part "+part.getType());
-		if(syncClient && !this.worldObj.isRemote){
+		if(syncClient && !this.worldObj.isRemote)
 			this.syncParts();
-			LogHelper.info("synced");
-		}
 		return true;
 	}
 

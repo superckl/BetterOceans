@@ -47,10 +47,14 @@ public abstract class BoatPart {
 	}
 
 	public static BoatPart getPartByTypeAndMaterial(final Type type, final Material material){
+		return BoatPart.getWrapperFor(type, material).newInstance();
+	}
+
+	public static ConstructorWrapper<? extends BoatPart> getWrapperFor(final Type type, final Material material){
 		for(final BoatPart part:BoatParts.allParts)
 			if(part.getType() == type && part.getMaterial() == material)
-				return BoatPart.parts.get(part.getPartConstructorID()).newInstance();
-		return new PartBottom.PartWoodenBottom(); //Temp while all materials not done
+				return BoatPart.parts.get(part.getPartConstructorID());
+		return BoatPart.parts.get(0); //Temp while all materials not done
 	}
 
 	protected ResourceLocation texture;
@@ -71,8 +75,7 @@ public abstract class BoatPart {
 	public abstract void getRequiredTypesWithComplexities(final List<TypeRequirement> required);
 
 	/**
-	 * Used to determine if the boat will break upon impact. wooden parts have a modifier of .85.
-	 * @return
+	 * Used to determine if the boat will break upon impact. Wooden parts have a modifier of .85.
 	 */
 	public double getIntegrityFactor(){
 		return this.getMaterial().getDefaultIntegrityFactor();
@@ -82,10 +85,16 @@ public abstract class BoatPart {
 		return this.getMaterial().getDefaultComplexity();
 	}
 
+	/**
+	 * Determines if this parts complexity should affect the overall complexity of the boat
+	 */
 	public boolean affectsOverallComplexity(){
 		return true;
 	}
 
+	/**
+	 * Used for display purposes
+	 */
 	public String getNiceName(){
 		return this.getCraftingResult().getDisplayName();
 	}
@@ -135,18 +144,31 @@ public abstract class BoatPart {
 	@SideOnly(Side.CLIENT)
 	public abstract List<ModelRenderer> getRenderers(final ModelBase base);
 
+	@RequiredArgsConstructor
 	public static enum Type{
-		BOTTOM,
-		SIDE,
-		END;
+		BOTTOM(1),
+		SIDE(2),
+		END(4);
+
+		@Getter
+		private final int dataBit;
+
+		public static Type getByData(final int data){
+			for(final Type type:Type.values())
+				if((type.getDataBit() & data) == type.getDataBit())
+					return type;
+			return null;
+		}
 	}
 
 	@RequiredArgsConstructor
 	public static enum Material{
-		WOOD("textures/entity/boat.png", new ItemStack(Blocks.planks), 1, .85D),
-		IRON("", new ItemStack(Items.iron_ingot), 2, 1.2D),//TODO
-		GLASS("", new ItemStack(Blocks.glass), 1, .6D);//TODO
+		WOOD(32, "textures/entity/boat.png", new ItemStack(Blocks.planks), 1, .85D),
+		IRON(64, "", new ItemStack(Items.iron_ingot), 2, 1.2D),//TODO
+		GLASS(128, "", new ItemStack(Blocks.glass), 1, .6D);//TODO
 
+		@Getter
+		private final int dataBit;
 		@Getter
 		private final String defaultResourceLocation;
 		@Getter
@@ -155,6 +177,13 @@ public abstract class BoatPart {
 		private final int defaultComplexity;
 		@Getter
 		private final double defaultIntegrityFactor;
+
+		public static Material getByData(final int data){
+			for(final Material mat:Material.values())
+				if((mat.getDataBit() & data) == mat.getDataBit())
+					return mat;
+			return null;
+		}
 
 	}
 

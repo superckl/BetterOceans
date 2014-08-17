@@ -90,8 +90,8 @@ public class ItemBOBucket extends ItemBOFluidContainer{
 	@Override
 	public void registerIcons(final IIconRegister iconRegister)
 	{
-		this.icons.put("salt_water", iconRegister.registerIcon(ModData.MOD_ID+":saltwater"));
-		this.icons.put("seaweed_oil", iconRegister.registerIcon(ModData.MOD_ID+":seaweedoil"));
+		this.icons.put("saltwater", iconRegister.registerIcon(ModData.MOD_ID+":saltwater"));
+		this.icons.put("seaweedoil", iconRegister.registerIcon(ModData.MOD_ID+":seaweedoil"));
 	}
 
 	@Override
