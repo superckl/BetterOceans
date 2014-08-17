@@ -16,7 +16,7 @@ import cpw.mods.fml.client.config.IConfigElement;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-public class GuiConfigBetterOceans extends GuiConfig{
+public class GuiConfigBetterOceans extends BOGuiConfig{
 
 	public GuiConfigBetterOceans(final GuiScreen parentScreen) {
 		super(parentScreen, GuiConfigBetterOceans.getConfigElements(), ModData.MOD_ID, false,
@@ -25,8 +25,8 @@ public class GuiConfigBetterOceans extends GuiConfig{
 
 	private static List<IConfigElement> getConfigElements(){
 		final List<IConfigElement> list = new ArrayList<IConfigElement>();
-		list.add(new DummyConfigElement.DummyCategoryElement("World Generation", "betteroceans.configgui.ctgy.worldgen", WorldGenCategory.class));
 		list.add(new DummyConfigElement.DummyCategoryElement("General", "betteroceans.configgui.ctgy.general", GeneralCategory.class));
+		list.add(new DummyConfigElement.DummyCategoryElement("World Generation", "betteroceans.configgui.ctgy.worldgen", WorldGenCategory.class));
 		if(Loader.isModLoaded("BiomesOPlenty"))
 			list.add(new DummyConfigElement.DummyCategoryElement("Biomes O' Plenty", "betteroceans.configgui.ctgy.bop", BOPCategory.class));
 		return list;
@@ -42,7 +42,7 @@ public class GuiConfigBetterOceans extends GuiConfig{
 
 		@Override
 		protected GuiScreen buildChildScreen(){
-			return new GuiConfig(this.owningScreen, new ConfigElement(BetterOceans.getInstance().getConfig().getConfigFile().getCategory("world gen")).getChildElements()
+			return new BOGuiConfig(this.owningScreen, new ConfigElement(BetterOceans.getInstance().getConfig().getConfigFile().getCategory("world gen")).getChildElements()
 					, ModData.MOD_ID, false, false, LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("config_worldgen")));
 		}
 
@@ -57,7 +57,7 @@ public class GuiConfigBetterOceans extends GuiConfig{
 
 		@Override
 		protected GuiScreen buildChildScreen(){
-			return new GuiConfig(this.owningScreen, new ConfigElement(BetterOceans.getInstance().getConfig().getConfigFile().getCategory("general")).getChildElements()
+			return new BOGuiConfig(this.owningScreen, new ConfigElement(BetterOceans.getInstance().getConfig().getConfigFile().getCategory("general")).getChildElements()
 					, ModData.MOD_ID, false, false, LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("config_general")));
 		}
 
@@ -72,7 +72,7 @@ public class GuiConfigBetterOceans extends GuiConfig{
 
 		@Override
 		protected GuiScreen buildChildScreen(){
-			return new GuiConfig(this.owningScreen, new ConfigElement(BetterOceans.getInstance().getConfig().getConfigFile().getCategory("biomes o plenty")).getChildElements()
+			return new BOGuiConfig(this.owningScreen, new ConfigElement(BetterOceans.getInstance().getConfig().getConfigFile().getCategory("biomes o plenty")).getChildElements()
 					, ModData.MOD_ID, false, false, LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("config_bop")));
 		}
 

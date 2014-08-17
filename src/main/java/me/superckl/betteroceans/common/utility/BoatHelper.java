@@ -44,6 +44,13 @@ public class BoatHelper {
 		return modifier;
 	}
 
+	public static double compoundTurnModifiers(final EntityModularBoat boat){
+		double modifier = 1D;
+		for(final BoatPart part:boat.getBoatParts())
+			modifier *= part.getTurnModifier();
+		return modifier;
+	}
+
 	public static boolean hasSide(final EntityModularBoat boat, final boolean left){
 		for(final BoatPart part:boat.getBoatParts())
 			if(part instanceof PartSide)

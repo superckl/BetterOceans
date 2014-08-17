@@ -111,6 +111,9 @@ public abstract class BoatPart {
 	public double getSinkChanceModifier(){
 		return 1D;
 	}
+	public double getTurnModifier(){
+		return 1D;
+	}
 
 	public ResourceLocation getTexture(){
 		if(this.texture == null)
