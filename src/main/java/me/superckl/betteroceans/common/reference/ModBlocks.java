@@ -20,6 +20,7 @@ public abstract class ModBlocks {
 	public static void init(){
 		GameRegistry.registerBlock(ModBlocks.seaweed, Names.SEAWEED);
 		GameRegistry.registerBlock(ModBlocks.basicBoatWorkbench, ItemBlockBoatWorkbench.class, Names.BASIC_BOAT_WORKBENCH);
+
 		ModBlocks.addRecipes();
 	}
 
