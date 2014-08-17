@@ -4,10 +4,14 @@ import java.util.Map;
 
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
+import cpw.mods.fml.relauncher.IFMLLoadingPlugin.Name;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.SortingIndex;
+import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
 
 @SortingIndex(2000)
+@TransformerExclusions("me.superckl.betteroceans")
 @MCVersion("1.7.10")
+@Name("Better Oceans Core")
 public class ASMPlugin implements IFMLLoadingPlugin{
 
 	@Override

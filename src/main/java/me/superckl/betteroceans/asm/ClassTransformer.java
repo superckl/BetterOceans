@@ -13,9 +13,6 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
-
-@TransformerExclusions("me.superckl.betteroceans")
 public class ClassTransformer implements IClassTransformer{
 
 	@Override
