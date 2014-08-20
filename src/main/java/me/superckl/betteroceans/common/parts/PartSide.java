@@ -112,7 +112,7 @@ public abstract class PartSide extends BoatPart{
 
 		@Override
 		public ItemStack getCraftingResult() {
-			return new ItemStack(ModItems.boatPart, 1, 2 + 8);
+			return new ItemStack(ModItems.boatPart, 1, Type.SIDE.getDataBit() + Material.WOOD.getDataBit());
 		}
 
 		@Override

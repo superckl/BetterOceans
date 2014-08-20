@@ -107,7 +107,7 @@ public abstract class PartBottom extends BoatPart{
 
 		@Override
 		public ItemStack getCraftingResult() {
-			return new ItemStack(ModItems.boatPart, 1, 1 + 8);
+			return new ItemStack(ModItems.boatPart, 1, Type.BOTTOM.getDataBit() + Material.WOOD.getDataBit());
 		}
 
 		@Override

@@ -3,9 +3,11 @@ package me.superckl.betteroceans.common.entity.tile;
 import java.util.Arrays;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.superckl.betteroceans.common.IRenderRotatable;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.parts.BoatPart;
+import me.superckl.betteroceans.common.reference.ModFluids;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
 import net.minecraft.client.Minecraft;
@@ -19,13 +21,31 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.IFluidTank;
 
-public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
+public class TileEntityBoatWorkbench extends TileEntity implements IInventory, IFluidHandler{
 
 	@Getter
 	private final ItemStack[] inventory = new ItemStack[10];
 	@Getter
 	private EntityBOBoat activeSelection;
+	@Getter
+	@Setter
+	private boolean shouldHandleFluids;
+	private final IFluidTank tank = new FluidTank(4000);
+
+	public TileEntityBoatWorkbench() {}
+
+	public TileEntityBoatWorkbench(final boolean shouldHandleFluids) {
+		this.shouldHandleFluids = shouldHandleFluids;
+	}
 
 	public void setActiveSelection(final EntityBOBoat selection){
 		if(selection.getBoatParts().size() != 1)
@@ -148,6 +168,46 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 	}
 
 	@Override
+	public int fill(final ForgeDirection from, final FluidStack resource, final boolean doFill) {
+		if(!this.shouldHandleFluids || !ModFluids.isLubricant(resource.getFluid()))
+			return 0;
+		return this.tank.fill(resource, doFill);
+	}
+
+	@Override
+	public FluidStack drain(final ForgeDirection from, final FluidStack resource, final boolean doDrain) {
+		if(!this.shouldHandleFluids || this.tank.getFluid().getFluid() != resource.getFluid())
+			return null;
+		return this.tank.drain(resource.amount, doDrain);
+	}
+
+	@Override
+	public FluidStack drain(final ForgeDirection from, final int maxDrain, final boolean doDrain) {
+		if(!this.shouldHandleFluids)
+			return null;
+		return this.tank.drain(maxDrain, doDrain);
+	}
+
+	@Override
+	public boolean canFill(final ForgeDirection from, final Fluid fluid) {
+		if(!this.shouldHandleFluids || !ModFluids.isLubricant(fluid))
+			return false;
+		return this.tank.getFluid().getFluid() == fluid && this.tank.getCapacity() > this.tank.getFluidAmount();
+	}
+
+	@Override
+	public boolean canDrain(final ForgeDirection from, final Fluid fluid) {
+		if(!this.shouldHandleFluids)
+			return false;
+		return this.tank.getFluid().getFluid() == fluid && this.tank.getFluidAmount() > 0;
+	}
+
+	@Override
+	public FluidTankInfo[] getTankInfo(final ForgeDirection from) {
+		return new FluidTankInfo[] {this.tank.getInfo()};
+	}
+
+	@Override
 	public void readFromNBT(final NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
 		final NBTTagList tagList = tagCompound.getTagList("inventory", Constants.NBT.TAG_COMPOUND);
@@ -157,6 +217,8 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 			if (slot >= 0 && slot < this.inventory.length)
 				this.inventory[slot] = ItemStack.loadItemStackFromNBT(tag);
 		}
+		if(tagCompound.hasKey("fluidID"))
+			this.tank.fill(new FluidStack(FluidRegistry.getFluid(tagCompound.getInteger("fluidID")), tagCompound.getInteger("fluidAmount")), true);
 		if(tagCompound.hasKey("activeSelection"))
 			this.setActiveSelection(BoatPart.deserialize(tagCompound.getInteger("activeSelection")).getOnePartBoat(this.worldObj));
 	}
@@ -175,6 +237,10 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory{
 			}
 		}
 		tagCompound.setTag("inventory", itemList);
+		if(this.tank.getFluid() != null && this.tank.getFluid().amount > 0){
+			tagCompound.setInteger("fluidID", this.tank.getFluid().fluidID);
+			tagCompound.setInteger("fluidAmount", this.tank.getFluidAmount());
+		}
 		if(this.activeSelection != null)
 			tagCompound.setInteger("activeSelection", this.activeSelection.getBoatParts().get(0).getPartConstructorID());
 	}

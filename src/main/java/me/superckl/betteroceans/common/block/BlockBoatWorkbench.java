@@ -56,8 +56,8 @@ public class BlockBoatWorkbench extends BlockContainerBO{
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(final World var1, final int var2) {
-		return new TileEntityBoatWorkbench();
+	public TileEntity createNewTileEntity(final World world, final int meta) {
+		return new TileEntityBoatWorkbench(false);
 	}
 
 	private void dropItems(final World world, final int x, final int y, final int z){

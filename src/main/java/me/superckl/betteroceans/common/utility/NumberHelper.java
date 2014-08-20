@@ -32,4 +32,10 @@ public class NumberHelper {
 		return false;
 	}
 
+	public static int getFillAmount(final int capacity, final int amount){
+		if(capacity >= amount)
+			return amount;
+		return capacity;
+	}
+
 }

@@ -18,7 +18,7 @@ public class ClientProxy extends CommonProxy{
 	@Override
 	public void registerRenderers() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityBOBoat.class, new RenderBOBoat());
-
+		//MinecraftForgeClient.registerItemRenderer(ModItems.boatPart, new ItemRenderBoatPart());
 	}
 
 }

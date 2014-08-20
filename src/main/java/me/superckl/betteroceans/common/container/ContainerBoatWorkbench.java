@@ -14,6 +14,10 @@ public class ContainerBoatWorkbench extends Container{
 	@Getter
 	private final TileEntityBoatWorkbench tileEntity;
 
+
+	/**
+	 * @param shouldHandleFluids determines if this te will handle lubricants and also check if parts require time to create
+	 */
 	public ContainerBoatWorkbench(final InventoryPlayer inventoryPlayer, final TileEntityBoatWorkbench te){
 		this.tileEntity = te;
 		this.bindPlayerInventory(inventoryPlayer);

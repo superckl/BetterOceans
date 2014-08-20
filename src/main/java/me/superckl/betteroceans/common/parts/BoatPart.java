@@ -124,6 +124,10 @@ public abstract class BoatPart {
 		return 1D;
 	}
 
+	public int getCreationTime(){
+		return 0;
+	}
+
 	public ResourceLocation getTexture(){
 		if(this.texture == null)
 			this.texture = new ResourceLocation(this.getMaterial().getDefaultResourceLocation());

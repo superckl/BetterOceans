@@ -7,6 +7,7 @@ import me.superckl.betteroceans.common.fluid.block.BlockFluidSeaweedOil;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -31,6 +32,15 @@ public abstract class ModFluids {
 		filledBucket = new ItemStack(ModItems.boBucket);
 		ModItems.boBucket.fill(filledBucket, new FluidStack(ModFluids.seaweedOil, FluidContainerRegistry.BUCKET_VOLUME), true);
 		FluidContainerRegistry.registerFluidContainer(ModFluids.seaweedOil, filledBucket, new ItemStack(Items.bucket));
+	}
+
+	public static boolean isLubricant(final Fluid fluid){
+		return ModFluids.getLubricantUsage(fluid) != -1;
+	}
+
+	public static int getLubricantUsage(final Fluid fluid){
+		//TODO
+		return -1;
 	}
 
 }

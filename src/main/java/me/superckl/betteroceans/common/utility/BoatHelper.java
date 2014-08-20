@@ -80,13 +80,9 @@ public class BoatHelper {
 			final List<Integer> complex2 = BoatHelper.extractComplexitiesFromParts(parts, type);
 			final Integer[] array2 = complex2.toArray(new Integer[complex2.size()]);
 			Arrays.sort(array2);
-			LogHelper.info("sorted:"+array.length+":"+array2.length);
-			LogHelper.info(Arrays.toString(array));
-			LogHelper.info(Arrays.toString(array2));
 			int index = 0;
 			for(final Integer i:array2)
 				if(array[index].intValue() <= i.intValue()){
-					LogHelper.info("Removing "+array[index]);
 					array[index] = null;
 					if(++index >= array.length)
 						break;
@@ -94,7 +90,6 @@ public class BoatHelper {
 			if(index < array.length && !CollectionHelper.isNull(array))
 				return false;
 		}
-		LogHelper.info("returned true");
 		return true;
 	}
 
