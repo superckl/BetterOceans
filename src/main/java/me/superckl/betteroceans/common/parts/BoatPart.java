@@ -1,15 +1,16 @@
 package me.superckl.betteroceans.common.parts;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.entity.EntityModularBoat;
 import me.superckl.betteroceans.common.reference.BoatParts;
+import me.superckl.betteroceans.common.utility.BOReflectionHelper;
 import me.superckl.betteroceans.common.utility.ConstructorWrapper;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.StringHelper;
@@ -20,6 +21,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.EnumHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -34,8 +36,14 @@ public abstract class BoatPart {
 	//Used for networking
 	public static int nextID = 0;
 	@Getter
-	private static Map<Integer, ConstructorWrapper<? extends BoatPart>> parts = new HashMap<Integer, ConstructorWrapper<? extends BoatPart>>();
+	private static Map<Integer, ConstructorWrapper<? extends BoatPart>> parts = new TreeMap<Integer, ConstructorWrapper<? extends BoatPart>>();
 
+	/**
+	 * Registers a part with the {@link #parts parts} Map. This is required for serialization to work properly (and for you to properly implement {@link #getPartID() getPartID}.
+	 * @param partClass The class of your part.
+	 * @param arguments Any arguments the constructor for your part takes. This is used in deserialization.
+	 * @return The ID of your part. This should be stored and returned by {@link #getPartID() getPartID}.
+	 */
 	public static <T extends BoatPart> int registerPart(final Class<T> partClass, final Object ... arguments){
 		BoatPart.parts.put(BoatPart.nextID, new ConstructorWrapper<T>(partClass, arguments));
 		LogHelper.debug(StringHelper.build("Registered boat part ", partClass.getCanonicalName(), " with ID ", BoatPart.nextID));
@@ -47,13 +55,25 @@ public abstract class BoatPart {
 	}
 
 	public static BoatPart getPartByTypeAndMaterial(final Type type, final Material material){
+		if(type == Type.ADDON){
+			final StackTraceElement ste = BOReflectionHelper.retrieveCallingStackTraceElement();
+			LogHelper.error(StringHelper.build("Cannot retrieve part for Type ADDON! Report this to the owner of the calling class: ", ste.getClassName(), ":"
+					, ste.getMethodName(), ":", ste.getLineNumber()));
+			return null;
+		}
 		return BoatPart.getWrapperFor(type, material).newInstance();
 	}
 
 	public static ConstructorWrapper<? extends BoatPart> getWrapperFor(final Type type, final Material material){
+		if(type == Type.ADDON){
+			final StackTraceElement ste = BOReflectionHelper.retrieveCallingStackTraceElement();
+			LogHelper.error(StringHelper.build("Cannot retrieve part for Type ADDON! Report this to the owner of the calling class: ", ste.getClassName(), ":"
+					, ste.getMethodName(), ":", ste.getLineNumber()));
+			return null;
+		}
 		for(final BoatPart part:BoatParts.allParts)
 			if(part.getType() == type && part.getMaterial() == material)
-				return BoatPart.parts.get(part.getPartConstructorID());
+				return BoatPart.parts.get(part.getPartID());
 		return BoatPart.parts.get(0); //Temp while all materials not done
 	}
 
@@ -65,8 +85,16 @@ public abstract class BoatPart {
 	public abstract Material getMaterial();
 	public abstract ItemStack getCraftingResult();
 	public abstract int getMaxNumberOnBoat();
-	public abstract int getPartConstructorID();
+	/**
+	 * @return The int returned by {@link #registerPart(Class, Object...) registerPart}.
+	 */
+	public abstract int getPartID();
 	public abstract boolean shouldDrop(final Random random);
+	/**
+	 * If the part does not appear in {@link BoatParts#allParts allParts} this can return null.
+	 * @return The path to the texture for the item
+	 */
+	public abstract String getItemTexture();
 	/**
 	 * This method will not be called if {@link #useOverallComplexity() useOverallComplexity} returns true.
 	 * The check that must be run iterates through all parts and requirements, twice. If this method is not necessary, don't use it;
@@ -130,7 +158,7 @@ public abstract class BoatPart {
 
 	public ResourceLocation getTexture(){
 		if(this.texture == null)
-			this.texture = new ResourceLocation(this.getMaterial().getDefaultResourceLocation());
+			this.texture = new ResourceLocation(this.getMaterial().getDefaultTextureLocation());
 		return this.texture;
 	}
 	public EntityBOBoat getOnePartBoat(final World world){
@@ -150,31 +178,29 @@ public abstract class BoatPart {
 
 	@RequiredArgsConstructor
 	public static enum Type{
-		BOTTOM(1),
-		SIDE(2),
-		END(4);
+		BOTTOM(),
+		SIDE(),
+		END(),
+		ADDON();
 
-		@Getter
-		private final int dataBit;
-
-		public static Type getByData(final int data){
-			for(final Type type:Type.values())
-				if((type.getDataBit() & data) == type.getDataBit())
-					return type;
-			return null;
+		/**
+		 * Helper method to {@link EnumHelper#addEnum(Class, String, Object...) addEnum}
+		 * @param name The name of the new Type
+		 */
+		public static void addType(final String name){
+			EnumHelper.addEnum(Type.class, name);
 		}
 	}
 
 	@RequiredArgsConstructor
 	public static enum Material{
-		WOOD(32, "textures/entity/boat.png", new ItemStack(Blocks.planks), 1, .85D),
-		IRON(64, "", new ItemStack(Items.iron_ingot), 2, 1.2D),//TODO
-		GLASS(128, "", new ItemStack(Blocks.glass), 1, .6D);//TODO
+		WOOD("textures/entity/boat.png", new ItemStack(Blocks.planks), 1, .85D),
+		IRON("", new ItemStack(Items.iron_ingot), 2, 1.2D),//TODO
+		GLASS("", new ItemStack(Blocks.glass), 1, .6D),//TODO
+		UNSUPPORTED(null, null, 0, 0D);
 
 		@Getter
-		private final int dataBit;
-		@Getter
-		private final String defaultResourceLocation;
+		private final String defaultTextureLocation;
 		@Getter
 		private final ItemStack itemRepresentation;
 		@Getter
@@ -182,11 +208,13 @@ public abstract class BoatPart {
 		@Getter
 		private final double defaultIntegrityFactor;
 
-		public static Material getByData(final int data){
-			for(final Material mat:Material.values())
-				if((mat.getDataBit() & data) == mat.getDataBit())
-					return mat;
-			return null;
+		/**
+		 * Helper method to {@link EnumHelper#addEnum(Class, String, Object...) addEnum}
+		 * @param name The name of the new Type
+		 * @param defaultTextureLocation The path to the texture to use by default for modeling. This can be null if all parts with this material override {@link BoatPart#getTexture() getTexture}.
+		 */
+		public static void addMaterial(final String name, final String defaultTextureLocation, final ItemStack itemRepresentation, final int defaultComplexity, final double defaultIntegrityFactor){
+			EnumHelper.addEnum(Material.class, name, defaultTextureLocation, itemRepresentation, defaultComplexity, defaultIntegrityFactor);
 		}
 
 	}

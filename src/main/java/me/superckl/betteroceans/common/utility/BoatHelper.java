@@ -123,7 +123,7 @@ public class BoatHelper {
 	}
 
 	public static void writePartToBuffer(final BoatPart part, final ByteBuf buf){
-		buf.writeInt(part.getPartConstructorID());
+		buf.writeInt(part.getPartID());
 	}
 
 	public static BoatPart readPartFromBuffer(final ByteBuf buf){

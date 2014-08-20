@@ -242,7 +242,7 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory, I
 			tagCompound.setInteger("fluidAmount", this.tank.getFluidAmount());
 		}
 		if(this.activeSelection != null)
-			tagCompound.setInteger("activeSelection", this.activeSelection.getBoatParts().get(0).getPartConstructorID());
+			tagCompound.setInteger("activeSelection", this.activeSelection.getBoatParts().get(0).getPartID());
 	}
 
 	@Override

@@ -51,4 +51,12 @@ public class BOReflectionHelper {
 		return classArray;
 	}
 
+	public static StackTraceElement retrieveCallingStackTraceElement(){
+		return BOReflectionHelper.retrieveCallingStackTraceElement(3);
+	}
+
+	public static StackTraceElement retrieveCallingStackTraceElement(final int depth){
+		return new Throwable().getStackTrace()[depth];
+	}
+
 }

@@ -1,11 +1,13 @@
 package me.superckl.betteroceans.common.item;
 
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.parts.BoatPart;
 import me.superckl.betteroceans.common.parts.PartBottom;
-import me.superckl.betteroceans.common.reference.ModData;
+import me.superckl.betteroceans.common.reference.BoatParts;
 import me.superckl.betteroceans.common.reference.ModTabs;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -68,7 +70,7 @@ public class ItemBoatPart extends ItemBO{
 	@Override
 	public ItemStack onItemRightClick(final ItemStack stack, final World world, final EntityPlayer player)
 	{
-		if((stack.getItemDamage() & 1) != 1)
+		if(stack.getItemDamage() != BoatParts.woodenBottom.getPartID())
 			return stack;
 		final float f = 1.0F;
 		final float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
@@ -147,35 +149,29 @@ public class ItemBoatPart extends ItemBO{
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(final Item item, final CreativeTabs tab, final List list)
 	{
-		list.add(new ItemStack(item, 1, 1 + 32));
-		list.add(new ItemStack(item, 1, 2 + 32));
-		list.add(new ItemStack(item, 1, 4 + 32));
+		final TreeMap<Integer, BoatPart> sorter = new TreeMap<Integer, BoatPart>();
+		for(final BoatPart part:BoatParts.allParts)
+			sorter.put(part.getPartID(), part);
+		for(final Integer i:sorter.keySet())
+			list.add(new ItemStack(item, 1, i));
 	}
 
 	private IIcon[] icons;
 
 	@Override
 	public void registerIcons(final IIconRegister register){
-		this.icons = new IIcon[] {register.registerIcon(ModData.MOD_ID+":part_bottom_wood"),
-				register.registerIcon(ModData.MOD_ID+":part_side_wood"), register.registerIcon(ModData.MOD_ID+":part_end_wood")};
+		final TreeMap<Integer, BoatPart> sorter = new TreeMap<Integer, BoatPart>();
+		for(final BoatPart part:BoatParts.allParts)
+			sorter.put(part.getPartID(), part);
+		this.icons = new IIcon[sorter.lastKey().intValue()+1];
+		for(final Entry<Integer, BoatPart> entry:sorter.entrySet())
+			this.icons[entry.getKey()] = register.registerIcon(entry.getValue().getItemTexture());
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IIcon getIconFromDamage(final int damage){
-		return this.icons[this.translateDamageToIcon(damage)];
-	}
-
-	private int translateDamageToIcon(final int damage){
-		if((damage & 1) == 1){
-			if((damage & 32) == 32)
-				return 0;
-		}else if((damage & 2) == 2){
-			if((damage & 32) == 32)
-				return 1;
-		} else
-			return 2;
-		return 0;
+		return this.icons[damage];
 	}
 
 	@Override

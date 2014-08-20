@@ -7,6 +7,7 @@ import java.util.Random;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModItems;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -112,7 +113,7 @@ public abstract class PartSide extends BoatPart{
 
 		@Override
 		public ItemStack getCraftingResult() {
-			return new ItemStack(ModItems.boatPart, 1, Type.SIDE.getDataBit() + Material.WOOD.getDataBit());
+			return new ItemStack(ModItems.boatPart, 1, PartWoodenSide.leftID);
 		}
 
 		@Override
@@ -126,13 +127,14 @@ public abstract class PartSide extends BoatPart{
 		}
 
 		@Override
-		public int getPartConstructorID() {
+		public int getPartID() {
 			return this.leftSide ? PartWoodenSide.leftID:PartWoodenSide.rightID;
 		}
 
-
-
-
+		@Override
+		public String getItemTexture() {
+			return ModData.MOD_ID+":part_side_wood";
+		}
 
 	}
 

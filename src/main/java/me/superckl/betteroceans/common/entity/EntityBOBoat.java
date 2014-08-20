@@ -626,7 +626,7 @@ public class EntityBOBoat extends EntityModularBoat implements IRenderRotatable,
 	}
 
 	public BoatPart translateItemDamageToPart(final int damage){
-		final Type type = Type.getByData(damage);
+		final Type type = BoatPart.deserialize(damage).getType();
 		BoatPart part = null;
 		if(type == Type.END || type == Type.SIDE){
 			boolean flag = false;
@@ -645,35 +645,14 @@ public class EntityBOBoat extends EntityModularBoat implements IRenderRotatable,
 				else if(hasBack)
 					return null; //Hrmm... Who dun it?
 			}
-			ConstructorWrapper<? extends BoatPart> cons = BoatPart.getWrapperFor(type, BoatPart.Material.getByData(damage));
+			ConstructorWrapper<? extends BoatPart> cons = BoatPart.getParts().get(damage);
 			cons = cons.clone();
 			if(cons.getArguments() == null || cons.getArguments().length != 1)
 				return null; //What??? How did that happen...
 			cons.setArguments(flag);
 			part = cons.newInstance();
 		}else
-			part = BoatPart.getPartByTypeAndMaterial(type, BoatPart.Material.getByData(damage));
-
-		/*if((damage & 1) == 1){
-			if((damage & 8) == 8)
-				return new PartBottom.PartWoodenBottom();
-		}else if((damage & 2) == 2){
-			if((damage & 8) == 8){
-				final boolean hasLeft = BoatHelper.hasSide(this, true);
-				final boolean hasRight = BoatHelper.hasSide(this, false);
-				if(!hasLeft)
-					return new PartSide.PartWoodenSide(true);
-				else if(!hasRight)
-					return new PartSide.PartWoodenSide(false);
-			}
-		}else if((damage & 4) == 4){
-			final boolean hasFront = BoatHelper.hasEnd(this, true);
-			final boolean hasBack = BoatHelper.hasEnd(this, false);
-			if(!hasBack)
-				return new PartEnd.PartWoodenEnd(false);
-			else if(!hasFront)
-				return new PartEnd.PartWoodenEnd(true);
-		}*/
+			part = BoatPart.deserialize(damage);
 		return part;
 	}
 
@@ -724,7 +703,7 @@ public class EntityBOBoat extends EntityModularBoat implements IRenderRotatable,
 		compound.setFloat("sinkDepth", this.getSinkDepth());
 		final int[] array = new int[this.boatParts.size()];
 		for(int i = 0; i < this.boatParts.size(); i++)
-			array[i] = this.boatParts.get(i).getPartConstructorID();
+			array[i] = this.boatParts.get(i).getPartID();
 		compound.setIntArray("parts", array);
 	}
 

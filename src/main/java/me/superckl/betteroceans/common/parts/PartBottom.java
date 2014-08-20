@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModItems;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -107,7 +108,7 @@ public abstract class PartBottom extends BoatPart{
 
 		@Override
 		public ItemStack getCraftingResult() {
-			return new ItemStack(ModItems.boatPart, 1, Type.BOTTOM.getDataBit() + Material.WOOD.getDataBit());
+			return new ItemStack(ModItems.boatPart, 1, PartWoodenBottom.partConstructorID);
 		}
 
 		@Override
@@ -116,13 +117,18 @@ public abstract class PartBottom extends BoatPart{
 		}
 
 		@Override
-		public int getPartConstructorID() {
+		public int getPartID() {
 			return PartWoodenBottom.partConstructorID;
 		}
 
 		@Override
 		public boolean shouldDrop(final Random random) {
 			return random.nextDouble() < .9D;
+		}
+
+		@Override
+		public String getItemTexture() {
+			return ModData.MOD_ID+":part_bottom_wood";
 		}
 
 	}
