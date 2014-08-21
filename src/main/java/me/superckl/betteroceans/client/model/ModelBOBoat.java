@@ -141,7 +141,7 @@ public class ModelBOBoat extends ModelBase{
 	@Override
 	public void render(final Entity entity, final float par2, final float par3, final float par4, final float par5, final float par6, final float par7)
 	{
-		if(entity instanceof EntityBOBoat == false)
+		if(!(entity instanceof EntityBOBoat))
 			//LogHelper.error("An entity was passed to the Boat Renderer that wasn't compatible!");
 			return;
 		for (final BoatPart part : ((EntityBOBoat)entity).getBoatParts())

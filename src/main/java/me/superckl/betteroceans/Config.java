@@ -10,7 +10,6 @@ import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-@ExtensionMethod(LogHelper.class)
 public class Config {
 
 	public static abstract class Category{
@@ -49,16 +48,14 @@ public class Config {
 		try{
 			this.configFile.load();
 		}catch(final Exception e){
-			e.warn();
+			e.printStackTrace();
 		}finally{
-			if(this.configFile != null && this.configFile.hasChanged())
+			if(this.configFile.hasChanged())
 				this.configFile.save();
 		}
 	}
 
 	public void loadValues(){
-		if(this.configFile == null)
-			throw new IllegalStateException("Config file is null! Things are not going to go well!");
 		try{
 			this.genTrenches = this.configFile.getBoolean("Generate Trenches", Category.WORLD_GEN, true, "Generate trenches in oceans.");
 			this.genReefs = this.configFile.getBoolean("Generate Reefs", Category.WORLD_GEN, true, "Generate reefs in oceans.");
@@ -76,9 +73,9 @@ public class Config {
 
 			this.configFile.save();
 		}catch(final Exception e){
-			e.warn();
+			e.printStackTrace();
 		}finally{
-			if(this.configFile != null && this.configFile.hasChanged())
+			if(this.configFile.hasChanged())
 				this.configFile.save();
 		}
 	}

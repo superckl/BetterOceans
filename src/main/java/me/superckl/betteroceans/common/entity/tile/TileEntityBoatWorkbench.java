@@ -51,8 +51,7 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory, I
 		if(selection.getBoatParts().size() != 1)
 			throw new IllegalArgumentException("Active selection must be made of only one part!");
 		this.activeSelection = selection;
-		if(selection instanceof IRenderRotatable)
-			((IRenderRotatable)selection).setRenderWithRotation(true);
+        selection.setRenderWithRotation(true);
 		this.checkRecipeCompletion();
 	}
 
@@ -259,7 +258,7 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory, I
 		LogHelper.debug("Received data packet");
 		final NBTTagCompound comp = pkt.func_148857_g();
 		final TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(pkt.func_148856_c(), pkt.func_148855_d(), pkt.func_148854_e());
-		if(te == null || te instanceof TileEntityBoatWorkbench == false){
+		if(te == null || !(te instanceof TileEntityBoatWorkbench)){
 			LogHelper.error("Failed to deserialize TileEntity!");
 			return;
 		}

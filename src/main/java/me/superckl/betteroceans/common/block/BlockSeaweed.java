@@ -171,11 +171,9 @@ public class BlockSeaweed extends BlockBO{
 		corner1 = BlockHelper.isWaterSourceAt(world, x+1, y, z-1);
 		corner2 = BlockHelper.isWaterSourceAt(world, x+1, y, z);
 		//LogHelper.info(StringHelper.build(corner0, corner1, corner2));
-		if(corner0 && corner1 && corner2)
-			return true;
+        return corner0 && corner1 && corner2;
 
-		return false;
-	}
+    }
 
 	private int getHeight(final World world, final int x, int y, final int z){
 		int runs = 0;

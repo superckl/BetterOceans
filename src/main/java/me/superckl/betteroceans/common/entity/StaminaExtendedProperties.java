@@ -26,7 +26,7 @@ public class StaminaExtendedProperties implements IExtendedEntityProperties{
 
 	@Override
 	public void init(final Entity entity, final World world) {
-		if(entity instanceof EntityPlayer == false)
+		if(!(entity instanceof EntityPlayer))
 			return;
 		this.player = (EntityPlayer) entity;
 		this.player.getDataWatcher().addObject(27, new Integer(100));

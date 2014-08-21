@@ -32,7 +32,7 @@ public class EntityEventHandler {
 				final float distance = this.fallingEntities.remove(e.entityLiving).floatValue();
 				e.entityLiving.attackEntityFrom(DamageSource.fall, (float) Math.floor(distance/8F));
 			}else if(e.entityLiving.fallDistance < 10F)
-				this.fallingEntities.remove(e.entityLiving).floatValue(); //Cleanup to prevent memory leaks
+				this.fallingEntities.remove(e.entityLiving); //Cleanup to prevent memory leaks
 	}
 
 }

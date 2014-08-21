@@ -10,8 +10,6 @@ public class BiomeDecoratorBetterOcean extends BiomeDecorator{
 	}
 
 	@Override
-	protected void generateOres(){
-		return;//No ores for you
-	}
+	protected void generateOres(){/*No ores for you*/}
 
 }

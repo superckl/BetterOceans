@@ -52,7 +52,7 @@ public class ItemBoatPart extends ItemBO{
 
 	@SubscribeEvent
 	public void onEntityInteract(final EntityInteractEvent e){
-		if(e.target.worldObj.isRemote || e.target instanceof EntityBOBoat == false)
+		if(e.target.worldObj.isRemote || !(e.target instanceof EntityBOBoat))
 			return;
 		if(e.entityPlayer.getHeldItem() == null || e.entityPlayer.getHeldItem().getItem() != this)
 			return;

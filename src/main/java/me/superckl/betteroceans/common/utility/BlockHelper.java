@@ -95,7 +95,7 @@ public class BlockHelper {
 		final Fluid fluid = FluidRegistry.lookupFluidForBlock(world.getBlock(x, y, z));
 		if(fluid == null)
 			return 0;
-		Fluid newFluid = null;
+		Fluid newFluid;
 		int count = 0;
 		do{
 			count++;

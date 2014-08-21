@@ -13,6 +13,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
 import org.apache.commons.lang3.StringUtils;
+import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -62,19 +63,19 @@ public class RenderTickHandler{
 		if(this.mc.thePlayer != null && this.mc.thePlayer.isInWater() && (staminaProp = this.mc.thePlayer.getExtendedProperties("swimStamina")) != null){
 			final int index = (int) Math.ceil(((StaminaExtendedProperties)staminaProp).getStamina()*14F/100F);
 			final ScaledResolution r = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
-			final int x = r.getScaledWidth()-16-5;
-			final int y = r.getScaledHeight()-16-5;
-			//GL11.glPushMatrix();
-			//GL11.glScalef(4F, 4F, 4F);
+			float scale = 2F;
+			int x = (int) (r.getScaledWidth()-(16*scale)-5);
+			int y = (int) (r.getScaledHeight()-(16*scale)-5);
+			GL11.glPushMatrix();
+			GL11.glEnable(GL11.GL_BLEND);
 			this.mc.renderEngine.bindTexture(this.gauges);
-			//RenderHelper.drawTexturedRect(gauges[index], x, y, 0, 0, 16, 16, 16, 16, 1F);
+			GL11.glColor4f(1F, 1F, 1F, 1F);
+			x /= scale;
+			y /= scale;
+			GL11.glScalef(scale, scale, scale);
 			this.mc.ingameGUI.drawTexturedModalRect(x, y, index*15, 0, 15, 16);
-			//mc.ingameGUI.drawRect(x, y, x+16, y+16, 0x000000);
-			//GL11.glPopMatrix();
-			//RenderHelper.drawTexturedRect(gauges[index], x, y, 0, 0, 16, 16, 16, 16, 1D);
-			//float perc = ((StaminaExtendedProperties)this.mc.thePlayer.getExtendedProperties("swimStamina")).getStamina()/100F;
-			//int minY = (int) ((y+radius)-(dim*perc));
-			//RenderHelper.drawTexturedCircle(x, y, radius, x+radius, x-radius, y+radius, minY, (int) (100-80*(1-perc)), staminaTexture);
+			GL11.glDisable(GL11.GL_BLEND);
+			GL11.glPopMatrix();
 		}
 	}
 }
