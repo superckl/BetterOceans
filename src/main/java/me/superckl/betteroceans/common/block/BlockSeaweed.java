@@ -8,6 +8,7 @@ import me.superckl.betteroceans.common.reference.ModBlocks;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.utility.BlockHelper;
+import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -26,7 +27,7 @@ public class BlockSeaweed extends BlockBO{
 
 	public BlockSeaweed(){
 		super(Material.water);
-		this.setBlockName("seaweed").setHardness(1).setResistance(0).setTickRandomly(true);
+		this.setBlockName("seaweed").setHardness(0F).setTickRandomly(true);
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class BlockSeaweed extends BlockBO{
 	@Override
 	public boolean shouldSideBeRendered(final IBlockAccess blockAccess, final int x, final int y, final int z, final int s)
 	{
-		return blockAccess.getBlock(x, y, z) != Blocks.water;
+		return !BlockHelper.isWaterSource(blockAccess.getBlock(x, y, z));
 	}
 
 	@Override
@@ -78,7 +79,7 @@ public class BlockSeaweed extends BlockBO{
 
 	@Override
 	public void onBlockDestroyedByPlayer(final World world, final int x, final int y, final int z, final int meta) {
-		world.setBlock(x, y, z, Blocks.water);
+		world.setBlock(x, y, z, BetterOceans.getInstance().getConfig().isSeaweedToWater() ? Blocks.water:Blocks.air);
 	}
 
 
@@ -113,12 +114,20 @@ public class BlockSeaweed extends BlockBO{
 	@Override
 	public void onNeighborBlockChange(final World world, final int x, final int y, final int z, final Block block) {
 		if(!this.canBlockStay(world, x, y, z)){
+			//LogHelper.info("Can't stay!");
+			//LogHelper.info(y);
+			//LogHelper.info(world.getBlock(x, y-2, z).getUnlocalizedName());
 			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 			this.breakBlock(world, x, y, z, block, world.getBlockMetadata(x, y, z));
-			world.setBlock(x, y, z, BetterOceans.getInstance().getConfig().isSeaweedToWater() ? Blocks.water:Blocks.air);
+			world.setBlock(x, y, z, BetterOceans.getInstance().getConfig().isSeaweedToWater() ? Blocks.water:Blocks.air); //TODO
 		}
 	}
 
+	@Override
+	public boolean isReplaceable(final IBlockAccess world, final int x, final int y, final int z)
+	{
+		return false;
+	}
 
 	@Override
 	public boolean canPlaceBlockAt(final World world, final int x, final int y, final int z){
@@ -128,35 +137,41 @@ public class BlockSeaweed extends BlockBO{
 	@Override
 	public boolean canBlockStay(final World world, final int x, final int y, final int z){
 		final Block below = world.getBlock(x, y-1, z);
+		LogHelper.info(below.getUnlocalizedName());
 		if(!(below == Blocks.sand || below == Blocks.dirt || below == Blocks.gravel || below == this))
 			return false;
 		final Block above = world.getBlock(x, y+1, z);
-		if(!(above == Blocks.water || above == this))
+		//LogHelper.info(above.getUnlocalizedName());
+		if(!BlockHelper.isWaterSource(above, this))
 			return false;
-		Block corner0, corner1, corner2;
+		boolean corner0, corner1, corner2;
 		//Begin testing corners
-		corner0 = world.getBlock(x+1, y, z);
-		corner1 = world.getBlock(x+1, y, z+1);
-		corner2 = world.getBlock(x, y, z+1);
-		if(corner0 == Blocks.water && corner1 == Blocks.water && corner2 == Blocks.water)
+		corner0 = BlockHelper.isWaterSourceAt(world, x+1, y, z);
+		corner1 = BlockHelper.isWaterSourceAt(world, x+1, y, z+1);
+		corner2 = BlockHelper.isWaterSourceAt(world, x, y, z+1);
+		//LogHelper.info(StringHelper.build(corner0, corner1, corner2));
+		if(corner0 && corner1 && corner2)
 			return true;
 
 		corner0 = corner2;
-		corner1 = world.getBlock(x-1, y, z+1);
-		corner2 = world.getBlock(x-1, y, z);
-		if(corner0 == Blocks.water && corner1 == Blocks.water && corner2 == Blocks.water)
+		corner1 = BlockHelper.isWaterSourceAt(world, x-1, y, z+1);
+		corner2 = BlockHelper.isWaterSourceAt(world, x-1, y, z);
+		//LogHelper.info(StringHelper.build(corner0, corner1, corner2));
+		if(corner0 && corner1 && corner2)
 			return true;
 
 		corner0 = corner2;
-		corner1 = world.getBlock(x-1, y, z-1);
-		corner2 = world.getBlock(x, y, z-1);
-		if(corner0 == Blocks.water && corner1 == Blocks.water && corner2 == Blocks.water)
+		corner1 = BlockHelper.isWaterSourceAt(world, x-1, y, z-1);
+		corner2 = BlockHelper.isWaterSourceAt(world, x, y, z-1);
+		//LogHelper.info(StringHelper.build(corner0, corner1, corner2));
+		if(corner0 && corner1 && corner2)
 			return true;
 
 		corner0 = corner2;
-		corner1 = world.getBlock(x+1, y, z-1);
-		corner2 = world.getBlock(x+1, y, z);
-		if(corner0 == Blocks.water && corner1 == Blocks.water && corner2 == Blocks.water)
+		corner1 = BlockHelper.isWaterSourceAt(world, x+1, y, z-1);
+		corner2 = BlockHelper.isWaterSourceAt(world, x+1, y, z);
+		//LogHelper.info(StringHelper.build(corner0, corner1, corner2));
+		if(corner0 && corner1 && corner2)
 			return true;
 
 		return false;

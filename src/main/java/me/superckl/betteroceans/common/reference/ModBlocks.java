@@ -1,6 +1,7 @@
 package me.superckl.betteroceans.common.reference;
 
 import me.superckl.betteroceans.common.block.BlockBoatWorkbench;
+import me.superckl.betteroceans.common.block.BlockHardCoral;
 import me.superckl.betteroceans.common.block.BlockSeaweed;
 import me.superckl.betteroceans.common.fluid.block.BlockFluidSaltWater;
 import me.superckl.betteroceans.common.fluid.block.BlockFluidSeaweedOil;
@@ -14,12 +15,14 @@ public abstract class ModBlocks {
 
 	public static final BlockSeaweed seaweed = new BlockSeaweed();
 	public static final BlockBoatWorkbench basicBoatWorkbench = new BlockBoatWorkbench();
+	public static final BlockHardCoral hardCoral = new BlockHardCoral();
 	public static BlockFluidSaltWater saltWater;
 	public static BlockFluidSeaweedOil seaweedOil;
 
 	public static void init(){
 		GameRegistry.registerBlock(ModBlocks.seaweed, Names.SEAWEED);
 		GameRegistry.registerBlock(ModBlocks.basicBoatWorkbench, ItemBlockBoatWorkbench.class, Names.BASIC_BOAT_WORKBENCH);
+		GameRegistry.registerBlock(ModBlocks.hardCoral, Names.HARD_CORAL);
 
 		ModBlocks.addRecipes();
 	}
@@ -34,6 +37,7 @@ public abstract class ModBlocks {
 		public static final String BASIC_BOAT_WORKBENCH =  "basicBoatWorkbench";
 		public static final String SALT_WATER = "saltWater";
 		public static final String SEAWEED_OIL = "seaweedOil";
+		public static final String HARD_CORAL = "hardCoral";
 
 	}
 

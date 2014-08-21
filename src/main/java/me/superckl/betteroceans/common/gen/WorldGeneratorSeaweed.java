@@ -7,7 +7,6 @@ import me.superckl.betteroceans.common.block.BlockSeaweed;
 import me.superckl.betteroceans.common.reference.ModBlocks;
 import me.superckl.betteroceans.common.utility.BlockHelper;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -22,21 +21,20 @@ public class WorldGeneratorSeaweed implements IWorldGenerator{
 		Block block = null;
 		int tries = BetterOceans.getInstance().getConfig().getSeaweedWaterBlockTries();
 		int baseX = chunkX, baseZ = chunkZ;
-		while(block != Blocks.water && tries-- > 0){
+		while(!BlockHelper.isWaterSource(block) && tries-- > 0){
 			baseX = (chunkX << 4) + random.nextInt(16)+8;
 			baseZ = (chunkZ << 4) + random.nextInt(16)+8;
 			final int y = world.getTopSolidOrLiquidBlock(baseX, baseZ);
 			block = world.getBlock(baseX, y, baseZ);
 		}
-		if(block != Blocks.water)
+		if(!BlockHelper.isWaterSource(block))
 			return;
 		for (int i = 0; i < BetterOceans.getInstance().getConfig().getSeaweedTries(); ++i)
 		{
 			final int newX = baseX + random.nextInt(8) - random.nextInt(8);
 			final int newZ = baseZ + random.nextInt(8) - random.nextInt(8);
 			final int newY = world.getTopSolidOrLiquidBlock(newX, newZ);
-			block = world.getBlock(newX, newY, newZ);
-			if(block != Blocks.water)
+			if(!BlockHelper.isWaterSourceAt(world, newX, newY, newZ))
 				continue;
 			final int depth = BlockHelper.getHeight(world, newX, newY, newZ, false);
 			if(depth < 3)

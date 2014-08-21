@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.superckl.betteroceans.BetterOceans;
+import me.superckl.betteroceans.Config.Category;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.utility.StringHelper;
 import net.minecraft.client.gui.GuiScreen;
@@ -42,7 +43,7 @@ public class GuiConfigBetterOceans extends BOGuiConfig{
 
 		@Override
 		protected GuiScreen buildChildScreen(){
-			return new BOGuiConfig(this.owningScreen, new ConfigElement(BetterOceans.getInstance().getConfig().getConfigFile().getCategory("world gen")).getChildElements()
+			return new BOGuiConfig(this.owningScreen, new ConfigElement(BetterOceans.getInstance().getConfig().getConfigFile().getCategory(Category.WORLD_GEN)).getChildElements()
 					, ModData.MOD_ID, false, false, LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("config_worldgen")));
 		}
 
@@ -57,7 +58,7 @@ public class GuiConfigBetterOceans extends BOGuiConfig{
 
 		@Override
 		protected GuiScreen buildChildScreen(){
-			return new BOGuiConfig(this.owningScreen, new ConfigElement(BetterOceans.getInstance().getConfig().getConfigFile().getCategory("general")).getChildElements()
+			return new BOGuiConfig(this.owningScreen, new ConfigElement(BetterOceans.getInstance().getConfig().getConfigFile().getCategory(Category.GENERAL)).getChildElements()
 					, ModData.MOD_ID, false, false, LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("config_general")));
 		}
 
@@ -72,7 +73,7 @@ public class GuiConfigBetterOceans extends BOGuiConfig{
 
 		@Override
 		protected GuiScreen buildChildScreen(){
-			return new BOGuiConfig(this.owningScreen, new ConfigElement(BetterOceans.getInstance().getConfig().getConfigFile().getCategory("biomes o plenty")).getChildElements()
+			return new BOGuiConfig(this.owningScreen, new ConfigElement(BetterOceans.getInstance().getConfig().getConfigFile().getCategory(Category.BIOMES_O_PLENTY)).getChildElements()
 					, ModData.MOD_ID, false, false, LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("config_bop")));
 		}
 

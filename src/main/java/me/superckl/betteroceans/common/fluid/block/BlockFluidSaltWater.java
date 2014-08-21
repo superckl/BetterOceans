@@ -7,8 +7,8 @@ import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModFluids;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import cpw.mods.fml.relauncher.Side;
@@ -37,9 +37,17 @@ public class BlockFluidSaltWater extends BlockBOFluidClassic{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean shouldSideBeRendered(final IBlockAccess access, final int x, final int y, final int z, final int side)
+	{
+		final Material material = access.getBlock(x, y, z).getMaterial();
+		return material == this.blockMaterial ? false : side == 1 ? true : super.shouldSideBeRendered(access, x, y, z, side);
+	}
+
+	@Override
 	public boolean displaceIfPossible(final World world, final int x, final int y, final int z){
-		if(world.getBlock(x, y, z) == Blocks.water)
-			return false; //TODO
+		if(world.getBlock(x, y, z).getMaterial() == Material.water)
+			return false; //TODO make better
 		return super.displaceIfPossible(world, x, y, z);
 	}
 

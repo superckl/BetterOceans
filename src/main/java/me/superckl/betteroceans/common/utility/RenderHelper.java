@@ -63,7 +63,7 @@ public class RenderHelper {
 		final int cornerX = x-radius;
 		final int cornerY = y-radius;
 		final Tessellator tessellator = Tessellator.instance;
-		tessellator.startDrawingQuads();
+		//tessellator.startDrawingQuads();
 		final int increment = (int) (2*Math.PI/steps);
 		for(int step = 0; step < 2*Math.PI; step +=increment){
 			final double newX = Math.max(Math.min(radius*Math.cos(step)+x, maxX), minX);

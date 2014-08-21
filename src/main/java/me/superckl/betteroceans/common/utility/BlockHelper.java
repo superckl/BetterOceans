@@ -1,5 +1,6 @@
 package me.superckl.betteroceans.common.utility;
 
+import me.superckl.betteroceans.common.reference.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -11,7 +12,11 @@ public class BlockHelper {
 
 	public static boolean isWaterSourceAt(final World world, final int x, final int y, final int z, final Block ... exceptions){
 		final Block block = world.getBlock(x, y, z);
-		if(Blocks.water == block)
+		return BlockHelper.isWaterSource(block, exceptions);
+	}
+
+	public static boolean isWaterSource(final Block block, final Block ... exceptions){
+		if(Blocks.water == block || ModBlocks.saltWater == block)
 			return true;
 		for(final Block block1:exceptions)
 			if(block == block1)
@@ -74,7 +79,8 @@ public class BlockHelper {
 		for(int i = 0; i <= 15; i++){
 			final int x = baseX+i; final int z = baseZ+i;
 			final int y = world.getTopSolidOrLiquidBlock(x, z);
-			if(world.getBlock(x, y, z) != Blocks.water)
+
+			if(!BlockHelper.isWaterSourceAt(world, x, y, z))
 				continue;
 			final int height = BlockHelper.getHeight(world, x, y, z, false);
 			if(height > maxHeight){

@@ -1,11 +1,14 @@
 package me.superckl.betteroceans.client.handler;
 
+import me.superckl.betteroceans.common.entity.StaminaExtendedProperties;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.utility.BlockHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
@@ -19,15 +22,14 @@ public class RenderTickHandler{
 
 	private final Minecraft mc;
 	public static int lastDepth = 0;
-	private final ResourceLocation circleTexture = new ResourceLocation(ModData.MOD_ID+":textures/gui/emptycircle.png");
-	private final ResourceLocation staminaTexture = new ResourceLocation(ModData.MOD_ID+":textures/gui/staminacircle.png");
+	private final ResourceLocation gauges = new ResourceLocation(ModData.MOD_ID+":textures/gui/gauges.png");
 
 	public RenderTickHandler(){
 		this.mc = Minecraft.getMinecraft();
 	}
 
 	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
+	@SubscribeEvent(receiveCanceled = false)
 	public void onRenderTick(final RenderGameOverlayEvent.Text e){
 		//Depth Sounder
 		if(this.mc.thePlayer != null && this.mc.thePlayer.getHeldItem() != null && this.mc.thePlayer.getHeldItem().getItem() == ModItems.depthSounder){
@@ -53,18 +55,26 @@ public class RenderTickHandler{
 			RenderTickHandler.lastDepth = depth;
 			e.left.add(String.format("Depth: %d - %s", depth, StringUtils.capitalize(fluid.getName().toLowerCase())));
 			//mc.fontRenderer.drawStringWithShadow(String.format("Depth: %d - %s", depth, StringUtils.capitalize(fluid.getName().toLowerCase())), 5, 5, 0xFFFFFF);
-		}
-		//Stamina gauge, commented until I get the textures
-		/*if(this.mc.thePlayer != null && this.mc.thePlayer.isInWater() && this.mc.thePlayer.getExtendedProperties("swimStamina") != null){
-			final int dim = 16;//???
-			final int radius = dim/2;
-			int x = this.mc.displayWidth-radius-5;
-			int y = this.mc.displayHeight-radius-5;
-			RenderHelper.drawTexturedCircle(x, y, radius, 100, circleTexture);
-			float perc = ((StaminaExtendedProperties)this.mc.thePlayer.getExtendedProperties("swimStamina")).getStamina()/100F;
-			int minY = (int) ((y+radius)-(dim*perc));
-			RenderHelper.drawTexturedCircle(x, y, radius, x+radius, x-radius, y+radius, minY, (int) (100-80*(1-perc)), staminaTexture);
-		}*/
-	}
 
+		}
+
+		IExtendedEntityProperties staminaProp;
+		if(this.mc.thePlayer != null && this.mc.thePlayer.isInWater() && (staminaProp = this.mc.thePlayer.getExtendedProperties("swimStamina")) != null){
+			final int index = (int) Math.ceil(((StaminaExtendedProperties)staminaProp).getStamina()*14F/100F);
+			final ScaledResolution r = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+			final int x = r.getScaledWidth()-16-5;
+			final int y = r.getScaledHeight()-16-5;
+			//GL11.glPushMatrix();
+			//GL11.glScalef(4F, 4F, 4F);
+			this.mc.renderEngine.bindTexture(this.gauges);
+			//RenderHelper.drawTexturedRect(gauges[index], x, y, 0, 0, 16, 16, 16, 16, 1F);
+			this.mc.ingameGUI.drawTexturedModalRect(x, y, index*15, 0, 15, 16);
+			//mc.ingameGUI.drawRect(x, y, x+16, y+16, 0x000000);
+			//GL11.glPopMatrix();
+			//RenderHelper.drawTexturedRect(gauges[index], x, y, 0, 0, 16, 16, 16, 16, 1D);
+			//float perc = ((StaminaExtendedProperties)this.mc.thePlayer.getExtendedProperties("swimStamina")).getStamina()/100F;
+			//int minY = (int) ((y+radius)-(dim*perc));
+			//RenderHelper.drawTexturedCircle(x, y, radius, x+radius, x-radius, y+radius, minY, (int) (100-80*(1-perc)), staminaTexture);
+		}
+	}
 }

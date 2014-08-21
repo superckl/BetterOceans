@@ -108,7 +108,7 @@ public class WorldGeneratorTrench implements IWorldGenerator{
 			return; //To close to shore;
 		if(random.nextInt(50) != 0) //200
 			return;
-		LogHelper.debug("Generating trench...");
+		LogHelper.warn("Generating trench, expect lag. This can get a bit intense...");
 		final int from0 = 5 + random.nextInt(3);
 		final int width = Math.max(75, random.nextInt(150));
 		final int length = Math.max(200, random.nextInt(400));
