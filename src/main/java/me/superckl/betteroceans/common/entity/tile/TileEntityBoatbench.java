@@ -83,15 +83,21 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 				itemstack = this.inventory[slot];
 				this.inventory[slot] = null;
 				this.markDirty();
-				this.checkRecipeCompletion();
+				if(slot == 9)
+					this.onCraftingSlotPick();
+				else
+					this.checkRecipeCompletion();
 				return itemstack;
 			}
 			else
 			{
 				itemstack = this.inventory[slot].splitStack(amount);
 
-				if (this.inventory[slot].stackSize == 0)
+				if (this.inventory[slot].stackSize == 0){
+					if(slot == 9)
+						this.onCraftingSlotPick();
 					this.inventory[slot] = null;
+				}
 
 				this.markDirty();
 				this.checkRecipeCompletion();

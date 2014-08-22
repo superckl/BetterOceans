@@ -20,7 +20,7 @@ public class ContainerBasicBoatbench extends Container{
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
 				this.addSlotToContainer(new Slot(te, j + i * 3,
-						15 + j * 18, 14 + i * 18));
+						15 + j * 18, 18 + i * 18));
 		this.addSlotToContainer(new BoatCraftingSlot(te, 9, 221, 36));
 	}
 
@@ -63,10 +63,10 @@ public class ContainerBasicBoatbench extends Container{
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 9; j++)
 				this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9,
-						15 + j * 18, 75 + i * 18));
+						15 + j * 18, 79 + i * 18));
 
 		for (int i = 0; i < 9; i++)
-			this.addSlotToContainer(new Slot(inventoryPlayer, i, 15 + i * 18, 133));
+			this.addSlotToContainer(new Slot(inventoryPlayer, i, 15 + i * 18, 137));
 	}
 
 }

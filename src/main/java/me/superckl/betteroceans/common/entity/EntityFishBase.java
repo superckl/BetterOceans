@@ -1,18 +1,10 @@
 package me.superckl.betteroceans.common.entity;
 
 import lombok.Getter;
-import me.superckl.betteroceans.common.entity.ai.EntityAIHeightRestrictedWander;
-import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.utility.BlockHelper;
 import net.minecraft.block.Block;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.passive.EntityWaterMob;
-import net.minecraft.entity.passive.IAnimals;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
@@ -20,8 +12,8 @@ public class EntityFishBase extends EntityWaterMob{
 
 	@Getter
 	private final boolean canLiveInSaltWater;
-	
-	public EntityFishBase(World world, boolean canLiveInSaltWater) {
+
+	public EntityFishBase(final World world, final boolean canLiveInSaltWater) {
 		super(world);
 		this.canLiveInSaltWater = canLiveInSaltWater;
 		//this.tasks.addTask(2, new EntityAIHeightRestrictedWander(this, 0.8D, 25));
@@ -32,7 +24,7 @@ public class EntityFishBase extends EntityWaterMob{
 
 	@Override
 	public boolean getCanSpawnHere() {
-		Block block = this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ);
+		final Block block = this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ);
 		return this.canLiveInSaltWater ? BlockHelper.isWaterSource(block):block == Blocks.water;
 	}
 
@@ -40,5 +32,11 @@ public class EntityFishBase extends EntityWaterMob{
 	public boolean canBeSteered() {
 		return false;
 	}
-	
+
+	@Override
+	protected boolean isAIEnabled()
+	{
+		return true;
+	}
+
 }

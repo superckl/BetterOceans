@@ -8,12 +8,9 @@ import net.minecraft.item.ItemStack;
 
 public class BoatCraftingSlot extends BOSlot{
 
-	private final TileEntityBoatbench te;
-
 	public BoatCraftingSlot(final TileEntityBoatbench te, final int slot,
 			final int x, final int y) {
 		super(te, slot, x, y);
-		this.te = te;
 	}
 
 	@Override
@@ -26,7 +23,7 @@ public class BoatCraftingSlot extends BOSlot{
 	public void onPickupFromSlot(final EntityPlayer player, final ItemStack stack)
 	{
 		super.onSlotChanged();
-		this.te.onCraftingSlotPick();
+		//this.te.onCraftingSlotPick();
 	}
 
 }

@@ -93,7 +93,7 @@ public class GuiContainerBasicBoatbench extends GuiContainerBoatBench{
 		final EntityBOBoat entity = ((ContainerBasicBoatbench)this.inventorySlots).getTileEntity().getActiveSelection();
 		if(entity == null)
 			return;
-		RenderHelper.renderEntityToGUI(entity, this.guiLeft + 123, this.guiTop + 54, 14F);
+		RenderHelper.renderEntityToGUI(entity, this.guiLeft + 123, this.guiTop + 48, 14F);
 		//TODO
 	}
 
@@ -103,21 +103,21 @@ public class GuiContainerBasicBoatbench extends GuiContainerBoatBench{
 		case 0:
 			this.typeIndex--;
 			if(this.typeIndex < 0)
-				this.typeIndex = Type.values().length-1;
+				this.typeIndex = this.validTypes.length-1;
 			break;
 		case 1:
 			this.typeIndex++;
-			if(this.typeIndex >= Type.values().length)
+			if(this.typeIndex >= this.validTypes.length)
 				this.typeIndex = 0;
 			break;
 		case 2:
 			this.materialIndex--;
 			if(this.materialIndex < 0)
-				this.materialIndex = Material.values().length-1;
+				this.materialIndex = this.validMaterials.length-1;
 			break;
 		case 3:
 			this.materialIndex++;
-			if(this.materialIndex >= Material.values().length)
+			if(this.materialIndex >= this.validMaterials.length)
 				this.materialIndex = 0;
 			break;
 		default:
