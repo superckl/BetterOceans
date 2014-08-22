@@ -498,12 +498,12 @@ public class EntityBOBoat extends EntityModularBoat implements IRenderRotatable,
 				final List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(0.20000000298023224D, 0.0D, 0.20000000298023224D));
 
 				if (list != null && !list.isEmpty())
-                    for (Object aList : list) {
-                        final Entity entity = (Entity) aList;
+					for (final Object aList : list) {
+						final Entity entity = (Entity) aList;
 
-                        if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof EntityBoat)
-                            entity.applyEntityCollision(this);
-                    }
+						if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof EntityBoat)
+							entity.applyEntityCollision(this);
+					}
 
 				if (this.riddenByEntity != null && this.riddenByEntity.isDead)
 					this.riddenByEntity = null;
@@ -657,7 +657,7 @@ public class EntityBOBoat extends EntityModularBoat implements IRenderRotatable,
 
 	@Override
 	public boolean addPart(final BoatPart part) {
-		return this.addPart(part, true); //TODO do other check
+		return this.addPart(part, true);
 	}
 
 	/**

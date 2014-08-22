@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import me.superckl.betteroceans.common.entity.tile.TileEntityBoatWorkbench;
+import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
 import me.superckl.betteroceans.common.parts.BoatPart;
 import me.superckl.betteroceans.common.utility.BoatHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
@@ -17,7 +17,7 @@ public class MessageSelectBoatPart implements IMessage{
 	@Getter
 	@Setter
 	@NonNull
-	private TileEntityBoatWorkbench te;
+	private TileEntityBoatbench te;
 	@Getter
 	@Setter
 	@NonNull

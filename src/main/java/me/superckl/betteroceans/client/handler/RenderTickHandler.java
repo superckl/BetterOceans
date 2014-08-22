@@ -63,9 +63,9 @@ public class RenderTickHandler{
 		if(this.mc.thePlayer != null && this.mc.thePlayer.isInWater() && (staminaProp = this.mc.thePlayer.getExtendedProperties("swimStamina")) != null){
 			final int index = (int) Math.ceil(((StaminaExtendedProperties)staminaProp).getStamina()*14F/100F);
 			final ScaledResolution r = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
-			float scale = 2F;
-			int x = (int) (r.getScaledWidth()-(16*scale)-5);
-			int y = (int) (r.getScaledHeight()-(16*scale)-5);
+			final float scale = 2.3F;
+			int x = (int) (r.getScaledWidth()-16*scale-10);
+			int y = (int) (r.getScaledHeight()-16*scale-5);
 			GL11.glPushMatrix();
 			GL11.glEnable(GL11.GL_BLEND);
 			this.mc.renderEngine.bindTexture(this.gauges);

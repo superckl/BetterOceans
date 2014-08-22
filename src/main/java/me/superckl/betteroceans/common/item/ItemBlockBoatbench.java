@@ -2,9 +2,9 @@ package me.superckl.betteroceans.common.item;
 
 import net.minecraft.block.Block;
 
-public class ItemBlockBoatWorkbench extends ItemBlockBO{
+public class ItemBlockBoatbench extends ItemBlockBO{
 
-	public ItemBlockBoatWorkbench(final Block block) {
+	public ItemBlockBoatbench(final Block block) {
 		super(block);
 		this.setHasSubtypes(true);
 	}

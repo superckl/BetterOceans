@@ -1,7 +1,10 @@
 package me.superckl.betteroceans.client.gui;
 
-import me.superckl.betteroceans.common.container.ContainerBoatWorkbench;
-import me.superckl.betteroceans.common.entity.tile.TileEntityBoatWorkbench;
+import me.superckl.betteroceans.common.container.ContainerBasicBoatbench;
+import me.superckl.betteroceans.common.container.ContainerInterBoatbench;
+import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
+import me.superckl.betteroceans.common.parts.BoatPart.Material;
+import me.superckl.betteroceans.common.parts.BoatPart.Type;
 import me.superckl.betteroceans.common.reference.ModData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -14,8 +17,14 @@ public class GuiHandlerBetterOceans implements IGuiHandler{
 	public Object getServerGuiElement(final int ID, final EntityPlayer player, final World world,
 			final int x, final int y, final int z) {
 		final TileEntity te = world.getTileEntity(x, y, z);
-		if(te != null && te instanceof TileEntityBoatWorkbench && ID == ModData.GUIIDs.BASIC_BOAT_BENCH)
-			return new ContainerBoatWorkbench(player.inventory, (TileEntityBoatWorkbench) te); //TODO EntityBOBoat
+		if(te != null && te instanceof TileEntityBoatbench)
+			switch(ID){
+
+			case ModData.GUIIDs.BASIC_BOAT_BENCH:
+				return new ContainerBasicBoatbench(player.inventory, (TileEntityBoatbench) te);
+			case ModData.GUIIDs.INTER_BOAT_BENCH:
+				return new ContainerInterBoatbench(player.inventory, (TileEntityBoatbench) te);
+			}
 		return null;
 	}
 
@@ -23,8 +32,16 @@ public class GuiHandlerBetterOceans implements IGuiHandler{
 	public Object getClientGuiElement(final int ID, final EntityPlayer player, final World world,
 			final int x, final int y, final int z) {
 		final TileEntity te = world.getTileEntity(x, y, z);
-		if(te != null && te instanceof TileEntityBoatWorkbench && ID == ModData.GUIIDs.BASIC_BOAT_BENCH)
-			return new GuiContainerBasicBoatWorkbench(player.inventory, (TileEntityBoatWorkbench) te);
+		if(te != null && te instanceof TileEntityBoatbench)
+			switch(ID){
+
+			case ModData.GUIIDs.BASIC_BOAT_BENCH:
+				return new GuiContainerBasicBoatbench(player.inventory, (TileEntityBoatbench) te,
+						new Type[] {Type.BOTTOM, Type.SIDE, Type.END}, new Material[] {Material.WOOD});
+			case ModData.GUIIDs.INTER_BOAT_BENCH:
+				return new GuiContainerInterBoatbench(player.inventory, (TileEntityBoatbench) te,
+						new Type[] {Type.BOTTOM, Type.SIDE, Type.END}, new Material[] {Material.WOOD, Material.IRON});
+			}
 		return null;
 	}
 

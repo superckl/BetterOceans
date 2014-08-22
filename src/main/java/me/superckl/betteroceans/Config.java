@@ -3,9 +3,7 @@ package me.superckl.betteroceans;
 import java.io.File;
 
 import lombok.Getter;
-import lombok.experimental.ExtensionMethod;
 import me.superckl.betteroceans.common.reference.ModData;
-import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

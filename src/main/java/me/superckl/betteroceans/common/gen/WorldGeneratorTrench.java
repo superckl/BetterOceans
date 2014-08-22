@@ -173,7 +173,6 @@ public class WorldGeneratorTrench implements IWorldGenerator{
 			int ledgeX = startX;
 			int ledgeZ = startZ;
 			//Generate ledges
-			//TODO ledges of width > 1
 			while(currentLedge < ledges){
 				for(int l = 0; l < ledgeWidth; l++){
 					if(genAcrossX)

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import me.superckl.betteroceans.BetterOceans;
-import me.superckl.betteroceans.common.entity.tile.TileEntityBoatWorkbench;
+import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModTabs;
 import net.minecraft.block.Block;
@@ -23,12 +23,13 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockBoatWorkbench extends BlockContainerBO{
+public class BlockBoatbench extends BlockContainerBO{
 
-	public BlockBoatWorkbench() {
+	public BlockBoatbench() {
 		super(Material.wood);
-		this.setBlockName("boatbench").setHardness(3.0F).setResistance(5.0F)
-		.setStepSound(Block.soundTypeWood).setCreativeTab(ModTabs.tabBlocks);
+		this.setBlockName("boatbench").setStepSound(Block.soundTypeWood).setCreativeTab(ModTabs.tabBlocks);
+		this.setHarvestLevel("pickaxe", 0, 0);
+		this.setHarvestLevel("pickaxe", 1, 1);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -51,13 +52,14 @@ public class BlockBoatWorkbench extends BlockContainerBO{
 		final TileEntity tileEntity = world.getTileEntity(x, y, z);
 		if (tileEntity == null || player.isSneaking())
 			return false;
-		player.openGui(BetterOceans.getInstance(), ModData.GUIIDs.BASIC_BOAT_BENCH, world, x, y, z);
+		final int meta = world.getBlockMetadata(x, y, z);
+		player.openGui(BetterOceans.getInstance(), meta == 0 ? ModData.GUIIDs.BASIC_BOAT_BENCH:ModData.GUIIDs.INTER_BOAT_BENCH, world, x, y, z);
 		return true;
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(final World world, final int meta) {
-		return new TileEntityBoatWorkbench(false);
+		return new TileEntityBoatbench(meta > 0);
 	}
 
 	private void dropItems(final World world, final int x, final int y, final int z){
@@ -93,28 +95,26 @@ public class BlockBoatWorkbench extends BlockContainerBO{
 		}
 	}
 
-	private IIcon[] icons;
+	private IIcon[][] icons;
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(final IIconRegister register){
-		this.icons = new IIcon[]
-				{register.registerIcon(ModData.MOD_ID+":basicbenchtop"),
-				register.registerIcon(ModData.MOD_ID+":basicbenchside"),
-				register.registerIcon(ModData.MOD_ID+":basicbenchbottom")};
+		this.icons = new IIcon[2][3];
+		this.icons[0][0] = register.registerIcon(ModData.MOD_ID+":basicbenchbottom");
+		this.icons[0][1] = register.registerIcon(ModData.MOD_ID+":basicbenchtop");
+		this.icons[0][2] = register.registerIcon(ModData.MOD_ID+":basicbenchside");
+
+		this.icons[1][0] = register.registerIcon(ModData.MOD_ID+":interbenchbottom");
+		this.icons[1][1] = register.registerIcon(ModData.MOD_ID+":interbenchtop");
+		this.icons[1][2] = register.registerIcon(ModData.MOD_ID+":interbenchside");
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(final int side, final int meta)
 	{
-		if(meta == 1)
-			return null;
-		if(side == 0)
-			return this.icons[2];
-		else if(side == 1)
-			return this.icons[0];
-		return this.icons[1];
+		return this.icons[meta][Math.min(side, 2)];
 	}
 
 }

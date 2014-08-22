@@ -8,7 +8,6 @@ import me.superckl.betteroceans.common.reference.ModBlocks;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.utility.BlockHelper;
-import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -137,7 +136,7 @@ public class BlockSeaweed extends BlockBO{
 	@Override
 	public boolean canBlockStay(final World world, final int x, final int y, final int z){
 		final Block below = world.getBlock(x, y-1, z);
-		LogHelper.info(below.getUnlocalizedName());
+		//LogHelper.info(below.getUnlocalizedName());
 		if(!(below == Blocks.sand || below == Blocks.dirt || below == Blocks.gravel || below == this))
 			return false;
 		final Block above = world.getBlock(x, y+1, z);
@@ -171,9 +170,9 @@ public class BlockSeaweed extends BlockBO{
 		corner1 = BlockHelper.isWaterSourceAt(world, x+1, y, z-1);
 		corner2 = BlockHelper.isWaterSourceAt(world, x+1, y, z);
 		//LogHelper.info(StringHelper.build(corner0, corner1, corner2));
-        return corner0 && corner1 && corner2;
+		return corner0 && corner1 && corner2;
 
-    }
+	}
 
 	private int getHeight(final World world, final int x, int y, final int z){
 		int runs = 0;

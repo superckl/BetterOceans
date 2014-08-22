@@ -26,7 +26,6 @@ public abstract class ModItems {
 	public static final ItemBOBucket boBucket = new ItemBOBucket();
 
 	public static void init(){
-		//TODO fix
 		GameRegistry.registerItem(ModItems.itemSeaweed, Names.SEAWEED);
 		GameRegistry.registerItem(ModItems.cookedSeaweed, Names.COOKED_SEAWEED);
 		GameRegistry.registerItem(ModItems.depthSounder, Names.DEPTH_SOUNDER);

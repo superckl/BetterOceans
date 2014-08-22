@@ -15,6 +15,7 @@ public abstract class ModData {
 	public static class GUIIDs{
 
 		public static final int BASIC_BOAT_BENCH = 0;
+		public static final int INTER_BOAT_BENCH = 1;
 
 	}
 

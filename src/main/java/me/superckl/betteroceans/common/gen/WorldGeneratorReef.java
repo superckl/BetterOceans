@@ -76,7 +76,6 @@ public class WorldGeneratorReef implements IWorldGenerator{
 				currentWidth -= subbed;
 			}
 		}
-		//TODO
 	}
 
 }

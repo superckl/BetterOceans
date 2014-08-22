@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.superckl.betteroceans.common.IRenderRotatable;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.parts.BoatPart;
 import me.superckl.betteroceans.common.reference.ModFluids;
@@ -30,7 +29,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.fluids.IFluidTank;
 
-public class TileEntityBoatWorkbench extends TileEntity implements IInventory, IFluidHandler{
+public class TileEntityBoatbench extends TileEntity implements IInventory, IFluidHandler{
 
 	@Getter
 	private final ItemStack[] inventory = new ItemStack[10];
@@ -41,9 +40,12 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory, I
 	private boolean shouldHandleFluids;
 	private final IFluidTank tank = new FluidTank(4000);
 
-	public TileEntityBoatWorkbench() {}
+	public TileEntityBoatbench() {}
 
-	public TileEntityBoatWorkbench(final boolean shouldHandleFluids) {
+	/**
+	 * @param shouldHandleFluids determines if this te will handle lubricants and also check if parts require time to create
+	 */
+	public TileEntityBoatbench(final boolean shouldHandleFluids) {
 		this.shouldHandleFluids = shouldHandleFluids;
 	}
 
@@ -51,7 +53,7 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory, I
 		if(selection.getBoatParts().size() != 1)
 			throw new IllegalArgumentException("Active selection must be made of only one part!");
 		this.activeSelection = selection;
-        selection.setRenderWithRotation(true);
+		selection.setRenderWithRotation(true);
 		this.checkRecipeCompletion();
 	}
 
@@ -258,11 +260,11 @@ public class TileEntityBoatWorkbench extends TileEntity implements IInventory, I
 		LogHelper.debug("Received data packet");
 		final NBTTagCompound comp = pkt.func_148857_g();
 		final TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(pkt.func_148856_c(), pkt.func_148855_d(), pkt.func_148854_e());
-		if(te == null || !(te instanceof TileEntityBoatWorkbench)){
+		if(te == null || !(te instanceof TileEntityBoatbench)){
 			LogHelper.error("Failed to deserialize TileEntity!");
 			return;
 		}
-		((TileEntityBoatWorkbench)te).setActiveSelection(BoatPart.deserialize(comp.getInteger("activeSelection")).getOnePartBoat(Minecraft.getMinecraft().theWorld));
+		((TileEntityBoatbench)te).setActiveSelection(BoatPart.deserialize(comp.getInteger("activeSelection")).getOnePartBoat(Minecraft.getMinecraft().theWorld));
 	}
 
 }
