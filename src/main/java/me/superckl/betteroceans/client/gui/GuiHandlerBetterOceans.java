@@ -35,10 +35,10 @@ public class GuiHandlerBetterOceans implements IGuiHandler{
 			switch(ID){
 
 			case ModData.GUIIDs.BASIC_BOAT_BENCH:
-				return new GuiContainerBoatBench("basicboatbench", new ContainerBoatbench(player.inventory, (TileEntityBoatbench) te), (TileEntityBoatbench) te,
+				return new GuiContainerBoatbench("basicboatbench", new ContainerBoatbench(player.inventory, (TileEntityBoatbench) te), (TileEntityBoatbench) te,
 						new Type[] {Type.BOTTOM, Type.SIDE, Type.END}, new Material[] {Material.WOOD});
 			case ModData.GUIIDs.INTER_BOAT_BENCH:
-				return new GuiContainerBoatBench("interboatbench", new ContainerBoatbench(player.inventory, (TileEntityBoatbench) te), (TileEntityBoatbench) te,
+				return new GuiContainerBoatbench("interboatbench", new ContainerBoatbench(player.inventory, (TileEntityBoatbench) te), (TileEntityBoatbench) te,
 						new Type[] {Type.BOTTOM, Type.SIDE, Type.END}, new Material[] {Material.WOOD, Material.IRON});
 			}
 		return null;

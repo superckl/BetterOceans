@@ -26,7 +26,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiContainerBoatBench extends GuiContainer{
+public class GuiContainerBoatbench extends GuiContainer{
 
 	protected ResourceLocation texture = new ResourceLocation(ModData.MOD_ID+":textures/gui/boatbench.png");
 
@@ -43,7 +43,7 @@ public class GuiContainerBoatBench extends GuiContainer{
 
 	private boolean buttonsEnabled;
 
-	public GuiContainerBoatBench(final String unlocalizedName, final Container container, final TileEntityBoatbench te, final Type[] validTypes, final Material[] validMaterials) {
+	public GuiContainerBoatbench(final String unlocalizedName, final Container container, final TileEntityBoatbench te, final Type[] validTypes, final Material[] validMaterials) {
 		super(container);
 		this.unlocalizedName = unlocalizedName;
 		this.validTypes = validTypes;
