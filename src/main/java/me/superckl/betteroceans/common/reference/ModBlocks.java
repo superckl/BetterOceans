@@ -15,22 +15,22 @@ import cpw.mods.fml.common.registry.GameRegistry.ObjectHolder;
 public abstract class ModBlocks {
 
 	public static final BlockSeaweed seaweed = new BlockSeaweed();
-	public static final BlockBoatbench basicBoatbench = new BlockBoatbench();
+	public static final BlockBoatbench boatbench = new BlockBoatbench();
 	public static final BlockHardCoral hardCoral = new BlockHardCoral();
 	public static BlockFluidSaltWater saltWater;
 	public static BlockFluidSeaweedOil seaweedOil;
 
 	public static void init(){
 		GameRegistry.registerBlock(ModBlocks.seaweed, Names.SEAWEED);
-		GameRegistry.registerBlock(ModBlocks.basicBoatbench, ItemBlockBoatbench.class, Names.BASIC_BOATBENCH);
+		GameRegistry.registerBlock(ModBlocks.boatbench, ItemBlockBoatbench.class, Names.BASIC_BOATBENCH);
 		GameRegistry.registerBlock(ModBlocks.hardCoral, Names.HARD_CORAL);
 
 		ModBlocks.addRecipes();
 	}
 
 	private static void addRecipes(){
-		GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.basicBoatbench, "xxx", "yxy", "yyy", 'y', "plankWood", 'x', "cobblestone"));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.basicBoatbench, 1, 1), "xxx", "yxy", "yyy", 'y', "stone", 'x', "ingotIron"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.boatbench, "xxx", "yxy", "yyy", 'y', "plankWood", 'x', "cobblestone"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.boatbench, 1, 1), "xxx", "yxy", "yyy", 'y', "stone", 'x', "ingotIron"));
 	}
 
 	public static class Names{

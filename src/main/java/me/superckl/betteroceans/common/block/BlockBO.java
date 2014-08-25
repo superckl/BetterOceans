@@ -19,4 +19,12 @@ public abstract class BlockBO extends Block{
 		return unlocalizedName.substring(unlocalizedName.indexOf(".")+1);
 	}
 
+	public String getUnlocalizedName(final int meta){
+		return String.format("tile.%s%s%s", ModData.MOD_ID.toLowerCase(), ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName(), meta));
+	}
+
+	private String getUnwrappedUnlocalizedName(final String unlocalizedName, final int meta){
+		return unlocalizedName.substring(unlocalizedName.indexOf(".")+1)+":"+meta;
+	}
+
 }

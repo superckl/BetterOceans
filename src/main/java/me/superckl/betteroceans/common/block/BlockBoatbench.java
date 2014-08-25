@@ -40,6 +40,8 @@ public class BlockBoatbench extends BlockContainerBO{
 		list.add(new ItemStack(item, 1, 1));
 	}
 
+
+
 	@Override
 	public void breakBlock(final World world, final int x, final int y, final int z, final Block p_149749_5_, final int p_149749_6_){
 		this.dropItems(world, x, y, z);

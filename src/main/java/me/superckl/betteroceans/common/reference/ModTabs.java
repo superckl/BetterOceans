@@ -11,7 +11,7 @@ public abstract class ModTabs{
 
 		@Override
 		public Item getTabIconItem() {
-			return Item.getItemFromBlock(ModBlocks.basicBoatbench);
+			return Item.getItemFromBlock(ModBlocks.boatbench);
 		}
 
 		@Override

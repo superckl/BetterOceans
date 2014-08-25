@@ -166,6 +166,14 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 		return false;
 	}
 
+	public boolean checkRecipeCompletionNoSet(){
+		if(this.activeSelection == null)
+			return false;
+		if(RecipeHelper.areItemsPresent(this.activeSelection.getBoatParts().get(0).getCraftingIngredients(), Arrays.copyOf(this.inventory, 3), true))
+			return true;
+		return false;
+	}
+
 	/**
 	 * Begins crafting the active selection
 	 * @return Whether or not the crafting was successfully started.

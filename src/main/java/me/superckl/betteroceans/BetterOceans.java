@@ -15,6 +15,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
@@ -57,6 +58,8 @@ public class BetterOceans {
 		LogHelper.debug("Replacing ocean biomes...");
 		BiomeHelper.replaceOceanBiomes();
 		BetterOceans.proxy.registerEntities();
+
+		FMLInterModComms.sendMessage("Waila", "register", "me.superckl.betteroceans.integration.BOWailaProvider.callbackRegister");
 	}
 
 	@EventHandler

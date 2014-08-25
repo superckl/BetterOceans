@@ -100,7 +100,7 @@ public class GuiContainerBoatbench extends GuiContainer{
 				((GuiButton)button).enabled = true;
 			this.buttonsEnabled = true;
 		}
-		((GuiButton)this.buttonList.get(4)).enabled = this.activePart.getCreationTime() > 0 && te.checkRecipeCompletion();
+		((GuiButton)this.buttonList.get(4)).enabled = this.activePart != null && this.activePart.getCreationTime() > 0 && te.checkRecipeCompletionNoSet();
 	}
 
 	public void updateActivePart(){
@@ -139,7 +139,7 @@ public class GuiContainerBoatbench extends GuiContainer{
 				height -= 15;
 			}
 			this.drawTexturedModelRectFromIcon(200, 78 - height, info.fluid.getFluid().getIcon(), 16, height);
-		}else
+		}else if(te.isShouldHandleFluids())
 			this.fontRendererObj.drawString("No Fuel", 224-this.fontRendererObj.getStringWidth("No Fuel")-7, 6, 0xFF0000);
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		RenderHelper.drawTexturedRect(this.texture, 205, 18, 225, 17, 12, 60, this.xSize, this.ySize, 1F);
