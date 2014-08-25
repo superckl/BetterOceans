@@ -67,7 +67,7 @@ public class ItemBOBucket extends ItemBOFluidContainer{
 				return itemStack;
 
 			if (this.tryPlaceContainedLiquid(itemStack, world, i, j, k) && !player.capabilities.isCreativeMode)
-				return new ItemStack(Items.bucket);
+				return FluidContainerRegistry.EMPTY_BUCKET;
 		}
 
 		return itemStack;
@@ -140,5 +140,20 @@ public class ItemBOBucket extends ItemBOFluidContainer{
 			return true;
 		}
 	}
+
+	@Override
+	public int fill(final ItemStack container, final FluidStack resource, final boolean doFill) {
+		if(resource.amount < FluidContainerRegistry.BUCKET_VOLUME)
+			return 0;
+		return super.fill(container, resource, doFill);
+	}
+
+	@Override
+	public FluidStack drain(final ItemStack container, final int maxDrain, final boolean doDrain) {
+		if(maxDrain < FluidContainerRegistry.BUCKET_VOLUME)
+			return null;
+		return super.drain(container, maxDrain, doDrain);
+	}
+
 
 }

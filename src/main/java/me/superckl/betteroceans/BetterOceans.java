@@ -41,7 +41,6 @@ public class BetterOceans {
 		ModItems.init();
 		ModBlocks.init();
 		BetterOceans.proxy.registerWorldGenerators();
-		BetterOceans.proxy.registerEntities();
 		BetterOceans.proxy.registerRenderers();
 		BOIntegration.preInit();
 		try {
@@ -57,6 +56,7 @@ public class BetterOceans {
 		ModItems.overrideItems();
 		LogHelper.debug("Replacing ocean biomes...");
 		BiomeHelper.replaceOceanBiomes();
+		BetterOceans.proxy.registerEntities();
 	}
 
 	@EventHandler

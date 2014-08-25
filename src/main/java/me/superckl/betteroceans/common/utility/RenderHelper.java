@@ -73,4 +73,11 @@ public class RenderHelper {
 		tessellator.draw();
 	}
 
+	public static void setGLColorFromInt(final int color) {
+		final float red = (color >> 16 & 255) / 255.0F;
+		final float green = (color >> 8 & 255) / 255.0F;
+		final float blue = (color & 255) / 255.0F;
+		GL11.glColor4f(red, green, blue, 1.0F);
+	}
+
 }

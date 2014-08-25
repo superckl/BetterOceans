@@ -195,7 +195,7 @@ public abstract class BoatPart {
 	@RequiredArgsConstructor
 	public static enum Material{
 		WOOD("textures/entity/boat.png", new ItemStack(Blocks.planks), 1, .85D),
-		IRON("", new ItemStack(Items.iron_ingot), 2, 1.2D),//TODO
+		IRON("textures/entity/boatiron.png", new ItemStack(Items.iron_ingot), 2, 1.2D),//TODO
 		GLASS("", new ItemStack(Blocks.glass), 1, .6D),//TODO
 		UNSUPPORTED(null, null, 0, 0D);
 

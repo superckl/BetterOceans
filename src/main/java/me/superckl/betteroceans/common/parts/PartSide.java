@@ -12,6 +12,7 @@ import me.superckl.betteroceans.common.reference.ModItems;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -134,6 +135,65 @@ public abstract class PartSide extends BoatPart{
 		@Override
 		public String getItemTexture() {
 			return ModData.MOD_ID+":part_side_wood";
+		}
+
+	}
+
+	public static class PartIronSide extends PartSide{
+
+		private static int leftID = BoatPart.registerPart(PartIronSide.class, true);
+		private static int rightID = BoatPart.registerPart(PartIronSide.class, false);
+
+		public PartIronSide(final Boolean leftSide) {
+			super(leftSide);
+		}
+
+		@Override
+		public List<ItemStack> getCraftingIngredients() {
+			return Arrays.asList(new ItemStack(Items.iron_ingot, 3), new ItemStack(Blocks.planks));
+		}
+
+		@Override
+		public Material getMaterial() {
+			return Material.IRON;
+		}
+
+		@Override
+		public ItemStack getCraftingResult() {
+			return new ItemStack(ModItems.boatPart, 1, PartIronSide.leftID);
+		}
+
+		@Override
+		public double getSpeedModifier(){
+			return 1.05D;
+		}
+		@Override
+		public double getSinkChanceModifier(){
+			return .9D;
+		}
+		@Override
+		public double getTurnModifier(){
+			return 1.1D;
+		}
+
+		@Override
+		public int getCreationTime(){
+			return 300;
+		}
+
+		@Override
+		public int getPartID() {
+			return this.leftSide ? PartIronSide.leftID:PartIronSide.rightID;
+		}
+
+		@Override
+		public boolean shouldDrop(final Random random) {
+			return random.nextDouble() < .95D;
+		}
+
+		@Override
+		public String getItemTexture() {
+			return ModData.MOD_ID+":part_side_iron";
 		}
 
 	}

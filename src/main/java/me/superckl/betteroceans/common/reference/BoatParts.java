@@ -14,6 +14,13 @@ public abstract class BoatParts {
 	//public static final BoatPart woodenSideRight = new PartSide.PartWoodenSide(false);
 	public static final BoatPart woodenEndFront = new PartEnd.PartWoodenEnd(true);
 	//public static final BoatPart woodenEndBack = new PartEnd.PartWoodenEnd(false);
-	public static final BoatPart[] allParts = new BoatPart[] {BoatParts.woodenBottom, BoatParts.woodenSideLeft, BoatParts.woodenEndFront};
+
+	public static final BoatPart ironBottom = new PartBottom.PartIronBottom();
+	public static final BoatPart ironSideLeft = new PartSide.PartIronSide(true);
+	//public static final BoatPart ironSideRight = new PartSide.PartIronSide(false);
+	public static final BoatPart ironEndFront = new PartEnd.PartIronEnd(true);
+	//public static final BoatPart ironEndBack = new PartEnd.PartIronEnd(false);
+
+	public static final BoatPart[] allParts = new BoatPart[] {BoatParts.woodenBottom, BoatParts.woodenSideLeft, BoatParts.woodenEndFront, BoatParts.ironBottom, BoatParts.ironSideLeft, BoatParts.ironEndFront};
 
 }

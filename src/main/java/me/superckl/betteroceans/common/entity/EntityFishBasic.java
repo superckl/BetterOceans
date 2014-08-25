@@ -1,10 +1,10 @@
 package me.superckl.betteroceans.common.entity;
 
+import me.superckl.betteroceans.common.entity.ai.EntityAISwimRandomly;
 import me.superckl.betteroceans.common.reference.ModItems;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
@@ -19,7 +19,7 @@ public class EntityFishBasic extends EntityFishBase{
 
 	public EntityFishBasic(final World world) {
 		super(world, true);
-		this.tasks.addTask(2, new EntityAIWander(this, 0.8D));
+		this.tasks.addTask(2, new EntityAISwimRandomly(this));
 		this.tasks.addTask(3, new EntityAITempt(this, 0.85D, ModItems.itemSeaweed, false));
 		this.tasks.addTask(4, new EntityAIAvoidEntity(this, EntityPlayer.class, 5, 0.81D, 1.2D));
 	}
@@ -28,7 +28,6 @@ public class EntityFishBasic extends EntityFishBase{
 	protected void entityInit() {
 		super.entityInit();
 		this.getDataWatcher().addObject(17, new Float(0));
-		this.setHomeArea((int) this.posX, (int) this.posY, (int) this.posZ, EntityFishBasic.WANDER_DIST);
 	}
 
 	@Override
@@ -36,6 +35,7 @@ public class EntityFishBasic extends EntityFishBase{
 	{
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(5.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.12D);
 	}
 
 	@Override
@@ -94,5 +94,13 @@ public class EntityFishBasic extends EntityFishBase{
 		final int[] coords = compound.getIntArray("spawn");
 		this.setHomeArea(coords[0], coords[1], coords[2], EntityFishBasic.WANDER_DIST);
 	}
+
+	@Override
+	public boolean getCanSpawnHere() {
+		this.setHomeArea((int) this.posX, (int) this.posY, (int) this.posZ, EntityFishBasic.WANDER_DIST);
+		return super.getCanSpawnHere();
+	}
+
+
 
 }

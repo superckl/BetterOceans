@@ -134,18 +134,19 @@ public class RecipeHelper {
 							inventory[i] = null;
 							require.stackSize-=stack.stackSize;
 						}
-				} else if(stack.stackSize > require.stackSize){
-					lit.remove();
-					stack.stackSize -= require.stackSize;
-					break;
-				}else if(stack.stackSize == require.stackSize){
-					lit.remove();
-					inventory[i] = null;
-					break;
-				}else{
-					inventory[i] = null;
-					require.stackSize-=stack.stackSize;
-				}
+				}else if(NumberHelper.contains(ids0, ids))
+					if(stack.stackSize > require.stackSize){
+						lit.remove();
+						stack.stackSize -= require.stackSize;
+						break;
+					}else if(stack.stackSize == require.stackSize){
+						lit.remove();
+						inventory[i] = null;
+						break;
+					}else{
+						inventory[i] = null;
+						require.stackSize-=stack.stackSize;
+					}
 			}
 		}
 		return copy.isEmpty();

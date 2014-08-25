@@ -1,7 +1,8 @@
 package me.superckl.betteroceans.common.container;
 
 import lombok.Getter;
-import me.superckl.betteroceans.common.container.components.BoatCraftingSlot;
+import me.superckl.betteroceans.common.container.components.FluidContainerSlot;
+import me.superckl.betteroceans.common.container.components.NoPutSlot;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -9,19 +10,26 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerBasicBoatbench extends Container{
+public class ContainerBoatbench extends Container{
 
 	@Getter
 	private final TileEntityBoatbench tileEntity;
 
-	public ContainerBasicBoatbench(final InventoryPlayer inventoryPlayer, final TileEntityBoatbench te){
+	public ContainerBoatbench(final InventoryPlayer inventoryPlayer, final TileEntityBoatbench te){
 		this.tileEntity = te;
 		this.bindPlayerInventory(inventoryPlayer);
-		for (int i = 0; i < 3; i++)
+		this.addSlotToContainer(new Slot(te, 0, 68, 29));
+		this.addSlotToContainer(new Slot(te, 1, 68, 47));
+		this.addSlotToContainer(new Slot(te, 2, 86, 38));
+
+		final FluidContainerSlot fSlot = (FluidContainerSlot) this.addSlotToContainer(new FluidContainerSlot(te, 3, 178, 31));
+		final Slot slot = this.addSlotToContainer(new NoPutSlot(te, 4, 178, 49));
+		fSlot.setDependency(slot);
+		/*for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
 				this.addSlotToContainer(new Slot(te, j + i * 3,
-						15 + j * 18, 18 + i * 18));
-		this.addSlotToContainer(new BoatCraftingSlot(te, 9, 221, 36));
+						15 + j * 18, 18 + i * 18));*/
+		this.addSlotToContainer(new NoPutSlot(te, 5, 144, 38));
 	}
 
 	@Override
@@ -39,7 +47,7 @@ public class ContainerBasicBoatbench extends Container{
 			stack = stackInSlot.copy();
 
 			//merges the item into player inventory since its in the tileEntity
-			if (slot < 9) {
+			if (slot < 5) {
 				if (!this.mergeItemStack(stackInSlot, 0, 35, true))
 					return null;
 			}
@@ -63,10 +71,10 @@ public class ContainerBasicBoatbench extends Container{
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 9; j++)
 				this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9,
-						15 + j * 18, 79 + i * 18));
+						32 + j * 18, 88 + i * 18));
 
 		for (int i = 0; i < 9; i++)
-			this.addSlotToContainer(new Slot(inventoryPlayer, i, 15 + i * 18, 137));
+			this.addSlotToContainer(new Slot(inventoryPlayer, i, 32 + i * 18, 146));
 	}
 
 }

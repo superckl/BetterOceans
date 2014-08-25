@@ -22,10 +22,11 @@ public class ArrowButton extends GuiButton{
 	public void drawButton(final Minecraft mc, final int p_146112_2_, final int p_146112_3_){
 		if(!this.visible)
 			return;
+		this.field_146123_n = p_146112_2_ >= this.xPosition && p_146112_3_ >= this.yPosition && p_146112_2_ < this.xPosition + this.width && p_146112_3_ < this.yPosition + this.height;
 		if(this.left)
-			RenderHelper.drawTexturedRect(this.textureLeft, this.xPosition+2, this.yPosition+2, 0, 0, 12, 18, 12, 18, 1);
+			RenderHelper.drawTexturedRect(this.textureLeft, this.xPosition, this.yPosition, this.getHoverState(this.field_146123_n) == 2 && this.enabled ? 12:0, 0, 12, 12, 24, 12, 1F);
 		else
-			RenderHelper.drawTexturedRect(this.textureRight, this.xPosition+2, this.yPosition+2, 0, 0, 12, 18, 12, 18, 1);
+			RenderHelper.drawTexturedRect(this.textureRight, this.xPosition, this.yPosition, this.getHoverState(this.field_146123_n) == 2 && this.enabled ? 12:0, 0, 12, 12, 24, 12, 1F);
 	}
 
 
