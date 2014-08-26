@@ -7,19 +7,19 @@ import net.minecraft.util.MathHelper;
 
 public class ModelFishBasic extends ModelBase{
 
-	private final ModelRenderer[] silverfishBodyParts = new ModelRenderer[2];
+	private final ModelRenderer[] silverfishBodyParts = new ModelRenderer[3];
 	private final ModelRenderer[] silverfishFinParts = new ModelRenderer[1];
 
-	private static final int[][] silverfishBoxLength = new int[][] {{3, 3, 5}, {2, 2, 2}};
-	private static final int[][] silverfishTexturePositions = new int[][] {{0, 0}, {0, 9}};
-	private static final float[] silverfishYOffset = new float[] {0F, 1F};
+	private static final int[][] silverfishBoxLength = new int[][] {{3, 4, 5}, {2, 2, 2}, {1, 4, 2}};
+	private static final int[][] silverfishTexturePositions = new int[][] {{0, 0}, {0, 9}, {0, 0}};
+	private static final float[] silverfishYOffset = new float[] {0F, 2F, 0F};
 
-	private static final int[][] silverfishFinBoxLength = new int[][] {{1, 3, 2}};
+	private static final int[][] silverfishFinBoxLength = new int[][] {{1, 3, 3}};
 	private static final int[][] silverfishFinTexturePositions = new int[][] {{0, 0}};
-	private static final float[] silverfishFinYOffset = new float[] {2.5F};
+	private static final float[] silverfishFinYOffset = new float[] {3.5F};
 	private static final float[][] silverfishFinRotation = new float[][] {{(float) (Math.PI/2.2F), 0, 0}};
-	
-	
+
+
 	public ModelFishBasic() {
 		float f = -3.5F;
 
@@ -39,9 +39,9 @@ public class ModelFishBasic extends ModelBase{
 			this.silverfishFinParts[i] = new ModelRenderer(this, ModelFishBasic.silverfishFinTexturePositions[i][0], ModelFishBasic.silverfishFinTexturePositions[i][1]);
 			this.silverfishFinParts[i].addBox(ModelFishBasic.silverfishFinBoxLength[i][0] * -0.5F, ModelFishBasic.silverfishFinYOffset[i]* -0.5F, ModelFishBasic.silverfishFinBoxLength[i][2] * -0.5F, ModelFishBasic.silverfishFinBoxLength[i][0], ModelFishBasic.silverfishFinBoxLength[i][1], ModelFishBasic.silverfishFinBoxLength[i][2]);
 			this.silverfishFinParts[i].setRotationPoint(0.0F, 24 - ModelFishBasic.silverfishFinBoxLength[i][1], f);
-			this.silverfishFinParts[i].rotateAngleX = this.silverfishFinRotation[i][0];
-			this.silverfishFinParts[i].rotateAngleY = this.silverfishFinRotation[i][1];
-			this.silverfishFinParts[i].rotateAngleZ = this.silverfishFinRotation[i][2];
+			this.silverfishFinParts[i].rotateAngleX = ModelFishBasic.silverfishFinRotation[i][0];
+			this.silverfishFinParts[i].rotateAngleY = ModelFishBasic.silverfishFinRotation[i][1];
+			this.silverfishFinParts[i].rotateAngleZ = ModelFishBasic.silverfishFinRotation[i][2];
 			if (i < this.silverfishFinParts.length - 1)
 				f += (ModelFishBasic.silverfishFinBoxLength[i][2] + ModelFishBasic.silverfishFinBoxLength[i + 1][2]) * 0.5F;
 		}
@@ -75,7 +75,7 @@ public class ModelFishBasic extends ModelBase{
 			this.silverfishBodyParts[i].rotateAngleY = MathHelper.cos(p_78087_3_ * 0.9F + i * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (1 + Math.abs(i - 2));
 			this.silverfishBodyParts[i].rotationPointX = MathHelper.sin(p_78087_3_ * 0.9F + i * 0.15F * (float)Math.PI) * (float)Math.PI * 0.2F * Math.abs(i - 2);
 		}
-		
+
 		for (int i = 0; i < this.silverfishFinParts.length; ++i)
 		{
 			this.silverfishFinParts[i].rotateAngleY = MathHelper.cos(p_78087_3_ * 0.9F + i * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (1 + Math.abs(i - 2));

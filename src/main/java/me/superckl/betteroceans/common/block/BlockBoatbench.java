@@ -26,9 +26,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockBoatbench extends BlockContainerBO{
 
 	public BlockBoatbench() {
-		super(Material.wood);
+		super(Material.rock);
 		this.setBlockName("boatbench").setStepSound(Block.soundTypeWood).setCreativeTab(ModTabs.tabBlocks);
-		this.setHarvestLevel("pickaxe", 0, 0);
+		this.setHarvestLevel("axe", 0, 0);
 		this.setHarvestLevel("pickaxe", 1, 1);
 	}
 
@@ -40,12 +40,25 @@ public class BlockBoatbench extends BlockContainerBO{
 		list.add(new ItemStack(item, 1, 1));
 	}
 
+	private final float[] hardness = new float[] {2.5F, 3.5F};
 
+	@Override
+	public float getBlockHardness(final World world, final int x, final int y, final int z)
+	{
+		return this.hardness[world.getBlockMetadata(x, y, z)];
+	}
 
 	@Override
 	public void breakBlock(final World world, final int x, final int y, final int z, final Block p_149749_5_, final int p_149749_6_){
 		this.dropItems(world, x, y, z);
 		super.breakBlock(world, x, y, z, p_149749_5_, p_149749_6_);
+	}
+
+
+
+	@Override
+	public int damageDropped(final int meta) {
+		return meta;
 	}
 
 	@Override

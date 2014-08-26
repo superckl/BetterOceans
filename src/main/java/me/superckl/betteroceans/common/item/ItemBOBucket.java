@@ -155,5 +155,4 @@ public class ItemBOBucket extends ItemBOFluidContainer{
 		return super.drain(container, maxDrain, doDrain);
 	}
 
-
 }

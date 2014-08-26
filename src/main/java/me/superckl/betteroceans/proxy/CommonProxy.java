@@ -46,7 +46,7 @@ public abstract class CommonProxy implements IProxy{
 		EntityRegistry.registerGlobalEntityID(EntityFishBasic.class, "bofishbasic", fishID, Color.BLUE.getRGB(), Color.BLACK.getRGB());
 		EntityRegistry.registerModEntity(EntityFishBasic.class, "bofishbasic", fishID, BetterOceans.getInstance(), 80, 3, true);
 		EntityRegistry.instance();
-		EntityRegistry.addSpawn(EntityFishBasic.class, 12, 1, 10, EnumCreatureType.waterCreature, BiomeGenBase.ocean, BiomeGenBase.deepOcean, BiomeGenBase.river);
+		EntityRegistry.addSpawn(EntityFishBasic.class, 14, 5, 15, EnumCreatureType.waterCreature, BiomeGenBase.ocean, BiomeGenBase.deepOcean, BiomeGenBase.river);
 
 		GameRegistry.registerTileEntity(TileEntityBoatbench.class, "tileEntityBasicBoatWorkbench");
 	}

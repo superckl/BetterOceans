@@ -4,7 +4,6 @@ import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModFluids;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.Fluid;
 
@@ -23,7 +22,7 @@ public class BlockFluidSeaweedOil extends BlockBOFluidClassic{
 		this.icons[1] = register.registerIcon(ModData.MOD_ID+":seaweedoil_flow");
 		ModFluids.seaweedOil.setIcons(this.icons[0], this.icons[1]);
 	}
-	
+
 	@Override
 	public IIcon getIcon(final int side, final int meta)
 	{
