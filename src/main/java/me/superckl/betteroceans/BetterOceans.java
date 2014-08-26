@@ -59,7 +59,8 @@ public class BetterOceans {
 		BiomeHelper.replaceOceanBiomes();
 		BetterOceans.proxy.registerEntities();
 
-		FMLInterModComms.sendMessage("Waila", "register", "me.superckl.betteroceans.integration.BOWailaProvider.callbackRegister");
+		FMLInterModComms.sendMessage("Waila", "register", "me.superckl.betteroceans.integration.waila.BOWailaDataProvider.callbackRegister");
+		FMLInterModComms.sendMessage("Waila", "register", "me.superckl.betteroceans.integration.waila.BOWailaEntityProvider.callbackRegister");
 	}
 
 	@EventHandler

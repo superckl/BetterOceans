@@ -1,4 +1,4 @@
-package me.superckl.betteroceans.integration;
+package me.superckl.betteroceans.integration.bop;
 
 import java.util.List;
 import java.util.ListIterator;

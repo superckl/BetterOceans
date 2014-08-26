@@ -1,4 +1,4 @@
-package me.superckl.betteroceans.integration;
+package me.superckl.betteroceans.integration.waila;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidTankInfo;
 
-public class BOWailaProvider implements IWailaDataProvider{
+public class BOWailaDataProvider implements IWailaDataProvider{
 
 	@Override
 	public ItemStack getWailaStack(final IWailaDataAccessor accessor,
@@ -54,12 +54,12 @@ public class BOWailaProvider implements IWailaDataProvider{
 				if(te != null && te instanceof TileEntityBoatbench){
 					final TileEntityBoatbench tebb = (TileEntityBoatbench) te;
 					if(tebb.getActiveSelection() != null)
-						currenttip.add(0, "Active Part: "+tebb.getActiveSelection().getBoatParts().get(0).getNiceName());
+						currenttip.add(currenttip.size(), "Active Part: "+tebb.getActiveSelection().getBoatParts().get(0).getNiceName());
 					final FluidTankInfo[] infos = tebb.getTankInfo(null);
 					if(infos.length > 0 && infos[0] != null && infos[0].fluid != null)
-						currenttip.add(1, "Contains "+infos[0].fluid.amount+"mb of "+infos[0].fluid.getFluid().getLocalizedName(infos[0].fluid));
+						currenttip.add(currenttip.size(), "Contains "+infos[0].fluid.amount+"mb of "+infos[0].fluid.getFluid().getLocalizedName(infos[0].fluid));
 					if(tebb.getPartBurnTime() > 0)
-						currenttip.add(2, "Time Left: "+(tebb.getPartBurnTime()-tebb.getCookTime())/20+" seconds");
+						currenttip.add(currenttip.size(), "Time Remaining: "+(tebb.getPartBurnTime()-tebb.getCookTime())/20+" seconds");
 
 				}
 			}
@@ -76,7 +76,7 @@ public class BOWailaProvider implements IWailaDataProvider{
 
 	public static void callbackRegister(final IWailaRegistrar registrar){
 		registrar.addConfig("Better Oceans", "showbenchinfo", "Show Boatbench Info");
-		final BOWailaProvider provider = new BOWailaProvider();
+		final BOWailaDataProvider provider = new BOWailaDataProvider();
 		//registrar.registerHeadProvider(provider, BlockBoatbench.class);
 		registrar.registerStackProvider(provider, BlockBoatbench.class);
 		registrar.registerBodyProvider(provider, BlockBoatbench.class);

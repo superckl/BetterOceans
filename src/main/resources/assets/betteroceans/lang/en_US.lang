@@ -24,6 +24,7 @@ item.betteroceans:boatpart:7.name=Iron Boat Side
 item.betteroceans:boatpart:8.name=Iron Boat End
 item.betteroceans:boatpart:9.name=Iron Boat End
 entity.bofishbasic.name=Fish
+entity.bobetterboat.name=Better Boat
 gui.betteroceans:config.name=Better Oceans Configuration
 gui.betteroceans:config_worldgen.name=Better Oceans World Generation Configuration
 gui.betteroceans:config_general.name=Better Oceans General Configuration

@@ -1,4 +1,4 @@
-package me.superckl.betteroceans.integration;
+package me.superckl.betteroceans.integration.nei;
 
 import java.util.ArrayList;
 import java.util.List;

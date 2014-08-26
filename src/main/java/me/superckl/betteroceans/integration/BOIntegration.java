@@ -5,6 +5,8 @@ import me.superckl.betteroceans.common.gen.BiomeGenBetterDeepOcean;
 import me.superckl.betteroceans.common.gen.BiomeGenBetterOcean;
 import me.superckl.betteroceans.common.utility.BiomeHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
+import me.superckl.betteroceans.integration.bop.BiomesOPlentyIntegration;
+import me.superckl.betteroceans.integration.nei.NotEnoughItemsIntegration;
 import net.minecraft.world.biome.BiomeGenBase;
 import cpw.mods.fml.common.Loader;
 

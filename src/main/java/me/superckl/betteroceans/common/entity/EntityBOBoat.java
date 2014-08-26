@@ -100,6 +100,8 @@ public class EntityBOBoat extends EntityModularBoat implements IRenderRotatable,
 		this.dataWatcher.addObject(20, new Float(0F));
 	}
 
+
+
 	@Override
 	public AxisAlignedBB getCollisionBox(final Entity entity)
 	{
