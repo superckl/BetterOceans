@@ -22,7 +22,7 @@ group= "me.superckl.betteroceans"
 archivesBaseName = "BetterOceans"
 
 minecraft {
-    version = "1.7.10-10.13.0.1183"
+    version = "1.7.10-10.13.0.1208"
     runDir = "eclipse/assets"
 }
 
