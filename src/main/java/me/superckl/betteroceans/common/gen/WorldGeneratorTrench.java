@@ -104,25 +104,38 @@ public class WorldGeneratorTrench implements IWorldGenerator{
 			return;
 		if(BlockHelper.getMinHeightInChunk(world, chunkX, chunkZ, Blocks.water) < 15)
 			return; //We aren't generating a trench in that shallow water...
-		if(BiomeHelper.distanceToNearestNonOcean(world, chunkX, chunkZ, 7) < 7)
+		if(BiomeHelper.distanceToNearestNonOcean(world, chunkX, chunkZ, 7) < 1)
 			return; //To close to shore;
 		if(random.nextInt(50) != 0) //200
 			return;
 		LogHelper.warn("Generating trench, expect lag. This can get a bit intense...");
 		final int from0 = 5 + random.nextInt(3);
-		final int width = Math.max(75, random.nextInt(150));
-		final int length = Math.max(200, random.nextInt(400));
+		int width = Math.max(75, random.nextInt(150));
+		final int constWidth = width;
+		int length = Math.max(240, random.nextInt(400));
 		final int ledges = Math.max(4, random.nextInt(8));
 		int startX = (chunkX << 4) + random.nextInt(10);
 		int startZ = (chunkZ << 4) + random.nextInt(10);
+		final int endTaper = 20+random.nextInt(10);
 		LogHelper.info(startX+":"+startZ);
 		final boolean genAcrossX = random.nextBoolean();
+		int taper = width-5;
 		int currentLedge;
 		int offsetY = 0;
 		int offsetYCounter = 0;
 		int ledgeWidth = 1;
 		int ledgeWidthCounter = 0;
 		for(int i = 0; i < length; i++){
+			width = constWidth;
+			if(i > length - endTaper){
+				width = constWidth-taper;
+				taper += 1+random.nextInt(3);
+				if(i == length - 1 && width > 3)
+					length++;
+			}else if(taper > 0){
+				width = constWidth-taper;
+				taper -= 1+random.nextInt(3);
+			}
 			currentLedge = 0;
 			if(offsetYCounter <= 0){
 				offsetY += Math.min(random.nextInt(2)-random.nextInt(2), 6);
@@ -148,10 +161,10 @@ public class WorldGeneratorTrench implements IWorldGenerator{
 				for(int k = (int) (floorY+Math.max(0, Math.floor(Math.pow(random.nextDouble(), 15D))*2.5)); k < y; k++)
 					if(genAcrossX)
 						world.setBlock(startX+j, k, startZ,
-								world.getBlock(startX+j, k, startZ) == Blocks.air ? Blocks.air:Blocks.water);
+								world.getBlock(startX+j, k, startZ) == Blocks.air ? Blocks.air:Blocks.water, 0, 2);
 					else
 						world.setBlock(startX, k, startZ+j,
-								world.getBlock(startX, k, startZ+j) == Blocks.air ? Blocks.air:Blocks.water);
+								world.getBlock(startX, k, startZ+j) == Blocks.air ? Blocks.air:Blocks.water, 0, 2);
 			}
 			int topHeight;
 			if(genAcrossX)
@@ -191,10 +204,10 @@ public class WorldGeneratorTrench implements IWorldGenerator{
 						for(int k = from0+ledgeHeights[currentLedge]+sum; k < y; k++)
 							if(genAcrossX)
 								world.setBlock(ledgeX+j, k, ledgeZ,
-										world.getBlock(ledgeX+j, k, ledgeZ) == Blocks.air ? Blocks.air:Blocks.water);
+										world.getBlock(ledgeX+j, k, ledgeZ) == Blocks.air ? Blocks.air:Blocks.water, 0, 2);
 							else
 								world.setBlock(ledgeX, k, ledgeZ+j,
-										world.getBlock(ledgeX, k, ledgeZ+j) == Blocks.air ? Blocks.air:Blocks.water);
+										world.getBlock(ledgeX, k, ledgeZ+j) == Blocks.air ? Blocks.air:Blocks.water, 0, 2);
 						//Second side
 						int nudge;
 						if(genAcrossX)
@@ -208,10 +221,10 @@ public class WorldGeneratorTrench implements IWorldGenerator{
 						for(int k = from0+ledgeHeights[currentLedge]+sum; k < y; k++)
 							if(genAcrossX)
 								world.setBlock(ledgeX+nudge+j, k, ledgeZ,
-										world.getBlock(ledgeX+nudge+j, k, ledgeZ) == Blocks.air ? Blocks.air:Blocks.water);
+										world.getBlock(ledgeX+nudge+j, k, ledgeZ) == Blocks.air ? Blocks.air:Blocks.water, 0, 2);
 							else
 								world.setBlock(ledgeX, k, ledgeZ+nudge+j,
-										world.getBlock(ledgeX, k, ledgeZ+nudge+j) == Blocks.air ? Blocks.air:Blocks.water);
+										world.getBlock(ledgeX, k, ledgeZ+nudge+j) == Blocks.air ? Blocks.air:Blocks.water, 0, 2);
 					}
 				}
 				currentLedge++;

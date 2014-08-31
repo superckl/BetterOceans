@@ -31,7 +31,7 @@ public class WorldGeneratorReef implements IWorldGenerator{
 		final boolean genAcrossX = random.nextBoolean();
 		int startX = (chunkX << 4) + random.nextInt(10);
 		int startZ = (chunkZ << 4) + random.nextInt(10);
-		LogHelper.info(startX+":"+startZ);
+		//LogHelper.info(startX+":"+startZ);
 		final int length = 15 + random.nextInt(30);
 		final int width = 5 + random.nextInt(25);
 		final int height = 3 + random.nextInt(3);
@@ -61,17 +61,17 @@ public class WorldGeneratorReef implements IWorldGenerator{
 						final int z = startZ;
 						final int y = world.getTopSolidOrLiquidBlock(x, z);
 						if(random.nextDouble() < .8)
-							world.setBlock(x, y, z, ModBlocks.hardCoral, random.nextInt(1), 1 + 2); //TODO coral meta
+							world.setBlock(x, y, z, ModBlocks.hardCoral, random.nextInt(1), 2); //TODO coral meta
 						if(h == height-1 && random.nextDouble() < .2)
-							world.setBlock(x, y+1, z, ModBlocks.softCoral, random.nextInt(1), 1 + 2); //TODO coral meta
+							world.setBlock(x, y+1, z, ModBlocks.softCoral, random.nextInt(1), 2); //TODO coral meta
 					}else{
 						final int x = startX;
 						final int z = startZ-offset+j;
 						final int y = world.getTopSolidOrLiquidBlock(x, z);
 						if(random.nextDouble() < .8)
-							world.setBlock(x, y, z, ModBlocks.hardCoral, random.nextInt(1), 1 + 2); //TODO coral meta
+							world.setBlock(x, y, z, ModBlocks.hardCoral, random.nextInt(1), 2); //TODO coral meta
 						if(h == height-1 && random.nextDouble() < .2)
-							world.setBlock(x, y+1, z, ModBlocks.softCoral, random.nextInt(1), 1 + 2); //TODO coral meta
+							world.setBlock(x, y+1, z, ModBlocks.softCoral, random.nextInt(1), 2); //TODO coral meta
 					}
 				}
 				if(h == height-1)

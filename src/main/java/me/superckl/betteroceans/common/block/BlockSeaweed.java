@@ -1,5 +1,6 @@
 package me.superckl.betteroceans.common.block;
 
+import java.util.List;
 import java.util.Random;
 
 import lombok.experimental.ExtensionMethod;
@@ -153,8 +154,20 @@ public class BlockSeaweed extends BlockBO{
 		//LogHelper.info(above.getUnlocalizedName());
 		if(!BlockHelper.isWaterSource(above, this))
 			return false;
-		//TODO use new getBlockAround helper method
-		boolean corner0, corner1, corner2;
+		final List<Block> blocks = BlockHelper.getBlocksAround(world, x, y, z);
+		for(int i = 0; i < blocks.size(); i++){
+			final boolean corner0 = BlockHelper.isWaterSource(blocks.get(i++));
+			final boolean corner1 = BlockHelper.isWaterSource(blocks.get(i++));
+			boolean corner2;
+			if(i == blocks.size())
+				corner2 = BlockHelper.isWaterSource(blocks.get(0));
+			else
+				corner2 = BlockHelper.isWaterSource(blocks.get(i));
+			if(corner0 && corner1 && corner2)
+				return true;
+		}
+		return false;
+		/*boolean corner0, corner1, corner2;
 		//Begin testing corners
 		corner0 = BlockHelper.isWaterSourceAt(world, x+1, y, z);
 		corner1 = BlockHelper.isWaterSourceAt(world, x+1, y, z+1);
@@ -181,7 +194,7 @@ public class BlockSeaweed extends BlockBO{
 		corner1 = BlockHelper.isWaterSourceAt(world, x+1, y, z-1);
 		corner2 = BlockHelper.isWaterSourceAt(world, x+1, y, z);
 		//LogHelper.info(StringHelper.build(corner0, corner1, corner2));
-		return corner0 && corner1 && corner2;
+		return corner0 && corner1 && corner2;*/
 
 	}
 
