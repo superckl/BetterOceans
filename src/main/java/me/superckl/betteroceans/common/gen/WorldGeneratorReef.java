@@ -62,12 +62,16 @@ public class WorldGeneratorReef implements IWorldGenerator{
 						final int y = world.getTopSolidOrLiquidBlock(x, z);
 						if(random.nextDouble() < .8)
 							world.setBlock(x, y, z, ModBlocks.hardCoral, random.nextInt(1), 1 + 2); //TODO coral meta
+						if(h == height-1 && random.nextDouble() < .2)
+							world.setBlock(x, y+1, z, ModBlocks.softCoral, random.nextInt(1), 1 + 2); //TODO coral meta
 					}else{
 						final int x = startX;
 						final int z = startZ-offset+j;
 						final int y = world.getTopSolidOrLiquidBlock(x, z);
 						if(random.nextDouble() < .8)
 							world.setBlock(x, y, z, ModBlocks.hardCoral, random.nextInt(1), 1 + 2); //TODO coral meta
+						if(h == height-1 && random.nextDouble() < .2)
+							world.setBlock(x, y+1, z, ModBlocks.softCoral, random.nextInt(1), 1 + 2); //TODO coral meta
 					}
 				}
 				if(h == height-1)

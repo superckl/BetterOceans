@@ -88,7 +88,7 @@ public class BlockSeaweed extends BlockBO{
 
 	@Override
 	public void onBlockDestroyedByPlayer(final World world, final int x, final int y, final int z, final int meta) {
-		world.setBlock(x, y, z, BetterOceans.getInstance().getConfig().isSeaweedToWater() ? Blocks.water:Blocks.air);
+		world.setBlock(x, y, z, BetterOceans.getInstance().getConfig().isFluidReplace() ? BlockHelper.getWaterReplacement(world, x, y, z):Blocks.air);
 	}
 
 
@@ -98,7 +98,7 @@ public class BlockSeaweed extends BlockBO{
 		if(!this.isTop(world, x, y, z)){
 			this.dropBlockAsItem(world, x, y+1, z, world.getBlockMetadata(x, y+1, z), 0);
 			this.breakBlock(world, x, y+1, z, p_149749_5_, p_149749_6_);
-			world.setBlock(x, y+1, z, BetterOceans.getInstance().getConfig().isSeaweedToWater() ? Blocks.water:Blocks.air);
+			world.setBlock(x, y+1, z, BetterOceans.getInstance().getConfig().isFluidReplace() ? BlockHelper.getWaterReplacement(world, x, y+1, z):Blocks.air);
 		}
 		super.breakBlock(world, x, y, z, p_149749_5_, p_149749_6_);
 	}
@@ -128,7 +128,7 @@ public class BlockSeaweed extends BlockBO{
 			//LogHelper.info(world.getBlock(x, y-2, z).getUnlocalizedName());
 			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 			this.breakBlock(world, x, y, z, block, world.getBlockMetadata(x, y, z));
-			world.setBlock(x, y, z, BetterOceans.getInstance().getConfig().isSeaweedToWater() ? Blocks.water:Blocks.air); //TODO
+			world.setBlock(x, y, z, BetterOceans.getInstance().getConfig().isFluidReplace() ? BlockHelper.getWaterReplacement(world, x, y, z):Blocks.air); //TODO
 		}
 	}
 
@@ -153,6 +153,7 @@ public class BlockSeaweed extends BlockBO{
 		//LogHelper.info(above.getUnlocalizedName());
 		if(!BlockHelper.isWaterSource(above, this))
 			return false;
+		//TODO use new getBlockAround helper method
 		boolean corner0, corner1, corner2;
 		//Begin testing corners
 		corner0 = BlockHelper.isWaterSourceAt(world, x+1, y, z);

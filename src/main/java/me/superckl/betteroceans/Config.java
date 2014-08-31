@@ -33,7 +33,7 @@ public class Config {
 	@Getter
 	private boolean seaweedOrKelp;
 	@Getter
-	private boolean seaweedToWater;
+	private boolean fluidReplace;
 	@Getter
 	private int seaweedTries;
 	@Getter
@@ -64,7 +64,7 @@ public class Config {
 			this.otherDecoration = this.configFile.getBoolean("Other Mod Ocean Decorations", Category.WORLD_GEN, true, "Allows other mods to generate decorations in oceans.");
 
 			this.infiniteSaltwater = this.configFile.getBoolean("Infinite Saltwater", Category.GENERAL, true, "If true, saltwater will emulate vanilla infinite water mechanics.");
-			this.seaweedToWater = this.configFile.getBoolean("Seaweed Breaks To Water", Category.GENERAL, true, "Determines whether seaweed is replaced by water or air when broken.");
+			this.fluidReplace = this.configFile.getBoolean("Replace Aquatic Plants With Fluid", Category.GENERAL, true, "Determines whether aquatic plants are replaced by (salt) water or air when broken.");
 
 			this.seaweedOrKelp = this.configFile.getBoolean("Seaweed or Kelp", Category.BIOMES_O_PLENTY, true, "Allows players to use seaweed where kelp is required in recipes.");
 			this.removeSubbiomes = this.configFile.getBoolean("Remove SubBiomes", Category.BIOMES_O_PLENTY, true, "Remove Biomes O' Plenty's ocean subbiomes such as Coral Reef and Kelp Forest.");

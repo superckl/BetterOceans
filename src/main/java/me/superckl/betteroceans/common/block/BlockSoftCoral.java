@@ -2,6 +2,7 @@ package me.superckl.betteroceans.common.block;
 
 import java.util.List;
 
+import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.common.reference.ModBlocks;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModTabs;
@@ -10,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -60,6 +62,11 @@ public class BlockSoftCoral extends BlockBO{
 	public void getSubBlocks(final Item item, final CreativeTabs tab, final List list)
 	{
 		list.add(new ItemStack(item, 1, 0));
+	}
+
+	@Override
+	public void onBlockDestroyedByPlayer(final World world, final int x, final int y, final int z, final int meta) {
+		world.setBlock(x, y, z, BetterOceans.getInstance().getConfig().isFluidReplace() ? BlockHelper.getWaterReplacement(world, x, y, z):Blocks.air);
 	}
 
 	@Override

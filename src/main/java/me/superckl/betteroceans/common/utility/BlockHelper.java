@@ -1,10 +1,15 @@
 package me.superckl.betteroceans.common.utility;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.superckl.betteroceans.common.reference.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
@@ -102,6 +107,73 @@ public class BlockHelper {
 			newFluid = FluidRegistry.lookupFluidForBlock(world.getBlock(x, --y, z));
 		}while(fluid == newFluid);
 		return count;
+	}
+
+	public static Block getWaterReplacement(final World world, final int x, final int y, final int z){
+		int water = 0;
+		int sWater = 0;
+		for(final Block block:BlockHelper.getBlocksAround(world, x, y, z))
+			if(block == Blocks.water)
+				water++;
+			else
+				sWater++;
+		return water > sWater ? Blocks.water:ModBlocks.saltWater;
+	}
+
+	public static Vec3 shiftLoc(final Vec3 position, final ForgeDirection direction){
+		switch(direction){
+		case DOWN:
+			return position.addVector(0D, -1D, 0D);
+		case EAST:
+			return position.addVector(1D, 0D, 0D);
+		case NORTH:
+			return position.addVector(0D, 0D, -1D);
+		case SOUTH:
+			return position.addVector(0D, 0D, 1D);
+		case UNKNOWN:
+			return position;
+		case UP:
+			return position.addVector(0D, 1D, 0D);
+		case WEST:
+			return position.addVector(1D, 0D, 0D);
+		default:
+			return position;
+		}
+	}
+
+	public static List<Block> getBlocksAround(final World world, final int x, final int y, final int z){
+		final List<Block> blocks = new ArrayList<Block>();
+		final Vec3 base = Vec3.createVectorHelper(x, y, z);
+
+		Vec3 shift = BlockHelper.shiftLoc(base, ForgeDirection.NORTH);
+		blocks.add(world.getBlock((int) shift.xCoord, (int) shift.yCoord, (int) shift.zCoord));
+
+		shift = BlockHelper.shiftLoc(base, ForgeDirection.NORTH);
+		shift = BlockHelper.shiftLoc(shift, ForgeDirection.EAST);
+		blocks.add(world.getBlock((int) shift.xCoord, (int) shift.yCoord, (int) shift.zCoord));
+
+		shift = BlockHelper.shiftLoc(base, ForgeDirection.EAST);
+		blocks.add(world.getBlock((int) shift.xCoord, (int) shift.yCoord, (int) shift.zCoord));
+
+		shift = BlockHelper.shiftLoc(base, ForgeDirection.EAST);
+		shift = BlockHelper.shiftLoc(shift, ForgeDirection.SOUTH);
+		blocks.add(world.getBlock((int) shift.xCoord, (int) shift.yCoord, (int) shift.zCoord));
+
+		shift = BlockHelper.shiftLoc(base, ForgeDirection.SOUTH);
+		blocks.add(world.getBlock((int) shift.xCoord, (int) shift.yCoord, (int) shift.zCoord));
+
+		shift = BlockHelper.shiftLoc(base, ForgeDirection.SOUTH);
+		shift = BlockHelper.shiftLoc(shift, ForgeDirection.WEST);
+		blocks.add(world.getBlock((int) shift.xCoord, (int) shift.yCoord, (int) shift.zCoord));
+
+		shift = BlockHelper.shiftLoc(base, ForgeDirection.WEST);
+		blocks.add(world.getBlock((int) shift.xCoord, (int) shift.yCoord, (int) shift.zCoord));
+
+		shift = BlockHelper.shiftLoc(base, ForgeDirection.WEST);
+		shift = BlockHelper.shiftLoc(shift, ForgeDirection.NORTH);
+		blocks.add(world.getBlock((int) shift.xCoord, (int) shift.yCoord, (int) shift.zCoord));
+
+		return blocks;
 	}
 
 	public static boolean isSwimming(final EntityPlayer player){
