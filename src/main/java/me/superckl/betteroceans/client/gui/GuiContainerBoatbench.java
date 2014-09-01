@@ -81,7 +81,7 @@ public class GuiContainerBoatbench extends GuiContainer{
 		x+=spacing+16;
 		this.buttonList.add(new ArrowButton(1, i+x, j+38, 12, 12, "", false));
 
-		this.buttonList.add(new HammerButton(4, i+this.partX-2, j+54, 20, 20, ""));
+		this.buttonList.add(new HammerButton(4, i+this.partX-1, j+53, 18, 18, ""));
 		this.buttonsEnabled = true;
 	}
 

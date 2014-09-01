@@ -133,6 +133,28 @@ public class BlockSeaweed extends BlockBO{
 		}
 	}
 
+
+
+	@Override
+	public int onBlockPlaced(final World world, final int x,
+			final int y, final int z, final int side,
+			final float hitX, final float hitY, final float hitZ,
+			final int meta) {
+		if(world.getBlock(x, y-1, z) == this){
+			final int metaBelow = world.getBlockMetadata(x, y-1, z);
+			if(metaBelow == 2)
+				return meta;
+			else if((metaBelow & 1) == 1 && (metaBelow & 4) == 4)
+				return 1 + 8;
+			else if((metaBelow & 2) == 2)
+				if((metaBelow & 4) == 4)
+					return 2 + 8;
+				else if((metaBelow & 8) == 8)
+					return 2;
+		}
+		return meta;
+	}
+
 	@Override
 	public boolean isReplaceable(final IBlockAccess world, final int x, final int y, final int z)
 	{

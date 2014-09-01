@@ -20,7 +20,7 @@ public class HammerButton extends GuiButton{
 		if(!this.visible)
 			return;
 		this.field_146123_n = p_146112_2_ >= this.xPosition && p_146112_3_ >= this.yPosition && p_146112_2_ < this.xPosition + this.width && p_146112_3_ < this.yPosition + this.height;
-		RenderHelper.drawTexturedRect(this.texture, this.xPosition, this.yPosition, this.getHoverState(this.field_146123_n) == 2  && this.enabled ? 20:0, 0, 20, 20, 40, 20, 1F);
+		RenderHelper.drawTexturedRect(this.texture, this.xPosition, this.yPosition, this.getHoverState(this.field_146123_n) == 2  && this.enabled ? 18:0, 0, 18, 18, 36, 18, 1F);
 	}
 
 }

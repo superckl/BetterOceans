@@ -6,7 +6,6 @@ import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.common.reference.ModBlocks;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModTabs;
-import me.superckl.betteroceans.common.reference.RenderData;
 import me.superckl.betteroceans.common.utility.BlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -48,14 +47,8 @@ public class BlockSoftCoral extends BlockBO{
 	}
 
 	@Override
-	public boolean renderAsNormalBlock()
-	{
-		return false;
-	}
-
-	@Override
 	public int getRenderType(){
-		return RenderData.softCoralID;
+		return 1;
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -8,6 +8,7 @@ import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.common.reference.ModBlocks;
 import me.superckl.betteroceans.common.utility.BiomeHelper;
 import me.superckl.betteroceans.common.utility.BlockHelper;
+import me.superckl.betteroceans.common.utility.ElipseHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
@@ -33,7 +34,7 @@ public class WorldGeneratorReef implements IWorldGenerator{
 		if(random.nextInt(50) != 0) //200
 			return;
 		LogHelper.debug("Generating reef...");
-		final boolean genAcrossX = random.nextBoolean();
+		boolean genAcrossX = random.nextBoolean();
 		int startX = (chunkX << 4) + random.nextInt(10);
 		int startZ = (chunkZ << 4) + random.nextInt(10);
 		//LogHelper.info(startX+":"+startZ);
@@ -65,22 +66,24 @@ public class WorldGeneratorReef implements IWorldGenerator{
 						final int x = startX-offset+j;
 						final int z = startZ;
 						final int y = world.getTopSolidOrLiquidBlock(x, z);
-						if(random.nextDouble() < .8)
+						if(random.nextDouble() < .81){
 							world.setBlock(x, y, z, ModBlocks.hardCoral, 0, 2);
-						if(h == height-1 && random.nextDouble() < .2)
-							world.setBlock(x, y+1, z, ModBlocks.softCoral, random.nextInt(1), 2);
-						if(random.nextDouble() < .002)
-							this.toSplotch.add(Vec3.createVectorHelper(x, y, z));
+							if(h == height-1 && random.nextDouble() < .2)
+								world.setBlock(x, y+1, z, ModBlocks.softCoral, random.nextInt(1), 2);
+							if(random.nextDouble() < .08)
+								this.toSplotch.add(Vec3.createVectorHelper(x, y, z));
+						}
 					}else{
 						final int x = startX;
 						final int z = startZ-offset+j;
 						final int y = world.getTopSolidOrLiquidBlock(x, z);
-						if(random.nextDouble() < .8)
+						if(random.nextDouble() < .81){
 							world.setBlock(x, y, z, ModBlocks.hardCoral, 0, 2);
-						if(h == height-1 && random.nextDouble() < .2)
-							world.setBlock(x, y+1, z, ModBlocks.softCoral, random.nextInt(1), 2);
-						if(random.nextDouble() < .002)
-							this.toSplotch.add(Vec3.createVectorHelper(x, y, z));
+							if(h == height-1 && random.nextDouble() < .2)
+								world.setBlock(x, y+1, z, ModBlocks.softCoral, random.nextInt(1), 2);
+							if(random.nextDouble() < .08)
+								this.toSplotch.add(Vec3.createVectorHelper(x, y, z));
+						}
 					}
 				}
 				if(h == height-1)
@@ -90,20 +93,73 @@ public class WorldGeneratorReef implements IWorldGenerator{
 			}
 		}
 		//Let's splotch this shit
-		switch(random.nextInt(4)){
-		case 0:
+		for(final Vec3 vec:this.toSplotch)
+			switch(random.nextInt(4)){
+			case 0:
+			{
+				int Ewidth = 5;
+				int Eheight = 3;
+				final ElipseHelper helper = new ElipseHelper((float) vec.xCoord, (float) vec.zCoord, Ewidth, Eheight);
+				if(random.nextBoolean()){
+					helper.setSwapXY(true);
+					Ewidth = (int) helper.getAxis2();
+					Eheight = (int) helper.getAxis1();
+				}
+				final int x = (int) vec.xCoord;
+				final int y = (int) vec.yCoord;
+				final int z = (int) vec.zCoord;
+				for(int i = 0; i < Ewidth; i++)
+					for(int j = 0; j < Eheight; j++)
+						if(world.getBlock(x+i, y, z+j) == ModBlocks.hardCoral && helper.isInside(x+i, z+j))
+							world.setBlockMetadataWithNotify(x+i, y, z+j, 1, 2);
 
-			break;
-		case 1:
-
-			break;
-		case 2:
-
-			break;
-		case 3:
-
-			break;
-		}
+				break;
+			}
+			case 1:
+			{
+				final ElipseHelper helper = new ElipseHelper((float) vec.xCoord, (float) vec.zCoord, 5F, 5F);
+				final int x = (int) vec.xCoord;
+				final int y = (int) vec.yCoord;
+				final int z = (int) vec.zCoord;
+				for(int i = 0; i < 5; i++)
+					for(int j = 0; j < 5; j++)
+						if(world.getBlock(x+i, y, z+j) == ModBlocks.hardCoral && helper.isInside(x+i, z+j))
+							world.setBlockMetadataWithNotify(x+i, y, z+j, 2, 2);
+				break;
+			}
+			case 2:
+			{
+				final int Llength = random.nextInt(5)+4;
+				genAcrossX = random.nextBoolean();
+				final int x = (int) vec.xCoord;
+				final int y = (int) vec.yCoord;
+				final int z = (int) vec.zCoord;
+				for(int i = 0; i < Llength; i++)
+					if(genAcrossX){
+						if(world.getBlock(x+i, y, z) != ModBlocks.hardCoral)
+							continue;
+						world.setBlockMetadataWithNotify(x+i, y, z, 3, 2);
+					}else{
+						if(world.getBlock(x, y, z+i) != ModBlocks.hardCoral)
+							continue;
+						world.setBlockMetadataWithNotify(x, y, z+i, 3, 2);
+					}
+				break;
+			}
+			case 3:
+			{
+				final ElipseHelper helper = new ElipseHelper((float) vec.xCoord, (float) vec.zCoord, 2F, 2F);
+				final int x = (int) vec.xCoord;
+				final int y = (int) vec.yCoord;
+				final int z = (int) vec.zCoord;
+				for(int i = 0; i < 2; i++)
+					for(int j = 0; j < 2; j++)
+						if(world.getBlock(x+i, y, z+j) == ModBlocks.hardCoral && helper.isInside(x+i, z+j))
+							world.setBlockMetadataWithNotify(x+i, y, z+j, 4, 2);
+				break;
+			}
+			}
+		this.toSplotch.clear();
 	}
 
 }
