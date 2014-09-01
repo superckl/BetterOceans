@@ -72,15 +72,17 @@ public class ModelFishBasic extends ModelBase{
 	{
 		for (int i = 0; i < this.silverfishBodyParts.length; ++i)
 		{
+			if(i == 0)
+				continue;
 			this.silverfishBodyParts[i].rotateAngleY = MathHelper.cos(p_78087_3_ * 0.9F + i * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (1 + Math.abs(i - 2));
 			this.silverfishBodyParts[i].rotationPointX = MathHelper.sin(p_78087_3_ * 0.9F + i * 0.15F * (float)Math.PI) * (float)Math.PI * 0.2F * Math.abs(i - 2);
 		}
 
-		for (int i = 0; i < this.silverfishFinParts.length; ++i)
+		/*for (int i = 0; i < this.silverfishFinParts.length; ++i)
 		{
 			this.silverfishFinParts[i].rotateAngleY = MathHelper.cos(p_78087_3_ * 0.9F + i * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (1 + Math.abs(i - 2));
 			this.silverfishFinParts[i].rotationPointX = MathHelper.sin(p_78087_3_ * 0.9F + i * 0.15F * (float)Math.PI) * (float)Math.PI * 0.2F * Math.abs(i - 2);
-		}
+		}*/
 
 	}
 

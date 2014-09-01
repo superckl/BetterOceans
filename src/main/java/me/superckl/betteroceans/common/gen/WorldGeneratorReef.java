@@ -1,5 +1,7 @@
 package me.superckl.betteroceans.common.gen;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import me.superckl.betteroceans.BetterOceans;
@@ -8,11 +10,14 @@ import me.superckl.betteroceans.common.utility.BiomeHelper;
 import me.superckl.betteroceans.common.utility.BlockHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class WorldGeneratorReef implements IWorldGenerator{
+
+	private final List<Vec3> toSplotch = new ArrayList<Vec3>();
 
 	@Override
 	public void generate(final Random random, final int chunkX, final int chunkZ, final World world,
@@ -61,17 +66,21 @@ public class WorldGeneratorReef implements IWorldGenerator{
 						final int z = startZ;
 						final int y = world.getTopSolidOrLiquidBlock(x, z);
 						if(random.nextDouble() < .8)
-							world.setBlock(x, y, z, ModBlocks.hardCoral, random.nextInt(1), 2); //TODO coral meta
+							world.setBlock(x, y, z, ModBlocks.hardCoral, 0, 2);
 						if(h == height-1 && random.nextDouble() < .2)
-							world.setBlock(x, y+1, z, ModBlocks.softCoral, random.nextInt(1), 2); //TODO coral meta
+							world.setBlock(x, y+1, z, ModBlocks.softCoral, random.nextInt(1), 2);
+						if(random.nextDouble() < .002)
+							this.toSplotch.add(Vec3.createVectorHelper(x, y, z));
 					}else{
 						final int x = startX;
 						final int z = startZ-offset+j;
 						final int y = world.getTopSolidOrLiquidBlock(x, z);
 						if(random.nextDouble() < .8)
-							world.setBlock(x, y, z, ModBlocks.hardCoral, random.nextInt(1), 2); //TODO coral meta
+							world.setBlock(x, y, z, ModBlocks.hardCoral, 0, 2);
 						if(h == height-1 && random.nextDouble() < .2)
-							world.setBlock(x, y+1, z, ModBlocks.softCoral, random.nextInt(1), 2); //TODO coral meta
+							world.setBlock(x, y+1, z, ModBlocks.softCoral, random.nextInt(1), 2);
+						if(random.nextDouble() < .002)
+							this.toSplotch.add(Vec3.createVectorHelper(x, y, z));
 					}
 				}
 				if(h == height-1)
@@ -79,6 +88,21 @@ public class WorldGeneratorReef implements IWorldGenerator{
 				subbed = random.nextInt(3)+1;
 				currentWidth -= subbed;
 			}
+		}
+		//Let's splotch this shit
+		switch(random.nextInt(4)){
+		case 0:
+
+			break;
+		case 1:
+
+			break;
+		case 2:
+
+			break;
+		case 3:
+
+			break;
 		}
 	}
 

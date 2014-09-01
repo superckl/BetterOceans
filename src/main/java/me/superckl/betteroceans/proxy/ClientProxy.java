@@ -2,9 +2,11 @@ package me.superckl.betteroceans.proxy;
 
 import me.superckl.betteroceans.client.handler.RenderTickHandler;
 import me.superckl.betteroceans.client.render.RenderBOBoat;
+import me.superckl.betteroceans.client.render.RenderBlockSoftCoral;
 import me.superckl.betteroceans.client.render.RenderFishBasic;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.entity.EntityFishBasic;
+import me.superckl.betteroceans.common.reference.RenderData;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
@@ -22,6 +24,8 @@ public class ClientProxy extends CommonProxy{
 	public void registerRenderers() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityBOBoat.class, new RenderBOBoat());
 		RenderingRegistry.registerEntityRenderingHandler(EntityFishBasic.class, new RenderFishBasic());
+		RenderData.softCoralID = RenderingRegistry.getNextAvailableRenderId();
+		RenderingRegistry.registerBlockHandler(RenderData.softCoralID, new RenderBlockSoftCoral());
 		//MinecraftForgeClient.registerItemRenderer(ModItems.boatPart, new ItemRenderBoatPart());
 	}
 

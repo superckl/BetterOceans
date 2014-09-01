@@ -25,7 +25,13 @@ public class BlockHardCoral extends BlockBO{
 	@Override
 	public void getSubBlocks(final Item item, final CreativeTabs tab, final List list)
 	{
-		list.add(new ItemStack(item, 1, 0));
+		for(int i = 0; i < 5; i ++)
+			list.add(new ItemStack(item, 1, i));
+	}
+
+	@Override
+	public int damageDropped(final int meta) {
+		return meta;
 	}
 
 	private IIcon[] icons;
@@ -33,7 +39,9 @@ public class BlockHardCoral extends BlockBO{
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(final IIconRegister register){
-		this.icons = new IIcon[] {register.registerIcon(ModData.MOD_ID+":hardcoral0")};
+		this.icons = new IIcon[5];
+		for(int i = 0; i < 5; i ++)
+			this.icons[i] = register.registerIcon(ModData.MOD_ID+":hardcoral"+i);
 	}
 
 	@Override

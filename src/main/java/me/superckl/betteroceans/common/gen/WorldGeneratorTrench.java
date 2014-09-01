@@ -104,9 +104,9 @@ public class WorldGeneratorTrench implements IWorldGenerator{
 			return;
 		if(BlockHelper.getMinHeightInChunk(world, chunkX, chunkZ, Blocks.water) < 15)
 			return; //We aren't generating a trench in that shallow water...
-		if(BiomeHelper.distanceToNearestNonOcean(world, chunkX, chunkZ, 7) < 1)
+		if(BiomeHelper.distanceToNearestNonOcean(world, chunkX, chunkZ, 7) < 3)
 			return; //To close to shore;
-		if(random.nextInt(50) != 0) //200
+		if(random.nextInt(20) != 0) //200
 			return;
 		LogHelper.warn("Generating trench, expect lag. This can get a bit intense...");
 		final int from0 = 5 + random.nextInt(3);

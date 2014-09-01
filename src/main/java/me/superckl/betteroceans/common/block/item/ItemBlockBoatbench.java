@@ -1,4 +1,4 @@
-package me.superckl.betteroceans.common.item;
+package me.superckl.betteroceans.common.block.item;
 
 import net.minecraft.block.Block;
 

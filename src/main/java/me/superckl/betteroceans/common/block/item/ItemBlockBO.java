@@ -1,4 +1,4 @@
-package me.superckl.betteroceans.common.item;
+package me.superckl.betteroceans.common.block.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
@@ -16,7 +16,7 @@ public abstract class ItemBlockBO extends ItemBlock{
 	}
 
 	private String getUnwrappedUnlocalizedName(final String unlocalizedName, final int damage){
-		return unlocalizedName.substring(unlocalizedName.indexOf(".")+1).concat(":").concat(this.isNameDamageReliant() ? Integer.toString(damage):"");
+		return unlocalizedName.substring(unlocalizedName.indexOf(".")+1).concat(this.isNameDamageReliant() ? ":"+Integer.toString(damage):"");
 	}
 
 	protected boolean isNameDamageReliant(){

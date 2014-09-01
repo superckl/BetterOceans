@@ -9,7 +9,6 @@ import mcp.mobius.waila.api.IWailaRegistrar;
 import me.superckl.betteroceans.common.block.BlockBoatbench;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
 import me.superckl.betteroceans.common.reference.ModBlocks;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -19,12 +18,12 @@ public class BOWailaDataProvider implements IWailaDataProvider{
 	@Override
 	public ItemStack getWailaStack(final IWailaDataAccessor accessor,
 			final IWailaConfigHandler config) {
-		if(accessor.getBlock() != null && accessor.getBlock() == ModBlocks.boatbench){
+		/*if(accessor.getBlock() != null && accessor.getBlock() == ModBlocks.boatbench){
 			final ItemStack stack = new ItemStack(ModBlocks.boatbench, 1, accessor.getMetadata());
 			final String name = I18n.format(ModBlocks.boatbench.getUnlocalizedName(accessor.getMetadata()).concat(".name"));
 			stack.setStackDisplayName(name);
 			return stack;
-		}
+		}*/
 		return null;
 	}
 

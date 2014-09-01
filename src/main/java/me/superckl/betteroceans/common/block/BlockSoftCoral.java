@@ -6,6 +6,7 @@ import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.common.reference.ModBlocks;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModTabs;
+import me.superckl.betteroceans.common.reference.RenderData;
 import me.superckl.betteroceans.common.utility.BlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -24,7 +25,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockSoftCoral extends BlockBO{
 
 	public BlockSoftCoral() {
-		super(Material.coral);
+		super(Material.water);
 		this.setBlockName("softcoral").setCreativeTab(ModTabs.tabBlocks).setHardness(0F);
 	}
 
@@ -49,12 +50,12 @@ public class BlockSoftCoral extends BlockBO{
 	@Override
 	public boolean renderAsNormalBlock()
 	{
-		return true;
+		return false;
 	}
 
 	@Override
 	public int getRenderType(){
-		return 1;
+		return RenderData.softCoralID;
 	}
 
 	@SideOnly(Side.CLIENT)
