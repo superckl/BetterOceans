@@ -38,11 +38,26 @@ public class WorldGeneratorReef implements IWorldGenerator{
 		int startX = (chunkX << 4) + random.nextInt(10);
 		int startZ = (chunkZ << 4) + random.nextInt(10);
 		//LogHelper.info(startX+":"+startZ);
-		final int length = 15 + random.nextInt(30);
-		final int width = 5 + random.nextInt(25);
+		int length = 15 + random.nextInt(30);
+		int width = 15 + random.nextInt(30);
 		final int height = 3 + random.nextInt(3);
+		final int endTaper = 5+random.nextInt(2);
+		int taper = width-5;
+		final int constWidth = width;
 
 		for(int i = 0; i < length; i++){
+
+			width = constWidth;
+			if(i > length - endTaper){
+				width = constWidth-taper;
+				taper += 1+random.nextInt(3);
+				if(i == length - 1 && width > 3)
+					length++;
+			}else if(taper > 0){
+				width = constWidth-taper;
+				taper -= 1+random.nextInt(3);
+			}
+
 			if(genAcrossX){
 				startZ++;
 				startX+=random.nextInt(3)-2;
@@ -52,6 +67,7 @@ public class WorldGeneratorReef implements IWorldGenerator{
 			}
 			int currentWidth = width;
 			int subbed = 0;
+			final boolean shouldBreak = false;
 			for(int h = 0; h < height; h++){
 				int flux = random.nextInt(5)-2;
 				while(currentWidth+flux >= currentWidth+subbed)
@@ -86,6 +102,8 @@ public class WorldGeneratorReef implements IWorldGenerator{
 						}
 					}
 				}
+				if(shouldBreak)
+					break;
 				if(h == height-1)
 					break;
 				subbed = random.nextInt(3)+1;

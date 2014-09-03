@@ -7,8 +7,8 @@ import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
 import me.superckl.betteroceans.common.parts.BoatPart;
 import me.superckl.betteroceans.common.parts.BoatPart.Material;
 import me.superckl.betteroceans.common.parts.BoatPart.Type;
-import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.NetworkData;
+import me.superckl.betteroceans.common.reference.RenderData;
 import me.superckl.betteroceans.common.utility.CollectionHelper;
 import me.superckl.betteroceans.common.utility.RenderHelper;
 import me.superckl.betteroceans.common.utility.StringHelper;
@@ -21,14 +21,11 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidTankInfo;
 
 import org.lwjgl.opengl.GL11;
 
 public class GuiContainerBoatbench extends GuiContainer{
-
-	protected ResourceLocation texture = new ResourceLocation(ModData.MOD_ID+":textures/gui/boatbench.png");
 
 	protected String unlocalizedName;
 	protected int typeIndex = -1;
@@ -142,7 +139,7 @@ public class GuiContainerBoatbench extends GuiContainer{
 		}else if(te.isShouldHandleFluids())
 			this.fontRendererObj.drawString("No Fuel", 224-this.fontRendererObj.getStringWidth("No Fuel")-7, 6, 0xFF0000);
 		GL11.glColor4f(1F, 1F, 1F, 1F);
-		RenderHelper.drawTexturedRect(this.texture, 205, 18, 225, 17, 12, 60, this.xSize, this.ySize, 1F);
+		RenderHelper.drawTexturedRect(RenderData.BOAT_BENCH, 205, 18, 225, 17, 12, 60, this.xSize, this.ySize, 1F);
 
 		if(this.activePart != null){
 			net.minecraft.client.renderer.RenderHelper.enableGUIStandardItemLighting();
@@ -177,20 +174,20 @@ public class GuiContainerBoatbench extends GuiContainer{
 			final int p_146976_2_, final int p_146976_3_) {
 		final int xStart = (this.width - this.xSize) / 2;
 		final int yStart = (this.height - this.ySize) / 2;
-		RenderHelper.drawTexturedRect(this.texture, xStart, yStart, 0, 0, 224, this.ySize, this.xSize, this.ySize, 1F);
+		RenderHelper.drawTexturedRect(RenderData.BOAT_BENCH, xStart, yStart, 0, 0, 224, this.ySize, this.xSize, this.ySize, 1F);
 		final TileEntityBoatbench te = ((ContainerBoatbench)this.inventorySlots).getTileEntity();
 		if(te.getCookTime() > 0){
 			final int width = 24;
 			final int height = 16;
 			final int amount = (int) (width*(float)te.getCookTime()/te.getPartBurnTime());
-			RenderHelper.drawTexturedRect(this.texture, xStart+110, yStart+38, 224, 0, amount, height, this.xSize, this.ySize, 1F);
+			RenderHelper.drawTexturedRect(RenderData.BOAT_BENCH, xStart+110, yStart+38, 224, 0, amount, height, this.xSize, this.ySize, 1F);
 		}
 
 		if(te.isTakingInLiquid()){
 			final int width = 4;
 			final int height = 14;
 			final int amount = (int) (width*((float)te.getLiquidTime()/(float)TileEntityBoatbench.LIQUID_INTAKE_TIME));
-			RenderHelper.drawTexturedRect(this.texture, xStart+195, yStart+32, 224, 80, amount, height, this.xSize, this.ySize, 1F);
+			RenderHelper.drawTexturedRect(RenderData.BOAT_BENCH, xStart+195, yStart+32, 224, 80, amount, height, this.xSize, this.ySize, 1F);
 		}
 	}
 

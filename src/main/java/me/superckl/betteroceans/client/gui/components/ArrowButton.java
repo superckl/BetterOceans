@@ -1,15 +1,11 @@
 package me.superckl.betteroceans.client.gui.components;
 
-import me.superckl.betteroceans.common.reference.ModData;
+import me.superckl.betteroceans.common.reference.RenderData;
 import me.superckl.betteroceans.common.utility.RenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.util.ResourceLocation;
 
 public class ArrowButton extends GuiButton{
-
-	private final ResourceLocation textureLeft = new ResourceLocation(ModData.MOD_ID+":textures/gui/leftarrow.png");
-	private final ResourceLocation textureRight = new ResourceLocation(ModData.MOD_ID+":textures/gui/rightarrow.png");
 
 	private final boolean left;
 
@@ -24,9 +20,9 @@ public class ArrowButton extends GuiButton{
 			return;
 		this.field_146123_n = p_146112_2_ >= this.xPosition && p_146112_3_ >= this.yPosition && p_146112_2_ < this.xPosition + this.width && p_146112_3_ < this.yPosition + this.height;
 		if(this.left)
-			RenderHelper.drawTexturedRect(this.textureLeft, this.xPosition, this.yPosition, this.getHoverState(this.field_146123_n) == 2 && this.enabled ? 12:0, 0, 12, 12, 24, 12, 1F);
+			RenderHelper.drawTexturedRect(RenderData.ARROW_BUTTON_LEFT, this.xPosition, this.yPosition, this.getHoverState(this.field_146123_n) == 2 && this.enabled ? 12:0, 0, 12, 12, 24, 12, 1F);
 		else
-			RenderHelper.drawTexturedRect(this.textureRight, this.xPosition, this.yPosition, this.getHoverState(this.field_146123_n) == 2 && this.enabled ? 12:0, 0, 12, 12, 24, 12, 1F);
+			RenderHelper.drawTexturedRect(RenderData.ARROW_BUTTON_RIGHT, this.xPosition, this.yPosition, this.getHoverState(this.field_146123_n) == 2 && this.enabled ? 12:0, 0, 12, 12, 24, 12, 1F);
 	}
 
 
