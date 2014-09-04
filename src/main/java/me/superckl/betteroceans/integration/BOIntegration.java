@@ -24,9 +24,9 @@ public class BOIntegration {
 			BiomesOPlentyIntegration.postInit();
 
 		//Ensure oceans are still overriden...
-		if(BetterOceans.getInstance().getConfig().isOverrideOcean() && (!(BiomeGenBase.getBiomeGenArray()[BiomeGenBase.ocean.biomeID] instanceof BiomeGenBetterOcean) ||
+		if(BetterOceans.getInstance().getConfig().isOverrideOcean() && BetterOceans.getInstance().getConfig().isForceOverride() && (!(BiomeGenBase.getBiomeGenArray()[BiomeGenBase.ocean.biomeID] instanceof BiomeGenBetterOcean) ||
 				!(BiomeGenBase.getBiomeGenArray()[BiomeGenBase.deepOcean.biomeID] instanceof BiomeGenBetterDeepOcean))){
-			LogHelper.warn("Something else overrode oceans since preInit(or overriding them failed)! You should probably report this (Include a list of possible mods, thanks)... Re-overriding...");
+			LogHelper.warn("Something else overrode oceans since Init (or overriding them failed)! You should probably report this (Include a list of possible mods, thanks)... Re-overriding...");
 			BiomeHelper.replaceOceanBiomes();
 		}
 	}

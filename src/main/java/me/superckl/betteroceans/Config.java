@@ -29,6 +29,8 @@ public class Config {
 	@Getter
 	private boolean overrideOcean;
 	@Getter
+	private boolean forceOverride;
+	@Getter
 	private boolean removeSubbiomes;
 	@Getter
 	private boolean seaweedOrKelp;
@@ -58,6 +60,7 @@ public class Config {
 			this.genTrenches = this.configFile.getBoolean("Generate Trenches", Category.WORLD_GEN, true, "Generate trenches in oceans.");
 			this.genReefs = this.configFile.getBoolean("Generate Reefs", Category.WORLD_GEN, true, "Generate reefs in oceans.");
 			this.overrideOcean = this.configFile.getBoolean("Override Oceans", Category.WORLD_GEN, true, "Replace Vanilla oceans with Better Oceans oceans.");
+			this.forceOverride = this.configFile.getBoolean("Force Override", Category.WORLD_GEN, false, "If true, Better Oceans will re-override oceans in post-init if another mod has overriden them since the first override.");
 			this.genSeaweed = this.configFile.getBoolean("Generate Seaweed", Category.WORLD_GEN, true, "Generate seaweed in deeper water.");
 			this.seaweedWaterBlockTries = this.configFile.getInt("Seaweed Water Block Attempts", Category.WORLD_GEN, 20, 0, Integer.MAX_VALUE, "Defines how many attempts will be done to find a water block in a chunk when generating seaweed.");
 			this.seaweedTries = this.configFile.getInt("Seaweed Tries", Category.WORLD_GEN, 3, 0, Integer.MAX_VALUE, "Defines how many attempts will be made to place seaweed around a water block that was found.");
