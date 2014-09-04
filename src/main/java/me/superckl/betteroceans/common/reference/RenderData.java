@@ -1,5 +1,6 @@
 package me.superckl.betteroceans.common.reference;
 
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderData {
@@ -10,5 +11,8 @@ public class RenderData {
 	public static final ResourceLocation ARROW_BUTTON_RIGHT = new ResourceLocation(ModData.MOD_ID+":textures/gui/rightarrow.png");
 	public static final ResourceLocation HAMMER_BUTTON = new ResourceLocation(ModData.MOD_ID+":textures/gui/buttoncraft.png");
 	public static final ResourceLocation BOAT_BENCH = new ResourceLocation(ModData.MOD_ID+":textures/gui/boatbench.png");
+	public static final ResourceLocation EMPTY_GAUGE = new ResourceLocation(ModData.MOD_ID+":textures/gui/gaugeempty.png");
+
+	public static IIcon ANIMATED_GAUGE;
 
 }

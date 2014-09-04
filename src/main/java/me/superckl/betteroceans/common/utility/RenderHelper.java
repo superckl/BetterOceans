@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -13,6 +14,20 @@ import org.lwjgl.opengl.GL12;
 public class RenderHelper {
 
 	public static void drawTexturedRect(final ResourceLocation texture, final double x, final double y, final int u, final int v, final int width, final int height, final int imageWidth, final int imageHeight, final double scale) {
+		RenderHelper.drawTexturedRect(texture, x, y, 0D, u, v, width, height, imageWidth, imageHeight, scale);
+	}
+
+	public static int extrapolateWidth(final IIcon icon){
+		final float diff = icon.getMaxU()-icon.getMinU();
+		return Math.round(icon.getIconWidth()/diff);
+	}
+
+	public static int extrapolateHeight(final IIcon icon){
+		final float diff = icon.getMaxV()-icon.getMinV();
+		return Math.round(icon.getIconHeight()/diff);
+	}
+
+	public static void drawTexturedRect(final ResourceLocation texture, final double x, final double y, final double z, final int u, final int v, final int width, final int height, final int imageWidth, final int imageHeight, final double scale) {
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		final double minU = (double)u / (double)imageWidth;
 		final double maxU = (double)(u + width) / (double)imageWidth;
@@ -20,10 +35,27 @@ public class RenderHelper {
 		final double maxV = (double)(v + height) / (double)imageHeight;
 		final Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(x + scale*width, y + scale*height, 0, maxU, maxV);
-		tessellator.addVertexWithUV(x + scale*width, y, 0, maxU, minV);
-		tessellator.addVertexWithUV(x, y, 0, minU, minV);
-		tessellator.addVertexWithUV(x, y + scale*height, 0, minU, maxV);
+		tessellator.addVertexWithUV(x + scale*width, y + scale*height, z, maxU, maxV);
+		tessellator.addVertexWithUV(x + scale*width, y, z, maxU, minV);
+		tessellator.addVertexWithUV(x, y, z, minU, minV);
+		tessellator.addVertexWithUV(x, y + scale*height, z, minU, maxV);
+		tessellator.draw();
+	}
+
+	public static void drawTexturedRectFromIcon(final IIcon icon, final double x, final double y, final double z, final int u, final int v, final int width, final int height, final double scale) {
+		final int imageWidth = RenderHelper.extrapolateWidth(icon);
+		final int imageHeight = RenderHelper.extrapolateHeight(icon);
+
+		final double minU = icon.getMinU() + (double)u / (double)imageWidth;
+		final double maxU = icon.getMinU() + (double)(u + width) / (double)imageWidth;
+		final double minV = icon.getMinV() + (double)v / (double)imageHeight;
+		final double maxV = icon.getMinV() + (double)(v + height) / (double)imageHeight;
+		final Tessellator tessellator = Tessellator.instance;
+		tessellator.startDrawingQuads();
+		tessellator.addVertexWithUV(x + scale*width, y + scale*height, z, maxU, maxV);
+		tessellator.addVertexWithUV(x + scale*width, y, z, maxU, minV);
+		tessellator.addVertexWithUV(x, y, z, minU, minV);
+		tessellator.addVertexWithUV(x, y + scale*height, z, minU, maxV);
 		tessellator.draw();
 	}
 
