@@ -150,6 +150,11 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 	}
 
 	public boolean checkRecipeCompletion(){
+		if(this.inventory[5] != null){
+			final BoatPart part = BoatPart.deserialize(this.inventory[5].getItemDamage());
+			if(part != null && part.getCreationTime() > 0)
+				return false;
+		}
 		if(this.activeSelection == null){
 			this.inventory[5] = null;
 			return false;
@@ -179,6 +184,8 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 	 * @return Whether or not the crafting was successfully started.
 	 */
 	public boolean beginCrafting(){
+		if(this.activeSelection == null)
+			return false;
 		final BoatPart part = this.activeSelection.getBoatParts().get(0);
 		if(part.getCreationTime() <= 0 || this.cookTime > 0 || this.tank.getFluid() == null || this.inventory[5] != null || !this.checkRecipeCompletion())
 			return false;

@@ -3,7 +3,9 @@ package me.superckl.betteroceans.common.container;
 import lombok.Getter;
 import me.superckl.betteroceans.common.container.components.FluidContainerSlot;
 import me.superckl.betteroceans.common.container.components.NoPutSlot;
+import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
+import me.superckl.betteroceans.common.parts.PartBottom;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -17,10 +19,15 @@ public class ContainerBoatbench extends Container{
 
 	public ContainerBoatbench(final InventoryPlayer inventoryPlayer, final TileEntityBoatbench te){
 		this.tileEntity = te;
+		if(te.getActiveSelection() == null){
+			final EntityBOBoat boat = new EntityBOBoat(inventoryPlayer.player.worldObj);
+			boat.getBoatParts().add(new PartBottom.PartWoodenBottom());
+			te.setActiveSelection(boat);
+		}
 		this.bindPlayerInventory(inventoryPlayer);
-		this.addSlotToContainer(new Slot(te, 0, 68, 29));
-		this.addSlotToContainer(new Slot(te, 1, 68, 47));
-		this.addSlotToContainer(new Slot(te, 2, 86, 38));
+		this.addSlotToContainer(new Slot(te, 0, 67, 29));
+		this.addSlotToContainer(new Slot(te, 1, 67, 47));
+		this.addSlotToContainer(new Slot(te, 2, 85, 38));
 
 		final FluidContainerSlot fSlot = (FluidContainerSlot) this.addSlotToContainer(new FluidContainerSlot(te, 3, 178, 31));
 		final Slot slot = this.addSlotToContainer(new NoPutSlot(te, 4, 178, 49));

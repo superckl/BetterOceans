@@ -52,6 +52,7 @@ public class GuiContainerBoatbench extends GuiContainer{
 			this.partStack = this.activePart.getCraftingResult();
 			this.typeIndex = CollectionHelper.find(this.activePart.getType(), Type.values());
 			this.materialIndex = CollectionHelper.find(this.activePart.getMaterial(), Material.values());
+			//this.updateActivePart();
 		}
 	}
 
@@ -97,7 +98,7 @@ public class GuiContainerBoatbench extends GuiContainer{
 				((GuiButton)button).enabled = true;
 			this.buttonsEnabled = true;
 		}
-		((GuiButton)this.buttonList.get(4)).enabled = this.activePart != null && this.activePart.getCreationTime() > 0 && te.checkRecipeCompletionNoSet();
+		//((GuiButton)this.buttonList.get(4)).enabled = this.activePart != null && this.activePart.getCreationTime() > 0 && te.checkRecipeCompletionNoSet();
 	}
 
 	public void updateActivePart(){
@@ -107,10 +108,10 @@ public class GuiContainerBoatbench extends GuiContainer{
 		final TileEntityBoatbench te = ((ContainerBoatbench)this.inventorySlots).getTileEntity();
 		this.activePart = part;
 		this.partStack = part.getCraftingResult();
-		if(te.getPartBurnTime() <= 0 && this.activePart.getCreationTime() > 0)
+		/*if(te.getPartBurnTime() <= 0 && this.activePart.getCreationTime() > 0)
 			((GuiButton)this.buttonList.get(4)).enabled = true;
 		else
-			((GuiButton)this.buttonList.get(4)).enabled = false;
+			((GuiButton)this.buttonList.get(4)).enabled = false;*/
 		te.setActiveSelection(part.getOnePartBoat(te.getWorldObj()));
 		NetworkData.PART_SELECT_CHANNEL.sendToServer(new MessageSelectBoatPart(te, part));
 	}
@@ -180,8 +181,20 @@ public class GuiContainerBoatbench extends GuiContainer{
 			final int width = 24;
 			final int height = 16;
 			final int amount = (int) (width*(float)te.getCookTime()/te.getPartBurnTime());
-			RenderHelper.drawTexturedRect(RenderData.BOAT_BENCH, xStart+110, yStart+38, 224, 0, amount, height, this.xSize, this.ySize, 1F);
+			RenderHelper.drawTexturedRect(RenderData.BOAT_BENCH, xStart+109, yStart+38, 224, 0, amount, height, this.xSize, this.ySize, 1F);
 		}
+
+		if(te.getStackInSlot(0) == null)
+			RenderHelper.drawTexturedRect(RenderData.BOAT_BENCH, xStart+67, yStart+29+1, 224, 95, 16, 16, this.xSize, this.ySize, 1F);
+
+		if(te.getStackInSlot(1) == null)
+			RenderHelper.drawTexturedRect(RenderData.BOAT_BENCH, xStart+67, yStart+47+1, 224, 111, 16, 16, this.xSize, this.ySize, 1F);
+
+		if(te.getStackInSlot(2) == null)
+			RenderHelper.drawTexturedRect(RenderData.BOAT_BENCH, xStart+85, yStart+38+1, 224, 95, 16, 16, this.xSize, this.ySize, 1F);
+
+		if(te.getStackInSlot(3) == null)
+			RenderHelper.drawTexturedRect(RenderData.BOAT_BENCH, xStart+178, yStart+31+1, 224, 127, 16, 16, this.xSize, this.ySize, 1F);
 
 		if(te.isTakingInLiquid()){
 			final int width = 4;

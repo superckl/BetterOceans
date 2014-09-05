@@ -3,7 +3,7 @@ package me.superckl.betteroceans.common.handler;
 import java.util.HashMap;
 import java.util.Map;
 
-import me.superckl.betteroceans.common.entity.StaminaExtendedProperties;
+import me.superckl.betteroceans.common.entity.prop.StaminaExtendedProperties;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;

@@ -1,4 +1,4 @@
-package me.superckl.betteroceans.common.entity;
+package me.superckl.betteroceans.common.entity.prop;
 
 import lombok.Getter;
 import net.minecraft.entity.Entity;
@@ -34,9 +34,7 @@ public class StaminaExtendedProperties implements IExtendedEntityProperties{
 	}
 
 	public void playerTick(){
-		if(this.player.capabilities.isCreativeMode)
-			return;
-		if(this.player.isInWater() && this.player.motionY != -0.02D)
+		if(!this.player.capabilities.isCreativeMode && this.player.ridingEntity == null && this.player.isInWater() && this.player.motionY != -0.02D)
 			this.swimTick();
 		else
 			this.nonSwimTick();

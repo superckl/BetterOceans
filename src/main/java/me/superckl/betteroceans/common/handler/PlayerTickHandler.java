@@ -1,6 +1,6 @@
 package me.superckl.betteroceans.common.handler;
 
-import me.superckl.betteroceans.common.entity.StaminaExtendedProperties;
+import me.superckl.betteroceans.common.entity.prop.StaminaExtendedProperties;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;

@@ -1,6 +1,6 @@
 package me.superckl.betteroceans.client.handler;
 
-import me.superckl.betteroceans.common.entity.StaminaExtendedProperties;
+import me.superckl.betteroceans.common.entity.prop.StaminaExtendedProperties;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.reference.RenderData;
 import me.superckl.betteroceans.common.utility.BlockHelper;
