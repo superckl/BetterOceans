@@ -1,12 +1,16 @@
 package me.superckl.betteroceans.common.utility;
 
+import me.superckl.betteroceans.common.reference.RenderData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidTankInfo;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -103,6 +107,26 @@ public class RenderHelper {
 			tessellator.addVertexWithUV(newX, newY, 0, newX-cornerX, newY-cornerY);
 		}
 		tessellator.draw();
+	}
+
+	public static void drawFluid(final Minecraft mc, final int x, final int y, final int width, final int height, final FluidTankInfo tankInfo){
+		final float perc = (float) tankInfo.fluid.amount/(float) tankInfo.capacity;
+		int fluidHeight = (int) (height*perc);
+		RenderHelper.setGLColorFromInt(tankInfo.fluid.getFluid().getColor(tankInfo.fluid));
+		mc.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+		final int stepHeight = height/(tankInfo.capacity/FluidContainerRegistry.BUCKET_VOLUME);
+		int tempY = y;
+		while(fluidHeight > 0){
+			final int drawHeight = fluidHeight >= stepHeight ? stepHeight:fluidHeight;
+			mc.currentScreen.drawTexturedModelRectFromIcon(x, tempY -= stepHeight, tankInfo.fluid.getFluid().getIcon(), width, drawHeight);
+			fluidHeight -= stepHeight;
+		}
+		//mc.currentScreen.drawTexturedModelRectFromIcon(x, 78 - height, tankInfo.fluid.getFluid().getIcon(), width, height);
+	}
+
+	public static void drawTankOverlay(final int x, final int y){
+		GL11.glColor4f(1F, 1F, 1F, 1F);
+		RenderHelper.drawTexturedRect(RenderData.WIDGETS, x, y, 0, 17, 12, 60, 256, 256, 1F);
 	}
 
 	public static void setGLColorFromInt(final int color) {

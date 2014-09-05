@@ -1,6 +1,7 @@
 package me.superckl.betteroceans.client.gui;
 
-import me.superckl.betteroceans.common.container.ContainerBoatbench;
+import me.superckl.betteroceans.common.container.ContainerBasicBoatbench;
+import me.superckl.betteroceans.common.container.ContainerInterBoatbench;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
 import me.superckl.betteroceans.common.parts.BoatPart.Material;
 import me.superckl.betteroceans.common.parts.BoatPart.Type;
@@ -18,11 +19,10 @@ public class GuiHandlerBetterOceans implements IGuiHandler{
 		final TileEntity te = world.getTileEntity(x, y, z);
 		if(te != null && te instanceof TileEntityBoatbench)
 			switch(ID){
-
 			case ModData.GUIIDs.BASIC_BOAT_BENCH:
-				return new ContainerBoatbench(player.inventory, (TileEntityBoatbench) te);
+				return new ContainerBasicBoatbench(player.inventory, (TileEntityBoatbench) te);
 			case ModData.GUIIDs.INTER_BOAT_BENCH:
-				return new ContainerBoatbench(player.inventory, (TileEntityBoatbench) te);
+				return new ContainerInterBoatbench(player.inventory, (TileEntityBoatbench) te);
 			}
 		return null;
 	}
@@ -33,12 +33,11 @@ public class GuiHandlerBetterOceans implements IGuiHandler{
 		final TileEntity te = world.getTileEntity(x, y, z);
 		if(te != null && te instanceof TileEntityBoatbench)
 			switch(ID){
-
 			case ModData.GUIIDs.BASIC_BOAT_BENCH:
-				return new GuiContainerBoatbench("basicboatbench", new ContainerBoatbench(player.inventory, (TileEntityBoatbench) te), (TileEntityBoatbench) te,
+				return new GuiContainerBasicBoatbench(new ContainerBasicBoatbench(player.inventory, (TileEntityBoatbench) te), (TileEntityBoatbench) te,
 						new Type[] {Type.BOTTOM, Type.SIDE, Type.END}, new Material[] {Material.WOOD});
 			case ModData.GUIIDs.INTER_BOAT_BENCH:
-				return new GuiContainerBoatbench("interboatbench", new ContainerBoatbench(player.inventory, (TileEntityBoatbench) te), (TileEntityBoatbench) te,
+				return new GuiContainerInterBoatbench(new ContainerInterBoatbench(player.inventory, (TileEntityBoatbench) te), (TileEntityBoatbench) te,
 						new Type[] {Type.BOTTOM, Type.SIDE, Type.END}, new Material[] {Material.WOOD, Material.IRON});
 			}
 		return null;

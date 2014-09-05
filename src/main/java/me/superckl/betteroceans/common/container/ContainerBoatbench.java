@@ -1,7 +1,6 @@
 package me.superckl.betteroceans.common.container;
 
 import lombok.Getter;
-import me.superckl.betteroceans.common.container.components.FluidContainerSlot;
 import me.superckl.betteroceans.common.container.components.NoPutSlot;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
@@ -12,31 +11,21 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerBoatbench extends Container{
+public abstract class ContainerBoatbench extends Container{
 
 	@Getter
 	private final TileEntityBoatbench tileEntity;
+	@Getter
+	private final InventoryPlayer playerInventory;
 
 	public ContainerBoatbench(final InventoryPlayer inventoryPlayer, final TileEntityBoatbench te){
 		this.tileEntity = te;
+		this.playerInventory = inventoryPlayer;
 		if(te.getActiveSelection() == null){
 			final EntityBOBoat boat = new EntityBOBoat(inventoryPlayer.player.worldObj);
 			boat.getBoatParts().add(new PartBottom.PartWoodenBottom());
 			te.setActiveSelection(boat);
 		}
-		this.bindPlayerInventory(inventoryPlayer);
-		this.addSlotToContainer(new Slot(te, 0, 67, 29));
-		this.addSlotToContainer(new Slot(te, 1, 67, 47));
-		this.addSlotToContainer(new Slot(te, 2, 85, 38));
-
-		final FluidContainerSlot fSlot = (FluidContainerSlot) this.addSlotToContainer(new FluidContainerSlot(te, 3, 178, 31));
-		final Slot slot = this.addSlotToContainer(new NoPutSlot(te, 4, 178, 49));
-		fSlot.setDependency(slot);
-		/*for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 3; j++)
-				this.addSlotToContainer(new Slot(te, j + i * 3,
-						15 + j * 18, 18 + i * 18));*/
-		this.addSlotToContainer(new NoPutSlot(te, 5, 144, 38));
 	}
 
 	@Override
@@ -74,14 +63,21 @@ public class ContainerBoatbench extends Container{
 		return stack;
 	}
 
-	protected void bindPlayerInventory(final InventoryPlayer inventoryPlayer) {
+	protected void bindCraftingAt(final int x, final int y){
+		this.addSlotToContainer(new Slot(this.tileEntity, 0, x, y));
+		this.addSlotToContainer(new Slot(this.tileEntity, 1, x, y+18));
+		this.addSlotToContainer(new Slot(this.tileEntity, 2, x+18, y+9));
+		this.addSlotToContainer(new NoPutSlot(this.tileEntity, 5, x+76, y+9));
+	}
+
+	protected void bindPlayerInventoryAt(final int x, final int y) {
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 9; j++)
-				this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9,
-						32 + j * 18, 88 + i * 18));
+				this.addSlotToContainer(new Slot(this.playerInventory, j + i * 9 + 9,
+						x + j * 18, y + i * 18));
 
 		for (int i = 0; i < 9; i++)
-			this.addSlotToContainer(new Slot(inventoryPlayer, i, 32 + i * 18, 146));
+			this.addSlotToContainer(new Slot(this.playerInventory, i, x + i * 18, y+58));
 	}
 
 }

@@ -54,6 +54,12 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 	@Setter
 	private boolean noUseIngredients;
 	private final IFluidTank tank = new FluidTank(4000);
+	/**
+	 * I know it's a terrible name. I like it. Deal with it.
+	 */
+	@Getter
+	@Setter
+	private boolean weHaveAProblemHere;
 
 	public TileEntityBoatbench() {}
 
@@ -359,20 +365,31 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 	}
 
 	private void handleFluids(){
-		if(!this.shouldHandleFluids)
+		if(!this.shouldHandleFluids || this.weHaveAProblemHere || this.tank.getFluidAmount() >= this.tank.getCapacity())
 			return;
 		final ItemStack stack = this.inventory[3];
 		if(stack == null){
-			this.liquidTime = 0;
-			this.takingInLiquid = false;
+			this.resetLiquidIntake();
 			return;
 		}
+		if(this.inventory[4] != null){
+			final ItemStack emptyCont = FluidContainerRegistry.drainFluidContainer(stack);
+			if(emptyCont == null || !emptyCont.isItemEqual(this.inventory[4]) || this.inventory[4].stackSize + emptyCont.stackSize > this.inventory[4].getMaxStackSize()){
+				this.resetLiquidIntake();
+				return;
+			}
+		}
 		boolean doIntake = false;
-		if(this.isTakingInLiquid())
+		if(this.isTakingInLiquid()){
+			if(!FluidContainerRegistry.isContainer(stack)){
+				this.resetLiquidIntake();
+				return;
+			}
 			if(++this.liquidTime < TileEntityBoatbench.LIQUID_INTAKE_TIME)
 				return;
 			else
 				doIntake = true;
+		}
 		final int maxDrain = this.tank.getCapacity()-this.tank.getFluidAmount();
 		if(stack.getItem() instanceof ItemFluidContainer){
 
@@ -392,9 +409,11 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 			if(fStack.amount <= amount){
 				if(FluidContainerRegistry.isBucket(stack))
 					this.inventory[3] = FluidContainerRegistry.EMPTY_BUCKET.copy();
-				this.tryMoveBucket();
-				this.liquidTime = 0;
-				this.takingInLiquid = false;
+				this.moveBucket();
+				this.resetLiquidIntake();
+			}else if(amount == 0){
+				this.weHaveAProblemHere = true;
+				this.resetLiquidIntake();
 			}
 		}else if(stack.getItem() instanceof ItemBucket){
 
@@ -411,28 +430,33 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 				return;
 			this.tank.fill(fStack, true);
 			this.inventory[3] = FluidContainerRegistry.EMPTY_BUCKET.copy();
-			this.tryMoveBucket();
-			this.liquidTime = 0;
-			this.takingInLiquid = false;
+			this.moveBucket();
+			this.resetLiquidIntake();
 		}else{
 
 			final FluidStack fStack = FluidContainerRegistry.getFluidForFilledItem(stack);
 			if(fStack == null || !ModFluids.isFuel(fStack.getFluid()))
 				return;
-
-			LogHelper.error("FluidContainerRegistry reported "+stack.getItem().getClass().getCanonicalName()+" as a fluid container with "+fStack.amount+" of "+
-					fStack.getFluid().getName()+", but it was not recognized! Please report this!");
-			this.tryMoveBucket();
-			this.liquidTime = 0;
-			this.takingInLiquid = false;
+			if(!this.weHaveAProblemHere){
+				LogHelper.error("FluidContainerRegistry reported "+stack.getItem().getClass().getCanonicalName()+" as a fluid container with "+fStack.amount+" of "+
+						fStack.getFluid().getName()+", but it was not recognized! Please report this!");
+				this.weHaveAProblemHere = true;
+			}
+			this.resetLiquidIntake();
 		}
 	}
 
-	private void tryMoveBucket(){
-		if(this.inventory[4] == null){
+	private void resetLiquidIntake(){
+		this.liquidTime = 0;
+		this.takingInLiquid = false;
+	}
+
+	private void moveBucket(){
+		if(this.inventory[4] == null)
 			this.inventory[4] = this.inventory[3];
-			this.inventory[3] = null;
-		}
+		else
+			this.inventory[4].stackSize += this.inventory[3].stackSize;
+		this.inventory[3] = null;
 	}
 
 }
