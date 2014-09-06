@@ -23,7 +23,7 @@ public class GuiContainerBasicBoatbench extends GuiContainerBoatbench{
 	@Override
 	public void initGui() {
 		super.initGui();
-		this.addPartSelectionAt(4, 31, 66);
+		this.addPartSelectionAt(4, 31, 52);
 	}
 
 	@Override
