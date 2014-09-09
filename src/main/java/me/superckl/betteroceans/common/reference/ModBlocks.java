@@ -8,8 +8,6 @@ import me.superckl.betteroceans.common.block.item.ItemBlockBoatbench;
 import me.superckl.betteroceans.common.block.item.ItemBlockHardCoral;
 import me.superckl.betteroceans.common.fluid.block.BlockFluidSaltWater;
 import me.superckl.betteroceans.common.fluid.block.BlockFluidSeaweedOil;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.ObjectHolder;
 
@@ -28,13 +26,6 @@ public abstract class ModBlocks {
 		GameRegistry.registerBlock(ModBlocks.boatbench, ItemBlockBoatbench.class, Names.BASIC_BOATBENCH);
 		GameRegistry.registerBlock(ModBlocks.hardCoral, ItemBlockHardCoral.class, Names.HARD_CORAL);
 		GameRegistry.registerBlock(ModBlocks.softCoral, Names.SOFT_CORAL);
-
-		ModBlocks.addRecipes();
-	}
-
-	private static void addRecipes(){
-		GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.boatbench, "xxx", "yxy", "yyy", 'y', "plankWood", 'x', "cobblestone"));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.boatbench, 1, 1), "xxx", "yxy", "yyy", 'y', "stone", 'x', "ingotIron"));
 	}
 
 	public static class Names{

@@ -15,13 +15,13 @@ public class BOIntegration {
 	public static void preInit(){
 		if(Loader.isModLoaded("BiomesOPlenty"))
 			BiomesOPlentyIntegration.preInit();
-		if(Loader.isModLoaded("NotEnoughItems"))
-			NotEnoughItemsIntegration.preInit();
 	}
 
 	public static void postInit(){
 		if(Loader.isModLoaded("BiomesOPlenty"))
 			BiomesOPlentyIntegration.postInit();
+		if(Loader.isModLoaded("NotEnoughItems"))
+			NotEnoughItemsIntegration.postInit();
 
 		//Ensure oceans are still overriden...
 		if(BetterOceans.getInstance().getConfig().isOverrideOcean() && BetterOceans.getInstance().getConfig().isForceOverride() && (!(BiomeGenBase.getBiomeGenArray()[BiomeGenBase.ocean.biomeID] instanceof BiomeGenBetterOcean) ||

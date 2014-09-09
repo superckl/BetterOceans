@@ -6,6 +6,7 @@ import me.superckl.betteroceans.common.reference.ModBlocks;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModFluids;
 import me.superckl.betteroceans.common.reference.ModItems;
+import me.superckl.betteroceans.common.reference.RecipeRegistry;
 import me.superckl.betteroceans.common.utility.BiomeHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.integration.BOIntegration;
@@ -41,6 +42,7 @@ public class BetterOceans {
 		ModFluids.init();
 		ModBlocks.init();
 		ModItems.init();
+		RecipeRegistry.registerBaseRecipes();
 		BetterOceans.proxy.registerWorldGenerators();
 		BetterOceans.proxy.registerRenderers();
 		BOIntegration.preInit();

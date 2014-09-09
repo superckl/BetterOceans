@@ -5,6 +5,7 @@ import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import me.superckl.betteroceans.common.parts.BoatPart;
+import me.superckl.betteroceans.common.parts.BoatbenchRecipeHandler;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.utility.LogHelper;
@@ -16,7 +17,7 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class NotEnoughItemsIntegration {
 
-	public static void preInit(){
+	public static void postInit(){
 		API.registerRecipeHandler(new BoatPartRecipeHandler());
 		LogHelper.debug("Added part recipes to NEI...");
 	}
@@ -52,7 +53,7 @@ public class NotEnoughItemsIntegration {
 
 				@Override
 				public List<PositionedStack> getIngredients() {
-					return BoatPartRecipeHandler.this.arrangeItemStacks(part.getCraftingIngredients());
+					return BoatPartRecipeHandler.this.arrangeItemStacks(BoatbenchRecipeHandler.INSTANCE.getRequiredItemsFor(part));
 				}
 
 			});

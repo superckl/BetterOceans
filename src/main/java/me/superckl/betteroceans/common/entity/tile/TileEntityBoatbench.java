@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.parts.BoatPart;
+import me.superckl.betteroceans.common.parts.BoatbenchRecipeHandler;
 import me.superckl.betteroceans.common.reference.ModFluids;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
@@ -90,7 +91,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 
 	public void onCraftingSlotPick(){
 		if(!this.noUseIngredients)
-			RecipeHelper.removeItems(this.activeSelection.getBoatParts().get(0).getCraftingIngredients(), this.inventory, true);
+			RecipeHelper.removeItems(BoatbenchRecipeHandler.INSTANCE.getRequiredItemsFor(this.activeSelection.getBoatParts().get(0)), this.inventory, true);
 		this.noUseIngredients = false;
 		this.checkRecipeCompletion();
 	}
@@ -165,7 +166,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 			this.inventory[5] = null;
 			return false;
 		}
-		if(RecipeHelper.areItemsPresent(this.activeSelection.getBoatParts().get(0).getCraftingIngredients(), Arrays.copyOf(this.inventory, 3), true)){
+		if(RecipeHelper.areItemsPresent(BoatbenchRecipeHandler.INSTANCE.getRequiredItemsFor(this.activeSelection.getBoatParts().get(0)), Arrays.copyOf(this.inventory, 3), true)){
 			final BoatPart part = this.activeSelection.getBoatParts().get(0);
 			if(part.getCreationTime() <= 0 || this.partBurnTime != 0 && this.partBurnTime <= this.cookTime)
 				this.inventory[5] = part.getCraftingResult();
@@ -180,7 +181,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 	public boolean checkRecipeCompletionNoSet(){
 		if(this.activeSelection == null)
 			return false;
-		if(RecipeHelper.areItemsPresent(this.activeSelection.getBoatParts().get(0).getCraftingIngredients(), Arrays.copyOf(this.inventory, 3), true))
+		if(RecipeHelper.areItemsPresent(BoatbenchRecipeHandler.INSTANCE.getRequiredItemsFor(this.activeSelection.getBoatParts().get(0)), Arrays.copyOf(this.inventory, 3), true))
 			return true;
 		return false;
 	}
@@ -204,7 +205,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 			return false;
 		}
 		this.partBurnTime = part.getCreationTime();
-		RecipeHelper.removeItems(part.getCraftingIngredients(), this.inventory, true);
+		RecipeHelper.removeItems(BoatbenchRecipeHandler.INSTANCE.getRequiredItemsFor(part), this.inventory, true);
 		return true;
 	}
 
