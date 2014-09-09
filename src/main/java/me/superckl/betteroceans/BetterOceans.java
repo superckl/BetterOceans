@@ -39,8 +39,8 @@ public class BetterOceans {
 		this.config.loadValues();
 		BetterOceans.proxy.registerNetworkHandlers();
 		ModFluids.init();
-		ModItems.init();
 		ModBlocks.init();
+		ModItems.init();
 		BetterOceans.proxy.registerWorldGenerators();
 		BetterOceans.proxy.registerRenderers();
 		BOIntegration.preInit();

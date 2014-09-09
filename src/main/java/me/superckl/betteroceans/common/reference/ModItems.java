@@ -6,6 +6,7 @@ import me.superckl.betteroceans.common.item.ItemBOBucket;
 import me.superckl.betteroceans.common.item.ItemBoatPart;
 import me.superckl.betteroceans.common.item.ItemCookedSeaweed;
 import me.superckl.betteroceans.common.item.ItemDepthSounder;
+import me.superckl.betteroceans.common.item.ItemLuminescentPowder;
 import me.superckl.betteroceans.common.item.ItemSeaweed;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
 import net.minecraft.init.Blocks;
@@ -24,6 +25,7 @@ public abstract class ModItems {
 	public static final ItemDepthSounder depthSounder = new ItemDepthSounder();
 	public static final ItemBoatPart boatPart = new ItemBoatPart();
 	public static final ItemBOBucket boBucket = new ItemBOBucket();
+	public static final ItemLuminescentPowder lumPowder = new ItemLuminescentPowder();
 
 	public static void init(){
 		GameRegistry.registerItem(ModItems.itemSeaweed, Names.SEAWEED);
@@ -31,6 +33,7 @@ public abstract class ModItems {
 		GameRegistry.registerItem(ModItems.depthSounder, Names.DEPTH_SOUNDER);
 		GameRegistry.registerItem(ModItems.boatPart, Names.BOAT_PART);
 		GameRegistry.registerItem(ModItems.boBucket, Names.BO_BUCKET);
+		GameRegistry.registerItem(ModItems.lumPowder, Names.LUM_POWDER);
 
 		ModItems.addRecipes();
 	}
@@ -47,6 +50,8 @@ public abstract class ModItems {
 				'x', Blocks.glass,
 				'y', Items.redstone,
 				'z', Items.iron_ingot);
+		for(int i = 0; i < 5; i++)
+			GameRegistry.addShapedRecipe(new ItemStack(ModItems.lumPowder, 2, i), "xxx", "xyx", "xxx", 'x', Items.glowstone_dust, 'y', new ItemStack(ModBlocks.hardCoral, 1, i));
 	}
 
 	public static void overrideItems(){
@@ -62,6 +67,7 @@ public abstract class ModItems {
 		public static final String DEPTH_SOUNDER =  "depthSounder";
 		public static final String BOAT_PART = "boatPart";
 		public static final String BO_BUCKET = "boBucket";
+		public static final String LUM_POWDER = "lumPowder";
 
 	}
 
