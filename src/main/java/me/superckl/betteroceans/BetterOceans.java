@@ -20,7 +20,7 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid=ModData.MOD_ID, name=ModData.MOD_NAME, version=ModData.VERSION, guiFactory = ModData.GUI_FACTORY, canBeDeactivated = false, dependencies = "after:BiomesOPlenty; after:NotEnoughItems")
+@Mod(modid=ModData.MOD_ID, name=ModData.MOD_NAME, version=ModData.VERSION, guiFactory = ModData.GUI_FACTORY, dependencies = "after:BiomesOPlenty; after:NotEnoughItems")
 public class BetterOceans {
 
 	@Instance(ModData.MOD_ID)
@@ -44,8 +44,9 @@ public class BetterOceans {
 		ModItems.init();
 		RecipeRegistry.registerBaseRecipes();
 		BetterOceans.proxy.registerWorldGenerators();
+		BetterOceans.proxy.registerEntities();
 		BetterOceans.proxy.registerRenderers();
-		BOIntegration.preInit();
+		BOIntegration.INSTANCE.preInit();
 		try {
 			Class.forName(BoatParts.class.getCanonicalName());//Let's just make sure all the parts get loaded;
 		} catch (final ClassNotFoundException e1) {
@@ -59,15 +60,15 @@ public class BetterOceans {
 		ModItems.overrideItems();
 		LogHelper.debug("Replacing ocean biomes...");
 		BiomeHelper.replaceOceanBiomes();
-		BetterOceans.proxy.registerEntities();
 
 		FMLInterModComms.sendMessage("Waila", "register", "me.superckl.betteroceans.integration.waila.BOWailaDataProvider.callbackRegister");
 		FMLInterModComms.sendMessage("Waila", "register", "me.superckl.betteroceans.integration.waila.BOWailaEntityProvider.callbackRegister");
+		BOIntegration.INSTANCE.init();
 	}
 
 	@EventHandler
 	public void postInit(final FMLPostInitializationEvent e){
-		BOIntegration.postInit();
+		BOIntegration.INSTANCE.postInit();
 	}
 
 }

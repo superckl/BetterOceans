@@ -9,17 +9,31 @@ import me.superckl.betteroceans.common.parts.BoatbenchRecipeHandler;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.utility.LogHelper;
+import me.superckl.betteroceans.integration.IIntegrationModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.api.API;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
-public class NotEnoughItemsIntegration {
+public class NotEnoughItemsIntegration implements IIntegrationModule{
 
-	public static void postInit(){
+
+	@Override
+	public void preInit() {}
+
+	@Override
+	public void init() {}
+
+	@Override
+	public void postInit(){
 		API.registerRecipeHandler(new BoatPartRecipeHandler());
 		LogHelper.debug("Added part recipes to NEI...");
+	}
+
+	@Override
+	public String[] getRequiredMods() {
+		return new String[] {"NotEnoughItems"};
 	}
 
 	@RequiredArgsConstructor
@@ -80,4 +94,5 @@ public class NotEnoughItemsIntegration {
 		}
 
 	}
+
 }

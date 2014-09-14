@@ -46,8 +46,11 @@ public class BoatHelper {
 
 	public static double compoundTurnModifiers(final EntityModularBoat boat){
 		double modifier = 1D;
-		for(final BoatPart part:boat.getBoatParts())
+		for(final BoatPart part:boat.getBoatParts()){
+			if(part.allowsVanillaTurning())
+				return -1;
 			modifier *= part.getTurnModifier();
+		}
 		return modifier;
 	}
 
@@ -129,5 +132,39 @@ public class BoatHelper {
 	public static BoatPart readPartFromBuffer(final ByteBuf buf){
 		return BoatPart.deserialize(buf.readInt());
 	}
+
+	/*public static float computeHeight(final EntityModularBoat boat){
+		int height = 0;
+		if(hasParts(boat, Type.BOTTOM)){
+			height += 8;
+			if(hasParts(boat, Type.SIDE))
+				height += 6;
+		}
+		return ((float)height)/16F;
+	}
+
+	public static float computeWidth(final EntityModularBoat boat){
+		int width = 0;
+		if(hasParts(boat, Type.BOTTOM)){
+			width += 16;
+			if(hasParts(boat, Type.SIDE, Type.SIDE))
+				width += 4;
+			else if(hasParts(boat, Type.SIDE))
+				width += 2;
+		}
+		return ((float)width)/16F;
+	}
+
+	public static float computeLength(final EntityModularBoat boat){
+		int width = 0;
+		if(hasParts(boat, Type.BOTTOM)){
+			width += 47;
+			if(hasParts(boat, Type.END, Type.END))
+				width += 4;
+			else if(hasParts(boat, Type.END))
+				width += 2;
+		}
+		return ((float)width)/16F;
+	}*/
 
 }

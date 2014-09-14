@@ -7,6 +7,7 @@ import me.superckl.betteroceans.client.gui.GuiHandlerBetterOceans;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.entity.EntityFishBasic;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
+import me.superckl.betteroceans.common.entity.tile.TileEntityLantern;
 import me.superckl.betteroceans.common.gen.WorldGeneratorReef;
 import me.superckl.betteroceans.common.gen.WorldGeneratorSeaweed;
 import me.superckl.betteroceans.common.gen.WorldGeneratorTrench;
@@ -49,6 +50,7 @@ public abstract class CommonProxy implements IProxy{
 		EntityRegistry.addSpawn(EntityFishBasic.class, 14, 5, 15, EnumCreatureType.waterCreature, BiomeGenBase.ocean, BiomeGenBase.deepOcean, BiomeGenBase.river);
 
 		GameRegistry.registerTileEntity(TileEntityBoatbench.class, "tileEntityBasicBoatWorkbench");
+		GameRegistry.registerTileEntity(TileEntityLantern.class, "tileEntityLantern");
 	}
 
 	@Override

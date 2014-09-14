@@ -7,7 +7,6 @@ import lombok.Setter;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.parts.BoatPart;
 import me.superckl.betteroceans.common.parts.BoatbenchRecipeHandler;
-import me.superckl.betteroceans.common.reference.ModFluids;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -196,7 +195,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 		final BoatPart part = this.activeSelection.getBoatParts().get(0);
 		if(part.getCreationTime() <= 0 || this.cookTime > 0 || this.tank.getFluid() == null || this.inventory[5] != null || !this.checkRecipeCompletion())
 			return false;
-		final int requiredF = ModFluids.getFuelUsageFor(this.tank.getFluid().getFluid(), part);
+		final int requiredF = BoatbenchRecipeHandler.INSTANCE.getFuelUsageFor(this.tank.getFluid().getFluid(), part);
 		if(this.tank.getFluid().amount < requiredF)
 			return false;
 		final FluidStack amount = this.tank.drain(requiredF, true);
@@ -249,7 +248,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 
 	@Override
 	public int fill(final ForgeDirection from, final FluidStack resource, final boolean doFill) {
-		if(!this.shouldHandleFluids || !ModFluids.isFuel(resource.getFluid()))
+		if(!this.shouldHandleFluids || !BoatbenchRecipeHandler.INSTANCE.isFuel(resource.getFluid()))
 			return 0;
 		return this.tank.fill(resource, doFill);
 	}
@@ -270,7 +269,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 
 	@Override
 	public boolean canFill(final ForgeDirection from, final Fluid fluid) {
-		if(!this.shouldHandleFluids || !ModFluids.isFuel(fluid))
+		if(!this.shouldHandleFluids || !BoatbenchRecipeHandler.INSTANCE.isFuel(fluid))
 			return false;
 		return this.tank.getFluid().getFluid() == fluid && this.tank.getCapacity() > this.tank.getFluidAmount();
 	}
@@ -396,7 +395,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 
 			final ItemFluidContainer fluidC = (ItemFluidContainer)stack.getItem();
 			final FluidStack fStack = fluidC.getFluid(stack);
-			if(fStack == null || !ModFluids.isFuel(fStack.getFluid())){
+			if(fStack == null || !BoatbenchRecipeHandler.INSTANCE.isFuel(fStack.getFluid())){
 				if(fStack == null)
 					if(FluidContainerRegistry.isBucket(stack))
 						this.inventory[3] = FluidContainerRegistry.EMPTY_BUCKET.copy();
@@ -419,7 +418,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 		}else if(stack.getItem() instanceof ItemBucket){
 
 			final FluidStack fStack = FluidContainerRegistry.getFluidForFilledItem(stack);
-			if(fStack == null || !ModFluids.isFuel(fStack.getFluid()))
+			if(fStack == null || !BoatbenchRecipeHandler.INSTANCE.isFuel(fStack.getFluid()))
 				return;
 
 			if(!doIntake){
@@ -436,7 +435,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 		}else{
 
 			final FluidStack fStack = FluidContainerRegistry.getFluidForFilledItem(stack);
-			if(fStack == null || !ModFluids.isFuel(fStack.getFluid()))
+			if(fStack == null || !BoatbenchRecipeHandler.INSTANCE.isFuel(fStack.getFluid()))
 				return;
 			if(!this.weHaveAProblemHere){
 				LogHelper.error("FluidContainerRegistry reported "+stack.getItem().getClass().getCanonicalName()+" as a fluid container with "+fStack.amount+" of "+

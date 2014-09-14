@@ -1,8 +1,9 @@
-package me.superckl.betteroceans.client.model;
+package me.superckl.betteroceans.client.model.entity;
 
 import lombok.Getter;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.parts.BoatPart;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -11,6 +12,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelBOBoat extends ModelBase{
+
+	private final Minecraft mc = Minecraft.getMinecraft();
 
 	@Getter
 	private final ModelRenderer[] boatSides = new ModelRenderer[19];
@@ -144,9 +147,11 @@ public class ModelBOBoat extends ModelBase{
 		if(!(entity instanceof EntityBOBoat))
 			//LogHelper.error("An entity was passed to the Boat Renderer that wasn't compatible!");
 			return;
-		for (final BoatPart part : ((EntityBOBoat)entity).getBoatParts())
+		for (final BoatPart part : ((EntityBOBoat)entity).getBoatParts()){
+			this.mc.renderEngine.bindTexture(part.getTexture());
 			for(final ModelRenderer renderer:part.getRenderers(this))
 				renderer.render(par7);
+		}
 	}
 
 }

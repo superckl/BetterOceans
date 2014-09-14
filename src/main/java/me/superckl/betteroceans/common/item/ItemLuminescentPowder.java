@@ -44,8 +44,6 @@ public class ItemLuminescentPowder extends ItemBO{
 			this.icons[i] = register.registerIcon(ModData.MOD_ID+":lumpowder"+i);
 	}
 
-
-
 	@Override
 	public IIcon getIconFromDamage(final int meta) {
 		// TODO Auto-generated method stub

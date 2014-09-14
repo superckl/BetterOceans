@@ -4,6 +4,7 @@ import me.superckl.betteroceans.common.item.ItemBOBucket;
 import me.superckl.betteroceans.common.item.ItemBoatPart;
 import me.superckl.betteroceans.common.item.ItemCookedSeaweed;
 import me.superckl.betteroceans.common.item.ItemDepthSounder;
+import me.superckl.betteroceans.common.item.ItemLifeJacket;
 import me.superckl.betteroceans.common.item.ItemLuminescentPowder;
 import me.superckl.betteroceans.common.item.ItemSeaweed;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
@@ -21,6 +22,7 @@ public abstract class ModItems {
 	public static final ItemBoatPart boatPart = new ItemBoatPart();
 	public static final ItemBOBucket boBucket = new ItemBOBucket();
 	public static final ItemLuminescentPowder lumPowder = new ItemLuminescentPowder();
+	public static final ItemLifeJacket lifeJacket = new ItemLifeJacket();
 
 	public static void init(){
 		GameRegistry.registerItem(ModItems.itemSeaweed, Names.SEAWEED);
@@ -29,6 +31,7 @@ public abstract class ModItems {
 		GameRegistry.registerItem(ModItems.boatPart, Names.BOAT_PART);
 		GameRegistry.registerItem(ModItems.boBucket, Names.BO_BUCKET);
 		GameRegistry.registerItem(ModItems.lumPowder, Names.LUM_POWDER);
+		GameRegistry.registerItem(ModItems.lifeJacket, Names.LIFE_JACKET);
 	}
 
 	public static void overrideItems(){
@@ -45,6 +48,7 @@ public abstract class ModItems {
 		public static final String BOAT_PART = "boatPart";
 		public static final String BO_BUCKET = "boBucket";
 		public static final String LUM_POWDER = "lumPowder";
+		public static final String LIFE_JACKET = "lifeJacket";
 
 	}
 

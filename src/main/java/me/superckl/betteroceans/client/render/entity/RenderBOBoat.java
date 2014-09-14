@@ -1,7 +1,8 @@
-package me.superckl.betteroceans.client.render;
+package me.superckl.betteroceans.client.render.entity;
 
-import me.superckl.betteroceans.client.model.ModelBOBoat;
+import me.superckl.betteroceans.client.model.entity.ModelBOBoat;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
+import me.superckl.betteroceans.common.reference.RenderData;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.particle.EntitySplashFX;
 import net.minecraft.client.renderer.entity.Render;
@@ -17,7 +18,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderBOBoat extends Render{
 
-	private static final ResourceLocation boatTextures = new ResourceLocation("textures/entity/boat.png");
 	/** instance of ModelBoat for rendering */
 	protected ModelBase modelBoat;
 	public RenderBOBoat()
@@ -56,19 +56,9 @@ public class RenderBOBoat extends Render{
 		final float f4 = 0.75F;
 		GL11.glScalef(f4, f4, f4);
 		GL11.glScalef(1.0F / f4, 1.0F / f4, 1.0F / f4);
-		this.bindEntityTexture(boat);
 		GL11.glScalef(-1.0F, -1.0F, 1.0F);
 		this.modelBoat.render(boat, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		GL11.glPopMatrix();
-	}
-
-	/**
-	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-	 */
-	@Override
-	protected ResourceLocation getEntityTexture(final Entity par1Entity)
-	{
-		return RenderBOBoat.boatTextures;
 	}
 
 	/**
@@ -81,6 +71,11 @@ public class RenderBOBoat extends Render{
 	public void doRender(final Entity par1Entity, final double par2, final double par4, final double par6, final float par8, final float par9)
 	{
 		this.doRender((EntityBOBoat)par1Entity, par2, par4, par6, par8, par9, true);
+	}
+
+	@Override
+	protected ResourceLocation getEntityTexture(final Entity p_110775_1_) {
+		return RenderData.WOOD_BOAT;
 	}
 
 }

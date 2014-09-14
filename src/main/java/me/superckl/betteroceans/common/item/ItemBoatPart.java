@@ -70,7 +70,7 @@ public class ItemBoatPart extends ItemBO{
 	@Override
 	public ItemStack onItemRightClick(final ItemStack stack, final World world, final EntityPlayer player)
 	{
-		if(stack.getItemDamage() != BoatParts.woodenBottom.getPartID())
+		if(BoatPart.deserialize(stack.getItemDamage()) instanceof PartBottom == false)
 			return stack;
 		final float f = 1.0F;
 		final float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
@@ -128,7 +128,7 @@ public class ItemBoatPart extends ItemBO{
 
 					final EntityBOBoat entityboat = new EntityBOBoat(world, i + 0.5F, j + 1.0F, k + 0.5F);
 					entityboat.rotationYaw = ((MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) - 1) * 90;
-					entityboat.addPart(new PartBottom.PartWoodenBottom(), false, true);
+					entityboat.addPart(BoatPart.deserialize(stack.getItemDamage()), false, true);
 
 					if (!world.getCollidingBoundingBoxes(entityboat, entityboat.boundingBox.expand(-0.1D, -0.1D, -0.1D)).isEmpty())
 						return stack;

@@ -3,13 +3,16 @@ package me.superckl.betteroceans.common.gen;
 import java.util.Random;
 
 import me.superckl.betteroceans.BetterOceans;
+import me.superckl.betteroceans.common.event.TrenchChunkEvent;
 import me.superckl.betteroceans.common.utility.BiomeHelper;
 import me.superckl.betteroceans.common.utility.BlockHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.NumberHelper;
 import net.minecraft.init.Blocks;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class WorldGeneratorTrench implements IWorldGenerator{
@@ -125,6 +128,7 @@ public class WorldGeneratorTrench implements IWorldGenerator{
 		int offsetYCounter = 0;
 		int ledgeWidth = 1;
 		int ledgeWidthCounter = 0;
+		ChunkCoordIntPair chunkPair = null;
 		for(int i = 0; i < length; i++){
 			width = constWidth;
 			if(i > length - endTaper){
@@ -154,6 +158,14 @@ public class WorldGeneratorTrench implements IWorldGenerator{
 			}
 			if(!BiomeHelper.isOcean(world, startX >> 4, startZ >> 4))
 				return; //Woops!, we've gone to far!
+			if(chunkPair == null){
+				chunkPair = new ChunkCoordIntPair(startX >> 4, startZ >> 4);
+				MinecraftForge.EVENT_BUS.post(new TrenchChunkEvent.Enter(chunkProvider.provideChunk(startX, startZ), this));
+			}else if(chunkPair.chunkXPos != startX >> 4 || chunkPair.chunkZPos != startZ >> 4){
+				MinecraftForge.EVENT_BUS.post(new TrenchChunkEvent.Leave(chunkProvider.provideChunk(chunkPair.chunkXPos << 4, chunkPair.chunkZPos << 4), this));
+				chunkPair = new ChunkCoordIntPair(startX >> 4, startZ >> 4);
+				MinecraftForge.EVENT_BUS.post(new TrenchChunkEvent.Enter(chunkProvider.provideChunk(startX, startZ), this));
+			}
 			final int floorY = from0+offsetY;
 			//Generate floor
 			for(int j = ledges; j < width-ledges; j++){

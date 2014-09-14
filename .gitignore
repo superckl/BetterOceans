@@ -4,6 +4,7 @@
 .settings/*
 eclipse/*
 bin/*
+Techne/*
 /bin/
 build.bat
 desktop.ini

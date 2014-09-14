@@ -58,6 +58,7 @@ public class EntityBOBoat extends EntityModularBoat implements IRenderRotatable,
 	private double boatZ;
 	private double boatYaw;
 	private double boatPitch;
+	public float length;
 	@SideOnly(Side.CLIENT)
 	private double velocityX;
 	@SideOnly(Side.CLIENT)
@@ -81,9 +82,36 @@ public class EntityBOBoat extends EntityModularBoat implements IRenderRotatable,
 		this.isBoatEmpty = true;
 		this.speedMultiplier = 0.02D;
 		this.preventEntitySpawning = true;
-		this.setSize(1.5F, 0.6F);
-		this.yOffset = this.height / 1.9F;
+		this.setSize(1.4F, .6F);
+		this.yOffset = this.height / 1.86F;
 	}
+
+	/*public void recomputeSize(){
+		this.setSize(BoatHelper.computeWidth(this), BoatHelper.computeLength(this), BoatHelper.computeHeight(this));
+	}*/
+
+	/*@Override
+	protected void setSize(float p_70105_1_, float p_70105_2_) {
+		this.recomputeSize();
+	}
+
+	public void setSize(float width, float length, float height){
+		super.setSize(width, height);
+		this.length = length;
+		this.boundingBox.maxZ = this.boundingBox.minZ + (double)length;
+	}*/
+
+	/*	@Override
+    public void setPosition(double p_70107_1_, double p_70107_3_, double p_70107_5_)
+    {
+        this.posX = p_70107_1_;
+        this.posY = p_70107_3_;
+        this.posZ = p_70107_5_;
+        float f = this.length / 2.0F;
+        float f2 = this.width / 2.0F;
+        float f1 = this.height;
+        this.boundingBox.setBounds(p_70107_1_ - (double)f, p_70107_3_ - (double)this.yOffset + (double)this.ySize, p_70107_5_ - (double)f2, p_70107_1_ + (double)f, p_70107_3_ - (double)this.yOffset + (double)this.ySize + (double)f1, p_70107_5_ + (double)f2);
+    }*/
 
 	@Override
 	protected boolean canTriggerWalking()
@@ -354,10 +382,10 @@ public class EntityBOBoat extends EntityModularBoat implements IRenderRotatable,
 					this.motionY *= 0.0D;
 					this.motionZ *= 0.0D;
 				}
-				final double modifier = BoatHelper.compoundSpeedModifiers(this);
-				this.motionX *= modifier*Math.max(0F, 1F-this.getSinkDepth());
-				this.motionY *= this.isSinking() ? 0D:modifier*Math.max(0F, 1F-this.getSinkDepth());
-				this.motionZ *= modifier*Math.max(0F, 1F-this.getSinkDepth());
+				//final double modifier = BoatHelper.compoundSpeedModifiers(this);
+				this.motionX *= /*modifier**/Math.max(0F, 1F-this.getSinkDepth());
+				this.motionY *= this.isSinking() ? 0D:/*modifier**/Math.max(0F, 1F-this.getSinkDepth());
+				this.motionZ *= /*modifier**/Math.max(0F, 1F-this.getSinkDepth());
 			}
 		}
 		else
@@ -378,31 +406,37 @@ public class EntityBOBoat extends EntityModularBoat implements IRenderRotatable,
 			if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityLivingBase)
 			{
 				final EntityLivingBase entitylivingbase = (EntityLivingBase)this.riddenByEntity;
-				final float f = this.riddenByEntity.rotationYaw + -entitylivingbase.moveStrafing * 10.0F;
-				//this was a bitch
-				final double radianF = Math.toRadians(f);
-				final double radianB = Math.toRadians(this.rotationYaw+90F);
-				final double turnM = BoatHelper.compoundTurnModifiers(this);
-				double xDir = Math.sin(radianF);
-				final double boatxDir = Math.sin(radianB);
-				xDir-=(xDir-boatxDir)*.85D*turnM;
-				this.motionX += -xDir * this.speedMultiplier * entitylivingbase.moveForward * 0.04000000074505806D;
+				final float f = this.riddenByEntity.rotationYaw + -entitylivingbase.moveStrafing * 90.0F;
+				double turnM = BoatHelper.compoundTurnModifiers(this);
+				turnM = -1; //TODO fix boat turning. We're going to use vanilla mechanics for now
+				if(turnM < 0){
+					this.motionX += -Math.sin(f * (float)Math.PI / 180.0F) * this.speedMultiplier * entitylivingbase.moveForward * 0.05000000074505806D;
+					this.motionZ += Math.cos(f * (float)Math.PI / 180.0F) * this.speedMultiplier * entitylivingbase.moveForward * 0.05000000074505806D;
+				}else{
+					//this was a bitch to figure out, currently broken
+					final double radianF = Math.toRadians(f);
+					final double radianB = Math.toRadians(this.rotationYaw+90F);
+					double xDir = Math.sin(radianF);
+					final double boatxDir = Math.sin(radianB);
+					xDir-=Math.min((xDir-boatxDir)*(.6D/turnM), xDir-boatxDir);
+					this.motionX += -xDir * this.speedMultiplier * entitylivingbase.moveForward * 0.04000000074505806D;
 
 
-				double zDir = Math.cos(radianF);
-				final double boatzDir = Math.cos(radianB);
-				zDir-=(zDir-boatzDir)*.85D*turnM;
-				this.motionZ += zDir * this.speedMultiplier * entitylivingbase.moveForward * 0.04000000074505806D;
+					double zDir = Math.cos(radianF);
+					final double boatzDir = Math.cos(radianB);
+					zDir-=Math.min((zDir-boatzDir)*(.6D/turnM), zDir-boatzDir);
+					this.motionZ += zDir * this.speedMultiplier * entitylivingbase.moveForward * 0.04000000074505806D;
+				}
 			}
 
 			d2 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-
-			if (d2 > 0.35D)
+			final double maxSpeed = .35D*BoatHelper.compoundSpeedModifiers(this);
+			if (d2 > maxSpeed)
 			{
-				d4 = 0.35D / d2;
+				d4 = maxSpeed / d2;
 				this.motionX *= d4;
 				this.motionZ *= d4;
-				d2 = 0.35D;
+				d2 = maxSpeed;
 			}
 
 			if (d2 > d10 && this.speedMultiplier < 0.35D)
@@ -452,10 +486,10 @@ public class EntityBOBoat extends EntityModularBoat implements IRenderRotatable,
 				this.motionZ *= 0.0D;
 			}
 
-			final double modifier = BoatHelper.compoundSpeedModifiers(this);
-			this.motionX *= modifier*Math.max(0F, 1F-this.getSinkDepth());
-			this.motionY *= this.isSinking() ? 0D:modifier*Math.max(0F, 1F-this.getSinkDepth());
-			this.motionZ *= modifier*Math.max(0F, 1F-this.getSinkDepth());
+			//final double modifier = BoatHelper.compoundSpeedModifiers(this);
+			this.motionX *= /*modifier**/Math.max(0F, 1F-this.getSinkDepth());
+			this.motionY *= this.isSinking() ? 0D:/*modifier**/Math.max(0F, 1F-this.getSinkDepth());
+			this.motionZ *= /*modifier**/Math.max(0F, 1F-this.getSinkDepth());
 
 			this.moveEntity(this.motionX, this.motionY, this.motionZ);
 

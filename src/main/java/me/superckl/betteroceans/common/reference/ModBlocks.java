@@ -2,10 +2,12 @@ package me.superckl.betteroceans.common.reference;
 
 import me.superckl.betteroceans.common.block.BlockBoatbench;
 import me.superckl.betteroceans.common.block.BlockHardCoral;
+import me.superckl.betteroceans.common.block.BlockLantern;
 import me.superckl.betteroceans.common.block.BlockSeaweed;
 import me.superckl.betteroceans.common.block.BlockSoftCoral;
 import me.superckl.betteroceans.common.block.item.ItemBlockBoatbench;
 import me.superckl.betteroceans.common.block.item.ItemBlockHardCoral;
+import me.superckl.betteroceans.common.block.item.ItemBlockLantern;
 import me.superckl.betteroceans.common.fluid.block.BlockFluidSaltWater;
 import me.superckl.betteroceans.common.fluid.block.BlockFluidSeaweedOil;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -18,6 +20,7 @@ public abstract class ModBlocks {
 	public static final BlockBoatbench boatbench = new BlockBoatbench();
 	public static final BlockHardCoral hardCoral = new BlockHardCoral();
 	public static final BlockSoftCoral softCoral = new BlockSoftCoral();
+	public static final BlockLantern lantern = new BlockLantern();
 	public static BlockFluidSaltWater saltWater;
 	public static BlockFluidSeaweedOil seaweedOil;
 
@@ -26,6 +29,7 @@ public abstract class ModBlocks {
 		GameRegistry.registerBlock(ModBlocks.boatbench, ItemBlockBoatbench.class, Names.BASIC_BOATBENCH);
 		GameRegistry.registerBlock(ModBlocks.hardCoral, ItemBlockHardCoral.class, Names.HARD_CORAL);
 		GameRegistry.registerBlock(ModBlocks.softCoral, Names.SOFT_CORAL);
+		GameRegistry.registerBlock(ModBlocks.lantern, ItemBlockLantern.class, Names.LANTERN);
 	}
 
 	public static class Names{
@@ -36,6 +40,7 @@ public abstract class ModBlocks {
 		public static final String SEAWEED_OIL = "seaweedOil";
 		public static final String HARD_CORAL = "hardCoral";
 		public static final String SOFT_CORAL = "softCoral";
+		public static final String LANTERN = "lantern";
 
 	}
 

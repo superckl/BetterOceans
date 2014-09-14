@@ -9,16 +9,17 @@ import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
 import me.superckl.betteroceans.common.utility.StringHelper;
+import me.superckl.betteroceans.integration.IIntegrationModule;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import biomesoplenty.api.content.BOPCBlocks;
 import biomesoplenty.common.world.BOPBiomeManager;
 
-public class BiomesOPlentyIntegration{
+public class BiomesOPlentyIntegration implements IIntegrationModule{
 
-
-	public static void preInit(){
+	@Override
+	public void preInit(){
 		final Config c = BetterOceans.getInstance().getConfig();
 		if(c.isSeaweedOrKelp()){
 			RecipeHelper.replaceItem(new ItemStack(BOPCBlocks.coral1, 1, 11), new ItemStack(ModItems.itemSeaweed), true, false);
@@ -42,8 +43,15 @@ public class BiomesOPlentyIntegration{
 		}
 	}
 
-	public static void postInit(){
+	@Override
+	public void init() {}
 
+	@Override
+	public void postInit() {}
+
+	@Override
+	public String[] getRequiredMods() {
+		return new String[] {"BiomesOPlenty"};
 	}
 
 }

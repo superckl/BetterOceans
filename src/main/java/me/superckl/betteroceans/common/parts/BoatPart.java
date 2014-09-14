@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.entity.EntityModularBoat;
 import me.superckl.betteroceans.common.reference.BoatParts;
+import me.superckl.betteroceans.common.reference.RenderData;
 import me.superckl.betteroceans.common.utility.BOReflectionHelper;
 import me.superckl.betteroceans.common.utility.ConstructorWrapper;
 import me.superckl.betteroceans.common.utility.LogHelper;
@@ -77,7 +78,6 @@ public abstract class BoatPart {
 		return BoatPart.parts.get(0); //Temp while all materials not done
 	}
 
-	protected ResourceLocation texture;
 	protected EntityBOBoat entity;
 
 	public abstract Type getType();
@@ -152,8 +152,18 @@ public abstract class BoatPart {
 	public double getSinkChanceModifier(){
 		return 1D;
 	}
+	/**
+	 * If you want to decrease the turning rate, DO NOT go very far below 1. .9 is probably the minimum I would recommend. Otherwise the boat just won't turn...
+	 * A small decrease will have a very large affect!
+	 * The compounded factor is used to divide .6 by, meaning if the factor is less than .6, the boat won't turn at all. I warned you.
+	 * @return
+	 */
 	public double getTurnModifier(){
 		return 1D;
+	}
+
+	public boolean allowsVanillaTurning(){
+		return false;
 	}
 
 	public int getCreationTime(){
@@ -161,9 +171,7 @@ public abstract class BoatPart {
 	}
 
 	public ResourceLocation getTexture(){
-		if(this.texture == null)
-			this.texture = new ResourceLocation(this.getMaterial().getDefaultTextureLocation());
-		return this.texture;
+		return this.getMaterial().getDefaultTextureLocation();
 	}
 	public EntityBOBoat getOnePartBoat(final World world){
 		if(this.entity == null){
@@ -198,13 +206,13 @@ public abstract class BoatPart {
 
 	@RequiredArgsConstructor
 	public static enum Material{
-		WOOD("textures/entity/boat.png", new ItemStack(Blocks.planks), 1, .85D),
-		IRON("textures/entity/boatiron.png", new ItemStack(Items.iron_ingot), 2, 1.2D),//TODO
-		GLASS("", new ItemStack(Blocks.glass), 1, .6D),//TODO
+		WOOD(RenderData.WOOD_BOAT, new ItemStack(Blocks.planks), 1, .85D),
+		IRON(RenderData.IRON_BOAT, new ItemStack(Items.iron_ingot), 2, 1.2D),//TODO
+		GLASS(null, new ItemStack(Blocks.glass), 1, .6D),//TODO
 		UNSUPPORTED(null, null, 0, 0D);
 
 		@Getter
-		private final String defaultTextureLocation;
+		private final ResourceLocation defaultTextureLocation;
 		@Getter
 		private final ItemStack itemRepresentation;
 		@Getter
