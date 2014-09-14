@@ -49,9 +49,4 @@ public class BiomesOPlentyIntegration implements IIntegrationModule{
 	@Override
 	public void postInit() {}
 
-	@Override
-	public String[] getRequiredMods() {
-		return new String[] {"BiomesOPlenty"};
-	}
-
 }

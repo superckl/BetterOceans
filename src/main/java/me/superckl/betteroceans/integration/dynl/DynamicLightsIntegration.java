@@ -32,11 +32,6 @@ public class DynamicLightsIntegration implements IIntegrationModule{
 	@Override
 	public void postInit() {}
 
-	@Override
-	public String[] getRequiredMods() {
-		return new String[] {"DynamicLights"};
-	}
-
 	@SubscribeEvent
 	public void onClientTick(final TickEvent.ClientTickEvent e){
 		if(this.mc == null)

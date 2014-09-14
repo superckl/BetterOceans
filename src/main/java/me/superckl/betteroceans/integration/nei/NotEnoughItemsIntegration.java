@@ -31,11 +31,6 @@ public class NotEnoughItemsIntegration implements IIntegrationModule{
 		LogHelper.debug("Added part recipes to NEI...");
 	}
 
-	@Override
-	public String[] getRequiredMods() {
-		return new String[] {"NotEnoughItems"};
-	}
-
 	@RequiredArgsConstructor
 	public static class BoatPartRecipeHandler extends TemplateRecipeHandler{
 
