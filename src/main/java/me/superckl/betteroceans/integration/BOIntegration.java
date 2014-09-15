@@ -1,6 +1,7 @@
 package me.superckl.betteroceans.integration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,6 @@ import me.superckl.betteroceans.common.utility.BOReflectionHelper;
 import me.superckl.betteroceans.common.utility.BiomeHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import net.minecraft.world.biome.BiomeGenBase;
-import scala.actors.threadpool.Arrays;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.LoaderState;
 
