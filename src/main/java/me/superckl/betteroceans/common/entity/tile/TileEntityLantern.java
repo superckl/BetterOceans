@@ -12,6 +12,8 @@ public class TileEntityLantern extends TileEntity{
 	@Getter
 	private ItemStack lumPowder;
 
+	public TileEntityLantern() {}
+
 	@Override
 	public void readFromNBT(final NBTTagCompound tag) {
 		super.readFromNBT(tag);

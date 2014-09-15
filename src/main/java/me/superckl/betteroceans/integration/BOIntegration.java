@@ -24,7 +24,7 @@ public class BOIntegration implements IIntegrationModule{
 	private static final Map<List<String>, String> modules = new HashMap<List<String>, String>();
 
 	static{
-		BOIntegration.modules.put(Arrays.asList(new String[] {"BiomesOPlenty"}), "me.superckl.betteroceans.integration.bop.BiomeOPlentyIntegration");
+		BOIntegration.modules.put(Arrays.asList(new String[] {"BiomesOPlenty"}), "me.superckl.betteroceans.integration.bop.BiomesOPlentyIntegration");
 		BOIntegration.modules.put(Arrays.asList(new String[] {"NotEnoughItems"}), "me.superckl.betteroceans.integration.nei.NotEnoughItemsIntegration");
 	}
 

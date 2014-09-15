@@ -17,6 +17,7 @@ public class RenderData {
 	public static final ResourceLocation IRON_BOAT = new ResourceLocation(ModData.MOD_ID+":textures/entity/ironboat.png");
 	public static final ResourceLocation EMPTY_GAUGE = new ResourceLocation(ModData.MOD_ID+":textures/gui/gaugeempty.png");
 	public static final ResourceLocation WIDGETS = new ResourceLocation(ModData.MOD_ID+":textures/gui/widgets.png");
+	public static final String LIFE_JACKET = ModData.MOD_ID+":textures/armor/lifejacket.png";
 
 	public static IIcon ANIMATED_GAUGE;
 
