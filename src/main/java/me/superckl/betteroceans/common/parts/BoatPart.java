@@ -55,29 +55,6 @@ public abstract class BoatPart implements Cloneable{
 		return BoatPart.parts.get(id).newInstance();
 	}
 
-	public static BoatPart getPartByTypeAndMaterial(final Type type, final Material material){
-		if(type == Type.ADDON){
-			final StackTraceElement ste = BOReflectionHelper.retrieveCallingStackTraceElement();
-			LogHelper.error(StringHelper.build("Cannot retrieve part for Type ADDON! Report this to the owner of the calling class: ", ste.getClassName(), ":"
-					, ste.getMethodName(), ":", ste.getLineNumber()));
-			return null;
-		}
-		return BoatPart.getWrapperFor(type, material).newInstance();
-	}
-
-	public static ConstructorWrapper<? extends BoatPart> getWrapperFor(final Type type, final Material material){
-		if(type == Type.ADDON){
-			final StackTraceElement ste = BOReflectionHelper.retrieveCallingStackTraceElement();
-			LogHelper.error(StringHelper.build("Cannot retrieve part for Type ADDON! Report this to the owner of the calling class: ", ste.getClassName(), ":"
-					, ste.getMethodName(), ":", ste.getLineNumber()));
-			return null;
-		}
-		for(final BoatPart part:BoatParts.allParts)
-			if(part.getType() == type && part.getMaterial() == material)
-				return BoatPart.parts.get(part.getPartID());
-		return BoatPart.parts.get(0); //Temp while all materials not done
-	}
-
 	protected EntityBOBoat entity;
 
 	public abstract Type getType();
