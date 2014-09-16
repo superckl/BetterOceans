@@ -1,9 +1,8 @@
 package me.superckl.betteroceans.client.gui;
 
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
-import me.superckl.betteroceans.common.parts.BoatPart.Material;
-import me.superckl.betteroceans.common.parts.BoatPart.Type;
 import me.superckl.betteroceans.common.reference.RenderData;
+import me.superckl.betteroceans.common.utility.PartSelectionManager;
 import me.superckl.betteroceans.common.utility.StringHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.Container;
@@ -11,8 +10,8 @@ import net.minecraft.inventory.Container;
 public class GuiContainerBasicBoatbench extends GuiContainerBoatbench{
 
 	public GuiContainerBasicBoatbench(final Container container,
-			final TileEntityBoatbench te, final Type[] validTypes, final Material[] validMaterials) {
-		super(container, te, validTypes, validMaterials);
+			final TileEntityBoatbench te, final PartSelectionManager partManager) {
+		super(container, te, partManager);
 		this.xSize = 176;
 		this.ySize = 170;
 		this.backgroundTexture = RenderData.BASIC_BOAT_BENCH;

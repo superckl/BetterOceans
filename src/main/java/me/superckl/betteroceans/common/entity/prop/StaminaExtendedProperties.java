@@ -39,25 +39,26 @@ public class StaminaExtendedProperties implements IExtendedEntityProperties{
 		//TODO figure out why no drain, it should be that way, but it's not intentional :/
 		final ItemStack armor = this.player.getCurrentArmor(2);
 		final boolean lifeJacket = armor != null && armor.getItem() == ModItems.lifeJacket;
-		if(!this.player.capabilities.isCreativeMode && this.player.ridingEntity == null && this.player.isInWater() && (this.player.motionY != -0.02D || lifeJacket))
+		final boolean shouldSwim = this.player.isInWater() && (this.player.motionY != -0.02D || lifeJacket);
+		if(!this.player.capabilities.isCreativeMode && this.player.ridingEntity == null && shouldSwim)
 			this.swimTick(lifeJacket);
 		else
 			this.nonSwimTick();
 	}
 
 	/**
-	 * @return Whether or not the play can continue swimming
+	 * @return Whether or not the player can continue swimming
 	 */
 	public boolean swimTick(final boolean lifeJacket){
-		this.regenDelay = lifeJacket ? 8:4;
-		if(this.isExhausted())
-			return false;
+		this.regenDelay = 4;
+		if(this.isExhausted() || lifeJacket)
+			return lifeJacket;
 		int stamina = this.getStamina()- (lifeJacket ? 1:2);
 		stamina = Math.max(stamina, 0);
 		this.setStamina(stamina);
 		if(stamina == 0){
 			this.setExhausted(true);
-			this.regenDelay = 6;
+			this.regenDelay = 4;
 			return false;
 		}
 		return true;

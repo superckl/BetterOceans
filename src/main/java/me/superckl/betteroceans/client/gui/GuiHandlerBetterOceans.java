@@ -3,9 +3,8 @@ package me.superckl.betteroceans.client.gui;
 import me.superckl.betteroceans.common.container.ContainerBasicBoatbench;
 import me.superckl.betteroceans.common.container.ContainerInterBoatbench;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
-import me.superckl.betteroceans.common.parts.BoatPart.Material;
-import me.superckl.betteroceans.common.parts.BoatPart.Type;
 import me.superckl.betteroceans.common.reference.ModData;
+import me.superckl.betteroceans.common.utility.PartSelectionManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -35,10 +34,10 @@ public class GuiHandlerBetterOceans implements IGuiHandler{
 			switch(ID){
 			case ModData.GUIIDs.BASIC_BOAT_BENCH:
 				return new GuiContainerBasicBoatbench(new ContainerBasicBoatbench(player.inventory, (TileEntityBoatbench) te), (TileEntityBoatbench) te,
-						new Type[] {Type.BOTTOM, Type.SIDE, Type.END}, new Material[] {Material.WOOD});
+						PartSelectionManager.BASIC_BENCH.clone());
 			case ModData.GUIIDs.INTER_BOAT_BENCH:
 				return new GuiContainerInterBoatbench(new ContainerInterBoatbench(player.inventory, (TileEntityBoatbench) te), (TileEntityBoatbench) te,
-						new Type[] {Type.BOTTOM, Type.SIDE, Type.END}, new Material[] {Material.WOOD, Material.IRON});
+						PartSelectionManager.INTER_BENCH.clone());
 			}
 		return null;
 	}

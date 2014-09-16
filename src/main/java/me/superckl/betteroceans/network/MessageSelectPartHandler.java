@@ -21,7 +21,7 @@ public class MessageSelectPartHandler implements IMessageHandler<MessageSelectBo
 			LogHelper.error("Failed to deserialize message!");
 			return null;
 		}
-		message.getTe().setActiveSelection(message.getPart().getOnePartBoat(message.getTe().getWorldObj()));
+		message.getTe().setActiveSelection(message.getPart());
 		return null;
 	}
 

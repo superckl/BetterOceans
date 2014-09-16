@@ -53,7 +53,7 @@ public class BOWailaDataProvider implements IWailaDataProvider{
 				if(te != null && te instanceof TileEntityBoatbench){
 					final TileEntityBoatbench tebb = (TileEntityBoatbench) te;
 					if(tebb.getActiveSelection() != null)
-						currenttip.add(currenttip.size(), "Active Part: "+tebb.getActiveSelection().getBoatParts().get(0).getNiceName());
+						currenttip.add(currenttip.size(), "Active Part: "+tebb.getActiveSelection().getNiceName());
 					final FluidTankInfo[] infos = tebb.getTankInfo(null);
 					if(infos.length > 0 && infos[0] != null && infos[0].fluid != null)
 						currenttip.add(currenttip.size(), "Contains "+infos[0].fluid.amount+"mb of "+infos[0].fluid.getFluid().getLocalizedName(infos[0].fluid));

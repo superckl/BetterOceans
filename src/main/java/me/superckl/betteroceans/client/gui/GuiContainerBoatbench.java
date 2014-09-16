@@ -4,11 +4,9 @@ import me.superckl.betteroceans.client.gui.components.ArrowButton;
 import me.superckl.betteroceans.common.container.ContainerBoatbench;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
 import me.superckl.betteroceans.common.parts.BoatPart;
-import me.superckl.betteroceans.common.parts.BoatPart.Material;
-import me.superckl.betteroceans.common.parts.BoatPart.Type;
 import me.superckl.betteroceans.common.reference.NetworkData;
 import me.superckl.betteroceans.common.reference.RenderData;
-import me.superckl.betteroceans.common.utility.CollectionHelper;
+import me.superckl.betteroceans.common.utility.PartSelectionManager;
 import me.superckl.betteroceans.common.utility.RenderHelper;
 import me.superckl.betteroceans.network.MessageSelectBoatPart;
 import net.minecraft.client.gui.GuiButton;
@@ -22,10 +20,7 @@ public abstract class GuiContainerBoatbench extends GuiContainer{
 
 	protected ResourceLocation backgroundTexture;
 
-	protected int typeIndex = -1;
-	protected Type[] validTypes;
-	protected int materialIndex = -1;
-	protected Material[] validMaterials;
+	protected PartSelectionManager partManager;
 	protected BoatPart activePart;
 	protected ItemStack partStack;
 
@@ -37,17 +32,14 @@ public abstract class GuiContainerBoatbench extends GuiContainer{
 
 	protected boolean buttonsEnabled;
 
-	public GuiContainerBoatbench(final Container container, final TileEntityBoatbench te, final Type[] validTypes, final Material[] validMaterials) {
+	public GuiContainerBoatbench(final Container container, final TileEntityBoatbench te, final PartSelectionManager partManager) {
 		super(container);
-		this.validTypes = validTypes;
-		this.validMaterials = validMaterials;
-		if(te.getActiveSelection() != null){
-			this.activePart = te.getActiveSelection().getBoatParts().get(0);
-			this.partStack = this.activePart.getCraftingResult();
-			this.typeIndex = CollectionHelper.find(this.activePart.getType(), Type.values());
-			this.materialIndex = CollectionHelper.find(this.activePart.getMaterial(), Material.values());
-			//this.updateActivePart();
-		}
+		this.partManager = partManager;
+		if(te.getActiveSelection() != null && this.partManager.advanceTo(te.getActiveSelection()))
+			this.activePart = te.getActiveSelection();
+		else
+			this.activePart = this.partManager.getCurrentPart();
+		this.partStack = this.activePart.getCraftingResult();
 	}
 
 	public void addPartSelectionAt(int x, final int y, final int width){
@@ -129,7 +121,7 @@ public abstract class GuiContainerBoatbench extends GuiContainer{
 	}
 
 	public void updateActivePart(){
-		final BoatPart part = BoatPart.getPartByTypeAndMaterial(this.validTypes[this.typeIndex], this.validMaterials[this.materialIndex]);
+		final BoatPart part = this.partManager.getCurrentPart();
 		if(part == null)
 			return;
 		final TileEntityBoatbench te = ((ContainerBoatbench)this.inventorySlots).getTileEntity();
@@ -139,7 +131,7 @@ public abstract class GuiContainerBoatbench extends GuiContainer{
 			((GuiButton)this.buttonList.get(4)).enabled = true;
 		else
 			((GuiButton)this.buttonList.get(4)).enabled = false;*/
-		te.setActiveSelection(part.getOnePartBoat(te.getWorldObj()));
+		te.setActiveSelection(part);
 		NetworkData.PART_SELECT_CHANNEL.sendToServer(new MessageSelectBoatPart(te, part));
 	}
 
@@ -148,7 +140,7 @@ public abstract class GuiContainerBoatbench extends GuiContainer{
 		if(this.activePart != null){
 			net.minecraft.client.renderer.RenderHelper.enableGUIStandardItemLighting();
 			GuiScreen.itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), this.partStack, this.partX, this.materialY+18);
-			GuiScreen.itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), Material.values()[this.materialIndex].getItemRepresentation(), this.materialX, this.materialY);
+			GuiScreen.itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), this.partManager.getCurrentMaterial().getItemRepresentation(), this.materialX, this.materialY);
 		}
 	}
 
@@ -175,32 +167,20 @@ public abstract class GuiContainerBoatbench extends GuiContainer{
 	protected void actionPerformed(final GuiButton button) {
 		switch(button.id){
 		case 0:
-			this.typeIndex--;
-			if(this.typeIndex < 0)
-				this.typeIndex = this.validTypes.length-1;
+			this.partManager.previousPart();
 			break;
 		case 1:
-			this.typeIndex++;
-			if(this.typeIndex >= this.validTypes.length)
-				this.typeIndex = 0;
+			this.partManager.nextPart();
 			break;
 		case 2:
-			this.materialIndex--;
-			if(this.materialIndex < 0)
-				this.materialIndex = this.validMaterials.length-1;
+			this.partManager.previousMaterial();
 			break;
 		case 3:
-			this.materialIndex++;
-			if(this.materialIndex >= this.validMaterials.length)
-				this.materialIndex = 0;
+			this.partManager.nextMaterial();
 			break;
 		default:
 			break;
 		}
-		if(this.typeIndex < 0)
-			this.typeIndex = 0;
-		if(this.materialIndex < 0)
-			this.materialIndex = 0;
 		this.updateActivePart();
 	}
 

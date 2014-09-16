@@ -35,7 +35,7 @@ public abstract class ModBlocks {
 	public static class Names{
 
 		public static final String SEAWEED =  "seaweed";
-		public static final String BASIC_BOATBENCH =  "basicBoatbench";
+		public static final String BASIC_BOATBENCH =  "boatbench";
 		public static final String SALT_WATER = "saltWater";
 		public static final String SEAWEED_OIL = "seaweedOil";
 		public static final String HARD_CORAL = "hardCoral";

@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.parts.BoatPart;
 import me.superckl.betteroceans.common.parts.BoatbenchRecipeHandler;
 import me.superckl.betteroceans.common.utility.LogHelper;
@@ -38,7 +37,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 	@Getter
 	private final ItemStack[] inventory = new ItemStack[6];
 	@Getter
-	private EntityBOBoat activeSelection;
+	private BoatPart activeSelection;
 	@Getter
 	@Setter
 	private boolean shouldHandleFluids;
@@ -70,11 +69,8 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 		this.shouldHandleFluids = shouldHandleFluids;
 	}
 
-	public void setActiveSelection(final EntityBOBoat selection){
-		if(selection.getBoatParts().size() != 1)
-			throw new IllegalArgumentException("Active selection must be made of only one part!");
+	public void setActiveSelection(final BoatPart selection){
 		this.activeSelection = selection;
-		selection.setRenderWithRotation(true);
 		this.checkRecipeCompletion();
 	}
 
@@ -90,7 +86,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 
 	public void onCraftingSlotPick(){
 		if(!this.noUseIngredients)
-			RecipeHelper.removeItems(BoatbenchRecipeHandler.INSTANCE.getRequiredItemsFor(this.activeSelection.getBoatParts().get(0)), this.inventory, true);
+			RecipeHelper.removeItems(BoatbenchRecipeHandler.INSTANCE.getRequiredItemsFor(this.activeSelection), this.inventory, true);
 		this.noUseIngredients = false;
 		this.checkRecipeCompletion();
 	}
@@ -165,8 +161,8 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 			this.inventory[5] = null;
 			return false;
 		}
-		if(RecipeHelper.areItemsPresent(BoatbenchRecipeHandler.INSTANCE.getRequiredItemsFor(this.activeSelection.getBoatParts().get(0)), Arrays.copyOf(this.inventory, 3), true)){
-			final BoatPart part = this.activeSelection.getBoatParts().get(0);
+		if(RecipeHelper.areItemsPresent(BoatbenchRecipeHandler.INSTANCE.getRequiredItemsFor(this.activeSelection), Arrays.copyOf(this.inventory, 3), true)){
+			final BoatPart part = this.activeSelection;
 			if(part.getCreationTime() <= 0 || this.partBurnTime != 0 && this.partBurnTime <= this.cookTime)
 				this.inventory[5] = part.getCraftingResult();
 			else
@@ -180,7 +176,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 	public boolean checkRecipeCompletionNoSet(){
 		if(this.activeSelection == null)
 			return false;
-		if(RecipeHelper.areItemsPresent(BoatbenchRecipeHandler.INSTANCE.getRequiredItemsFor(this.activeSelection.getBoatParts().get(0)), Arrays.copyOf(this.inventory, 3), true))
+		if(RecipeHelper.areItemsPresent(BoatbenchRecipeHandler.INSTANCE.getRequiredItemsFor(this.activeSelection), Arrays.copyOf(this.inventory, 3), true))
 			return true;
 		return false;
 	}
@@ -192,7 +188,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 	public boolean beginCrafting(){
 		if(this.activeSelection == null)
 			return false;
-		final BoatPart part = this.activeSelection.getBoatParts().get(0);
+		final BoatPart part = this.activeSelection;
 		if(part.getCreationTime() <= 0 || this.cookTime > 0 || this.tank.getFluid() == null || this.inventory[5] != null || !this.checkRecipeCompletion())
 			return false;
 		final int requiredF = BoatbenchRecipeHandler.INSTANCE.getFuelUsageFor(this.tank.getFluid().getFluid(), part);
@@ -301,7 +297,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 		if(tagCompound.hasKey("fluidID"))
 			this.tank.fill(new FluidStack(FluidRegistry.getFluid(tagCompound.getInteger("fluidID")), tagCompound.getInteger("fluidAmount")), true);
 		if(tagCompound.hasKey("activeSelection"))
-			this.setActiveSelection(BoatPart.deserialize(tagCompound.getInteger("activeSelection")).getOnePartBoat(this.worldObj));
+			this.setActiveSelection(BoatPart.deserialize(tagCompound.getInteger("activeSelection")));
 		this.shouldHandleFluids = tagCompound.getBoolean("handleFluids");
 	}
 
@@ -326,7 +322,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 			tagCompound.setInteger("fluidAmount", this.tank.getFluidAmount());
 		}
 		if(this.activeSelection != null)
-			tagCompound.setInteger("activeSelection", this.activeSelection.getBoatParts().get(0).getPartID());
+			tagCompound.setInteger("activeSelection", this.activeSelection.getPartID());
 		tagCompound.setBoolean("handleFluids", this.shouldHandleFluids);
 	}
 
@@ -358,7 +354,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 			return;
 		this.cookTime++;
 		if(this.cookTime >= this.partBurnTime){
-			this.inventory[5] = this.getActiveSelection().getBoatParts().get(0).getCraftingResult();
+			this.inventory[5] = this.getActiveSelection().getCraftingResult();
 			this.cookTime = 0;
 			this.partBurnTime = 0;
 		}

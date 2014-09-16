@@ -41,6 +41,14 @@ public class Config {
 	@Getter
 	private int seaweedWaterBlockTries;
 	@Getter
+	private float oceanBaseHeight;
+	@Getter
+	private float oceanHeightVariation;
+	@Getter
+	private float deepOceanBaseHeight;
+	@Getter
+	private float deepOceanHeightVariation;
+	@Getter
 	private boolean genReefs;
 
 	public Config(final File config){
@@ -65,6 +73,10 @@ public class Config {
 			this.seaweedWaterBlockTries = this.configFile.getInt("Seaweed Water Block Attempts", Category.WORLD_GEN, 20, 0, Integer.MAX_VALUE, "Defines how many attempts will be done to find a water block in a chunk when generating seaweed.");
 			this.seaweedTries = this.configFile.getInt("Seaweed Tries", Category.WORLD_GEN, 3, 0, Integer.MAX_VALUE, "Defines how many attempts will be made to place seaweed around a water block that was found.");
 			this.otherDecoration = this.configFile.getBoolean("Other Mod Ocean Decorations", Category.WORLD_GEN, true, "Allows other mods to generate decorations in oceans.");
+			this.oceanBaseHeight = (float) this.configFile.get("Ocean Base Height", Category.WORLD_GEN, -1.2F, "Defines the base height for oceans.", -2F, 2F).getDouble();
+			this.deepOceanBaseHeight = (float) this.configFile.get("Deep Ocean Base Height", Category.WORLD_GEN, -1.6F, "Defines the base height for deep oceans.", -2F, 2F).getDouble();
+			this.oceanHeightVariation = (float) this.configFile.get("Ocean Height Variation", Category.WORLD_GEN, 0.18F, "Defines the height variation for oceans.", 0.0F, 2F).getDouble();
+			this.deepOceanHeightVariation = (float) this.configFile.get("Deep Ocean Height Variation", Category.WORLD_GEN, 0.29F, "Defines the height variation for deep oceans.", 0.0F, 2F).getDouble();
 
 			this.infiniteSaltwater = this.configFile.getBoolean("Infinite Saltwater", Category.GENERAL, true, "If true, saltwater will emulate vanilla infinite water mechanics.");
 			this.fluidReplace = this.configFile.getBoolean("Replace Aquatic Plants With Fluid", Category.GENERAL, true, "Determines whether aquatic plants are replaced by (salt) water or air when broken.");

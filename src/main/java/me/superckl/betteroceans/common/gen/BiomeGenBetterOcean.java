@@ -11,11 +11,9 @@ import net.minecraft.world.biome.BiomeGenBase;
 public class BiomeGenBetterOcean extends BiomeGenBase{
 
 	public BiomeGenBetterOcean(final int id) {
-		super(id); //The super constructor replaces the old gen in the biome array
+		super(id);
 		this.setColor(112).setBiomeName(ModData.OCEAN_BIOME_NAME).setHeight(BiomeGenBase.height_Oceans);
 		this.spawnableCreatureList.clear();
-		this.rootHeight = -1.2F;
-		this.heightVariation = .18F;
 	}
 
 	@Override

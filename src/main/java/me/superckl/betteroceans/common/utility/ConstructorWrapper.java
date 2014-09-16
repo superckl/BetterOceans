@@ -5,7 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class ConstructorWrapper<T> {
+public class ConstructorWrapper<T> implements Cloneable{
 
 	@Getter
 	private final Class<? extends T> clazz;

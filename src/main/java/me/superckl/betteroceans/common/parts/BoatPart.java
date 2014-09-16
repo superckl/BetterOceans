@@ -1,5 +1,6 @@
 package me.superckl.betteroceans.common.parts;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -21,7 +22,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -32,7 +32,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * NOTE: if your constructor takes a primitive argument, you must use the wrapped form or deserialization will fail.
  * See {@link ConstructorWrapper} for more information.
  */
-public abstract class BoatPart {
+public abstract class BoatPart implements Cloneable{
 
 	//Used for networking
 	public static int nextID = 0;
@@ -173,12 +173,15 @@ public abstract class BoatPart {
 	public ResourceLocation getTexture(){
 		return this.getMaterial().getDefaultTextureLocation();
 	}
-	public EntityBOBoat getOnePartBoat(final World world){
-		if(this.entity == null){
-			this.entity = new EntityBOBoat(world);
-			this.entity.addPart(this, false, true);
-		}
-		return this.entity;
+
+	@Override
+	public BoatPart clone(){
+		return BoatPart.deserialize(this.getPartID());
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		return obj != null && (obj == this || obj instanceof BoatPart && ((BoatPart)obj).getPartID() == this.getPartID());
 	}
 
 	/**
@@ -227,6 +230,15 @@ public abstract class BoatPart {
 		 */
 		public static void addMaterial(final String name, final String defaultTextureLocation, final ItemStack itemRepresentation, final int defaultComplexity, final double defaultIntegrityFactor){
 			EnumHelper.addEnum(Material.class, name, defaultTextureLocation, itemRepresentation, defaultComplexity, defaultIntegrityFactor);
+		}
+
+		public static class MaterialComparator implements Comparator<Material>{
+
+			@Override
+			public int compare(final Material m1, final Material m2) {
+				return m1 == m2 ? 0:m1.ordinal() > m2.ordinal() ? 1:-1;
+			}
+
 		}
 
 	}

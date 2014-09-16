@@ -59,4 +59,20 @@ public class BOReflectionHelper {
 		return new Throwable().getStackTrace()[depth];
 	}
 
+	public static final String[] field_ocean = {"ocean", "field_76771_b"};
+	public static final String[] field_deepOcean = {"deepOcean", "field_150575_M"};
+	public static final String[] field_water = {"water", "field_150355_j"};
+	public static final String[] field_gravel = {"gravel", "field_150351_n"};
+	public static final String[] field_sand = {"sand", "field_150354_m"};
+	public static final String[] field_worldObj = {"worldObj", "field_73230_p"};
+
+	public static final String[] method_genBiomeTerrain = {"genBiomeTerrain", "func_150560_b"};
+	public static final String[] method_func_147424_a = {"func_147424_a"};
+
+	public static final String[] desc_genBiomeTerrain = {"(Lnet/minecraft/world/World;Ljava/util/Random;[Lnet/minecraft/block/Block;[BIID)V", "(Lahb;Ljava/util/Random;[Laji;[BIID)V"};
+	public static final String[] desc_func_147424_a = {"(II[Lnet/minecraft/block/Block;)V", "(II[Laji;)V"};
+
+	public static final String[] class_biomeGenBase = {"net.minecraft.world.biome.BiomeGenBase", "ahu"};
+	public static final String[] class_chunkProviderGenerate = {"net.minecraft.world.gen.ChunkProviderGenerate", "aqz"};
+
 }

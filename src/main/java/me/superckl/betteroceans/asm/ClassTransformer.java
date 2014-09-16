@@ -1,5 +1,7 @@
 package me.superckl.betteroceans.asm;
 
+import me.superckl.betteroceans.common.utility.BOReflectionHelper;
+import me.superckl.betteroceans.common.utility.CollectionHelper;
 import net.minecraft.launchwrapper.IClassTransformer;
 
 import org.objectweb.asm.ClassReader;
@@ -17,13 +19,13 @@ public class ClassTransformer implements IClassTransformer{
 
 	@Override
 	public byte[] transform(final String name, final String transformedName, final byte[] bytes) {
-		if(ClassTransformer.find(name, ClassTransformer.class_biomeGenBase) != -1){
+		if(CollectionHelper.find(name, BOReflectionHelper.class_biomeGenBase) != -1){
 			final ClassNode cNode = new ClassNode();
 			final ClassReader reader = new ClassReader(bytes);
 			reader.accept(cNode, 0);
 			MethodNode mNode = null;
 			for(final MethodNode node:cNode.methods)
-				if(ClassTransformer.find(node.name, ClassTransformer.method_genBiomeTerrain) != -1 && ClassTransformer.find(node.desc, ClassTransformer.desc_genBiomeTerrain) != -1){
+				if(CollectionHelper.find(node.name, BOReflectionHelper.method_genBiomeTerrain) != -1 && CollectionHelper.find(node.desc, BOReflectionHelper.desc_genBiomeTerrain) != -1){
 					mNode = node;
 					break;
 				}
@@ -36,7 +38,7 @@ public class ClassTransformer implements IClassTransformer{
 				if(node instanceof FieldInsnNode){
 					int index;
 					final FieldInsnNode vNode = (FieldInsnNode) node;
-					if(ClassTransformer.find(vNode.name, ClassTransformer.field_water) != -1){
+					if(CollectionHelper.find(vNode.name, BOReflectionHelper.field_water) != -1){
 						node = vNode.getNext();
 						if(node instanceof VarInsnNode && ((VarInsnNode)node).var == 10){
 
@@ -51,8 +53,8 @@ public class ClassTransformer implements IClassTransformer{
 							BODummyModContainer.logger.info("Saltwater injected into top layer.");
 							fixed++;
 						}
-					}else if((index = ClassTransformer.find(vNode.name, ClassTransformer.field_gravel)) != -1){
-						vNode.name = ClassTransformer.field_sand[index];
+					}else if((index = CollectionHelper.find(vNode.name, BOReflectionHelper.field_gravel)) != -1){
+						vNode.name = BOReflectionHelper.field_sand[index];
 						vNode.desc = "Lnet/minecraft/block/BlockSand;";
 						BODummyModContainer.logger.debug("Patched "+name+"."+mNode.name);
 						BODummyModContainer.logger.info("Sand injected into bottom layer.");
@@ -68,13 +70,13 @@ public class ClassTransformer implements IClassTransformer{
 			final ClassWriter cWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 			cNode.accept(cWriter);
 			return cWriter.toByteArray();
-		}else if(ClassTransformer.find(name, ClassTransformer.class_chunkProviderGenerate) != -1){
+		}else if(CollectionHelper.find(name, BOReflectionHelper.class_chunkProviderGenerate) != -1){
 			final ClassNode cNode = new ClassNode();
 			final ClassReader reader = new ClassReader(bytes);
 			reader.accept(cNode, 0);
 			MethodNode mNode = null;
 			for(final MethodNode node:cNode.methods)
-				if(ClassTransformer.find(node.name, ClassTransformer.method_func_147424_a) != -1 && ClassTransformer.find(node.desc, ClassTransformer.desc_func_147424_a) != -1){
+				if(CollectionHelper.find(node.name, BOReflectionHelper.method_func_147424_a) != -1 && CollectionHelper.find(node.desc, BOReflectionHelper.desc_func_147424_a) != -1){
 					mNode = node;
 					break;
 				}
@@ -87,11 +89,11 @@ public class ClassTransformer implements IClassTransformer{
 				if(node instanceof FieldInsnNode){
 					final FieldInsnNode vNode = (FieldInsnNode) node;
 					int index;
-					if((index = ClassTransformer.find(vNode.name, ClassTransformer.field_water)) != -1){
+					if((index = CollectionHelper.find(vNode.name, BOReflectionHelper.field_water)) != -1){
 
 						final InsnList list = new InsnList();
 						list.add(new VarInsnNode(Opcodes.ALOAD, 0));
-						list.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/world/gen/ChunkProviderGenerate", ClassTransformer.field_worldObj[index], "Lnet/minecraft/world/World;"));
+						list.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/world/gen/ChunkProviderGenerate", BOReflectionHelper.field_worldObj[index], "Lnet/minecraft/world/World;"));
 						list.add(new VarInsnNode(Opcodes.ILOAD, 44));
 						list.add(new VarInsnNode(Opcodes.ILOAD, 1));
 						list.add(new VarInsnNode(Opcodes.ILOAD, 2));
@@ -116,28 +118,5 @@ public class ClassTransformer implements IClassTransformer{
 		}
 		return bytes;
 	}
-
-	public static <T> int find(final T toFind, final T[] in){
-		for(int i = 0; i < in.length; i++)
-			if(in[i] == toFind || in[i].equals(toFind))
-				return i;
-		return -1;
-	}
-
-	public static final String[] field_ocean = {"ocean", "field_76771_b"};
-	public static final String[] field_deepOcean = {"deepOcean", "field_150575_M"};
-	public static final String[] field_water = {"water", "field_150355_j"};
-	public static final String[] field_gravel = {"gravel", "field_150351_n"};
-	public static final String[] field_sand = {"sand", "field_150354_m"};
-	public static final String[] field_worldObj = {"worldObj", "field_73230_p"};
-
-	public static final String[] method_genBiomeTerrain = {"genBiomeTerrain", "func_150560_b"};
-	public static final String[] method_func_147424_a = {"func_147424_a"};
-
-	public static final String[] desc_genBiomeTerrain = {"(Lnet/minecraft/world/World;Ljava/util/Random;[Lnet/minecraft/block/Block;[BIID)V", "(Lahb;Ljava/util/Random;[Laji;[BIID)V"};
-	public static final String[] desc_func_147424_a = {"(II[Lnet/minecraft/block/Block;)V", "(II[Laji;)V"};
-
-	public static final String[] class_biomeGenBase = {"net.minecraft.world.biome.BiomeGenBase", "ahu"};
-	public static final String[] class_chunkProviderGenerate = {"net.minecraft.world.gen.ChunkProviderGenerate", "aqz"};
 
 }

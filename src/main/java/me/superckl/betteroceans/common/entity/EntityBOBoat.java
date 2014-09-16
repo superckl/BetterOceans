@@ -8,7 +8,6 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.superckl.betteroceans.common.IRenderRotatable;
 import me.superckl.betteroceans.common.nets.IItemNet;
 import me.superckl.betteroceans.common.nets.INet;
 import me.superckl.betteroceans.common.parts.BoatPart;
@@ -39,7 +38,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * Note: Most of the motion code is from the EntityBoat class, credit to Mojang for that.
  */
-public class EntityBOBoat extends EntityModularBoat implements IRenderRotatable, IEntityAdditionalSpawnData{
+public class EntityBOBoat extends EntityModularBoat implements IEntityAdditionalSpawnData{
 
 	@Getter
 	private INet attachedNet;

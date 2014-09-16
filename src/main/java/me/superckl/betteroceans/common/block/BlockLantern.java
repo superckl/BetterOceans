@@ -3,18 +3,15 @@ package me.superckl.betteroceans.common.block;
 import java.util.List;
 
 import me.superckl.betteroceans.common.entity.tile.TileEntityLantern;
-import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.reference.ModTabs;
 import me.superckl.betteroceans.common.reference.RenderData;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -44,23 +41,6 @@ public class BlockLantern extends BlockContainerBO{
 	@Override
 	public int getLightValue() {
 		return 15;
-	}
-
-	private IIcon[] icons;
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void registerBlockIcons(final IIconRegister register){
-		this.icons = new IIcon[5];
-		for(int i = 0; i < 5; i ++)
-			this.icons[i] = register.registerIcon(ModData.MOD_ID+":lantern"+i);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(final int side, final int meta)
-	{
-		return this.icons[meta];
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package me.superckl.betteroceans.common.container;
 
 import lombok.Getter;
 import me.superckl.betteroceans.common.container.components.NoPutSlot;
-import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
 import me.superckl.betteroceans.common.parts.PartBottom;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,11 +20,8 @@ public abstract class ContainerBoatbench extends Container{
 	public ContainerBoatbench(final InventoryPlayer inventoryPlayer, final TileEntityBoatbench te){
 		this.tileEntity = te;
 		this.playerInventory = inventoryPlayer;
-		if(te.getActiveSelection() == null){
-			final EntityBOBoat boat = new EntityBOBoat(inventoryPlayer.player.worldObj);
-			boat.getBoatParts().add(new PartBottom.PartWoodenBottom());
-			te.setActiveSelection(boat);
-		}
+		if(te.getActiveSelection() == null)
+			te.setActiveSelection(new PartBottom.PartWoodenBottom());
 	}
 
 	@Override

@@ -3,10 +3,9 @@ package me.superckl.betteroceans.client.gui;
 import me.superckl.betteroceans.client.gui.components.HammerButton;
 import me.superckl.betteroceans.common.container.ContainerBoatbench;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
-import me.superckl.betteroceans.common.parts.BoatPart.Material;
-import me.superckl.betteroceans.common.parts.BoatPart.Type;
 import me.superckl.betteroceans.common.reference.NetworkData;
 import me.superckl.betteroceans.common.reference.RenderData;
+import me.superckl.betteroceans.common.utility.PartSelectionManager;
 import me.superckl.betteroceans.common.utility.RenderHelper;
 import me.superckl.betteroceans.common.utility.StringHelper;
 import me.superckl.betteroceans.network.MessagePressCraft;
@@ -17,9 +16,8 @@ import net.minecraftforge.fluids.FluidTankInfo;
 
 public class GuiContainerInterBoatbench extends GuiContainerBoatbench{
 
-	public GuiContainerInterBoatbench(final Container container, final TileEntityBoatbench te, final Type[] validTypes,
-			final Material[] validMaterials) {
-		super(container, te, validTypes, validMaterials);
+	public GuiContainerInterBoatbench(final Container container, final TileEntityBoatbench te, final PartSelectionManager partManager) {
+		super(container, te, partManager);
 		this.xSize = 224;
 		this.ySize = 170;
 		this.backgroundTexture = RenderData.INTER_BOAT_BENCH;

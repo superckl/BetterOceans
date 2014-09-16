@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.superckl.betteroceans.BetterOceans;
-import me.superckl.betteroceans.asm.ClassTransformer;
+import me.superckl.betteroceans.Config;
 import me.superckl.betteroceans.common.gen.BiomeGenBetterDeepOcean;
 import me.superckl.betteroceans.common.gen.BiomeGenBetterOcean;
 import me.superckl.betteroceans.common.reference.ModBlocks;
@@ -12,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenBase.Height;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
@@ -23,16 +24,20 @@ public class BiomeHelper {
 		if(!BetterOceans.getInstance().getConfig().isOverrideOcean()){
 			LogHelper.warn("Ocean overriding is disabled! Loading worlds that were generated with this enabled may be unstable!");
 			return;
+		}else{
+			final BiomeGenBetterOcean boO = new BiomeGenBetterOcean(BiomeGenBase.ocean.biomeID);
+			final BiomeGenBetterDeepOcean boDO = new BiomeGenBetterDeepOcean(BiomeGenBase.deepOcean.biomeID);
+			BOReflectionHelper.setPrivateFinalValue(BiomeGenBase.class, null, boO, BOReflectionHelper.field_ocean);
+			BOReflectionHelper.setPrivateFinalValue(BiomeGenBase.class, null, boDO, BOReflectionHelper.field_deepOcean);
+			BiomeDictionary.registerBiomeType(boO, Type.OCEAN);
+			BiomeDictionary.registerBiomeType(boDO, Type.OCEAN);
+			LogHelper.debug("Succesfully replaced Ocean biomes!");
 		}
-		final BiomeGenBetterOcean boO = new BiomeGenBetterOcean(BiomeGenBase.ocean.biomeID);
-		final BiomeGenBetterDeepOcean boDO = new BiomeGenBetterDeepOcean(BiomeGenBase.deepOcean.biomeID);
-		BOReflectionHelper.setPrivateFinalValue(BiomeGenBase.class, null, boO, ClassTransformer.field_ocean);
-		BOReflectionHelper.setPrivateFinalValue(BiomeGenBase.class, null, boDO, ClassTransformer.field_deepOcean);
-		BiomeDictionary.registerBiomeType(boO, Type.OCEAN);
-		BiomeDictionary.registerBiomeType(boDO, Type.OCEAN);
-		BiomeHelper.oceanBiomeIDs.add(boO.biomeID);
-		BiomeHelper.oceanBiomeIDs.add(boDO.biomeID);
-		LogHelper.debug("Succesfully replaced Ocean biomes!");
+		final Config c = BetterOceans.getInstance().getConfig();
+		BiomeGenBase.ocean.setHeight(new Height(c.getOceanBaseHeight(), c.getOceanHeightVariation()));
+		BiomeGenBase.deepOcean.setHeight(new Height(c.getDeepOceanBaseHeight(), c.getDeepOceanHeightVariation()));
+		BiomeHelper.oceanBiomeIDs.add(BiomeGenBase.ocean.biomeID);
+		BiomeHelper.oceanBiomeIDs.add(BiomeGenBase.deepOcean.biomeID);
 	}
 
 	public static boolean isOcean(final World world, final int chunkX, final int chunkZ, final int ... additions){
