@@ -22,12 +22,10 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.ItemFluidContainer;
 
 public class TileEntityBoatbench extends TileEntity implements IInventory, IFluidHandler{
@@ -52,7 +50,8 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 	@Getter
 	@Setter
 	private boolean noUseIngredients;
-	private final IFluidTank tank = new FluidTank(4000);
+	@Getter
+	private final FluidTank tank = new FluidTank(4000);
 	/**
 	 * I know it's a terrible name. I like it. Deal with it.
 	 */
@@ -294,8 +293,8 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 		}
 		this.cookTime = tagCompound.getInteger("cookTime");
 		this.partBurnTime = tagCompound.getInteger("burnTime");
-		if(tagCompound.hasKey("fluidID"))
-			this.tank.fill(new FluidStack(FluidRegistry.getFluid(tagCompound.getInteger("fluidID")), tagCompound.getInteger("fluidAmount")), true);
+		if(tagCompound.hasKey("fluid"))
+			this.tank.setFluid(FluidStack.loadFluidStackFromNBT(tagCompound.getCompoundTag("fluid")));
 		if(tagCompound.hasKey("activeSelection"))
 			this.setActiveSelection(BoatPart.deserialize(tagCompound.getInteger("activeSelection")));
 		this.shouldHandleFluids = tagCompound.getBoolean("handleFluids");
@@ -317,10 +316,10 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 		tagCompound.setTag("inventory", itemList);
 		tagCompound.setInteger("cookTime", this.cookTime);
 		tagCompound.setInteger("burnTime", this.partBurnTime);
-		if(this.tank.getFluid() != null && this.tank.getFluid().amount > 0){
-			tagCompound.setInteger("fluidID", this.tank.getFluid().fluidID);
-			tagCompound.setInteger("fluidAmount", this.tank.getFluidAmount());
-		}
+		if(this.tank.getFluid() != null)
+			tagCompound.setTag("fluid", this.tank.getFluid().writeToNBT(new NBTTagCompound()));
+		/*tagCompound.setInteger("fluidID", this.tank.getFluid().fluidID);
+			tagCompound.setInteger("fluidAmount", this.tank.getFluidAmount());*/
 		if(this.activeSelection != null)
 			tagCompound.setInteger("activeSelection", this.activeSelection.getPartID());
 		tagCompound.setBoolean("handleFluids", this.shouldHandleFluids);

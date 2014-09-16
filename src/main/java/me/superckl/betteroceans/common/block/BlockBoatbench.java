@@ -11,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -23,6 +24,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidTank;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -57,7 +60,53 @@ public class BlockBoatbench extends BlockContainerBO{
 		super.breakBlock(world, x, y, z, p_149749_5_, p_149749_6_);
 	}
 
+	@Override
+	public void onBlockPlacedBy(final World world, final int x, final int y, final int z, final EntityLivingBase living, final ItemStack stack) {
+		if(stack.hasTagCompound()){
+			final NBTTagCompound tagCompound = stack.getTagCompound().getCompoundTag("fluid");
+			if(tagCompound != null){
+				final FluidStack fluid = FluidStack.loadFluidStackFromNBT(tagCompound);
+				final TileEntity te = world.getTileEntity(x, y, z);
+				if(te != null && te instanceof TileEntityBoatbench)
+					((TileEntityBoatbench)te).getTank().setFluid(fluid);
+			}
+		}
+	}
 
+
+
+	@Override
+	public void harvestBlock(final World p_149636_1_, final EntityPlayer p_149636_2_,
+			final int p_149636_3_, final int p_149636_4_, final int p_149636_5_, final int p_149636_6_) {}
+
+	@Override
+	public boolean removedByPlayer(final World world, final EntityPlayer player, final int x, final int y, final int z, final boolean willHarvest) {
+		final ItemStack stack = new ItemStack(this, 1, this.damageDropped(world.getBlockMetadata(x, y, z)));
+		final TileEntity te = world.getTileEntity(x, y, z);
+		if(te != null && te instanceof TileEntityBoatbench && ((TileEntityBoatbench)te).isShouldHandleFluids()){
+			final IFluidTank tank = ((TileEntityBoatbench)te).getTank();
+			if(tank.getFluid() != null){
+				final NBTTagCompound tagCompound = new NBTTagCompound();
+				tagCompound.setTag("fluid", tank.getFluid().writeToNBT(new NBTTagCompound()));;
+				stack.setTagCompound(tagCompound);
+			}
+		}
+		if (!player.capabilities.isCreativeMode || player.isSneaking())
+			this.dropRandomly(world, x, y, z, stack);
+		return world.setBlockToAir(x, y, z);
+	}
+
+	protected void dropRandomly(final World world, final int x, final int y, final int z, final ItemStack stack){
+		if (!world.isRemote && world.getGameRules().getGameRuleBooleanValue("doTileDrops")){
+			final float f = 0.7F;
+			final double d0 = world.rand.nextFloat() * f + (1.0F - f) * 0.5D;
+			final double d1 = world.rand.nextFloat() * f + (1.0F - f) * 0.5D;
+			final double d2 = world.rand.nextFloat() * f + (1.0F - f) * 0.5D;
+			final EntityItem entityitem = new EntityItem(world, x + d0, y + d1, z + d2, stack);
+			entityitem.delayBeforeCanPickup = 10;
+			world.spawnEntityInWorld(entityitem);
+		}
+	}
 
 	@Override
 	public int damageDropped(final int meta) {

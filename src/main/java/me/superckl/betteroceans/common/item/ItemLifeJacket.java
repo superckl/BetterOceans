@@ -1,14 +1,11 @@
 package me.superckl.betteroceans.common.item;
 
-import java.util.UUID;
-
 import me.superckl.betteroceans.client.model.armor.ModelLifeJacket;
 import me.superckl.betteroceans.common.reference.ModTabs;
 import me.superckl.betteroceans.common.reference.RenderData;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;

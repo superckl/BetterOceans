@@ -1,5 +1,6 @@
 package me.superckl.betteroceans.client.gui;
 
+import lombok.Getter;
 import me.superckl.betteroceans.client.gui.components.ArrowButton;
 import me.superckl.betteroceans.common.container.ContainerBoatbench;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
@@ -20,6 +21,7 @@ public abstract class GuiContainerBoatbench extends GuiContainer{
 
 	protected ResourceLocation backgroundTexture;
 
+	@Getter
 	protected PartSelectionManager partManager;
 	protected BoatPart activePart;
 	protected ItemStack partStack;

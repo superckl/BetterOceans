@@ -12,7 +12,6 @@ import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.entity.EntityModularBoat;
 import me.superckl.betteroceans.common.reference.BoatParts;
 import me.superckl.betteroceans.common.reference.RenderData;
-import me.superckl.betteroceans.common.utility.BOReflectionHelper;
 import me.superckl.betteroceans.common.utility.ConstructorWrapper;
 import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.StringHelper;
