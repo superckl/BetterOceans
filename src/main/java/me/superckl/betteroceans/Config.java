@@ -50,6 +50,8 @@ public class Config {
 	private float deepOceanHeightVariation;
 	@Getter
 	private boolean genReefs;
+	@Getter
+	private boolean debugTooltips;
 
 	public Config(final File config){
 		this.configFile = new Configuration(config);
@@ -80,6 +82,7 @@ public class Config {
 
 			this.infiniteSaltwater = this.configFile.getBoolean("Infinite Saltwater", Category.GENERAL, true, "If true, saltwater will emulate vanilla infinite water mechanics.");
 			this.fluidReplace = this.configFile.getBoolean("Replace Aquatic Plants With Fluid", Category.GENERAL, true, "Determines whether aquatic plants are replaced by (salt) water or air when broken.");
+			this.debugTooltips = this.configFile.getBoolean("Tooltip Debugging", Category.GENERAL, false, "Determines if superfluous information will be displayed in some tooltips.");
 
 			this.seaweedOrKelp = this.configFile.getBoolean("Seaweed or Kelp", Category.BIOMES_O_PLENTY, true, "Allows players to use seaweed where kelp is required in recipes.");
 			this.removeSubbiomes = this.configFile.getBoolean("Remove SubBiomes", Category.BIOMES_O_PLENTY, true, "Remove Biomes O' Plenty's ocean subbiomes such as Coral Reef and Kelp Forest.");

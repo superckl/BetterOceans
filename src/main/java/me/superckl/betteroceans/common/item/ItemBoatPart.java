@@ -4,11 +4,14 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.common.entity.EntityBOBoat;
 import me.superckl.betteroceans.common.parts.BoatPart;
+import me.superckl.betteroceans.common.parts.BoatPart.Type;
 import me.superckl.betteroceans.common.parts.PartBottom;
 import me.superckl.betteroceans.common.reference.BoatParts;
 import me.superckl.betteroceans.common.reference.ModTabs;
+import me.superckl.betteroceans.common.utility.StringHelper;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -17,12 +20,16 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
+
+import org.lwjgl.input.Keyboard;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -61,6 +68,25 @@ public class ItemBoatPart extends ItemBO{
 			if(!e.entityPlayer.capabilities.isCreativeMode)
 				e.entityPlayer.getHeldItem().stackSize--;
 			e.setCanceled(true);
+		}
+	}
+
+	@Override
+	public void addInformation(final ItemStack stack, final EntityPlayer player, final List list, final boolean par4) {
+		final BoatPart part = BoatPart.deserialize(stack.getItemDamage());
+		if(part.getType() == Type.BOTTOM)
+			list.add("Place in water to start building a boat.");
+		if(!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+			list.add(StringHelper.build("Hold ", EnumChatFormatting.YELLOW, EnumChatFormatting.ITALIC, "Shift ",EnumChatFormatting.RESET, EnumChatFormatting.GRAY, "for stats."));
+		else{
+			list.add(StringHelper.build("Speed: ", part.getSpeedModifier()));
+			list.add(StringHelper.build("Integrity: ", part.getIntegrityFactor()));
+			list.add(StringHelper.build("Complexity: ", part.getComplexity()));
+			list.add(StringHelper.build("Required Complexity: ", part.getRequiredComplexity()));
+			if(BetterOceans.getInstance().getConfig().isDebugTooltips()){
+				list.add(StringHelper.build("Part ID: ", part.getPartID()));
+				list.add(StringHelper.build("Class: ", part.getClass().getSimpleName()));
+			}
 		}
 	}
 
