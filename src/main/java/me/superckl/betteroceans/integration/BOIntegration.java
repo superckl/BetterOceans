@@ -35,16 +35,20 @@ public class BOIntegration implements IIntegrationModule{
 
 	@Override
 	public void preInit(){
+		boolean noGo = false;
 		for(final Entry<List<String>, String> entry:BOIntegration.modules.entrySet()){
 			for(final String mod:entry.getKey())
-				if(!Loader.isModLoaded(mod))
-					continue;
-			try {
-				this.activeModules.add((IIntegrationModule) Class.forName(entry.getValue()).newInstance());
-			} catch (final Exception e) {
-				LogHelper.error("Failed to instantiate integration module "+entry.getValue());
-				e.printStackTrace();
-			}
+				if(!Loader.isModLoaded(mod)){
+					noGo = true;
+					break;
+				}
+			if(!noGo)
+				try {
+					this.activeModules.add((IIntegrationModule) Class.forName(entry.getValue()).newInstance());
+				} catch (final Exception e) {
+					LogHelper.error("Failed to instantiate integration module "+entry.getValue());
+					e.printStackTrace();
+				}
 		}
 		if(!Loader.instance().isInState(LoaderState.PREINITIALIZATION))
 			LogHelper.error("Class "+BOReflectionHelper.retrieveCallingStackTraceElement().getClassName()+" attempted to preinitialize integration, but FML is not in that state!");
