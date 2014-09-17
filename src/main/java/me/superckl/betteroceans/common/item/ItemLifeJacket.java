@@ -16,7 +16,7 @@ public class ItemLifeJacket extends ItemArmorBO{
 
 	public ItemLifeJacket() {
 		super(ArmorMaterial.CLOTH, 0, 1);
-		this.setUnlocalizedName("lifejacket").setCreativeTab(ModTabs.tabItems).setMaxDamage(1).setNoRepair();
+		this.setUnlocalizedName("lifejacket").setCreativeTab(ModTabs.tabItems).setMaxDamage(0).setNoRepair();
 	}
 
 	@Override

@@ -721,7 +721,7 @@ public class EntityBOBoat extends EntityModularBoat implements IEntityAdditional
 			}else if(!BoatHelper.areRequirementsSatisfied(part, this))
 				return false;
 		}
-		if(MinecraftForge.EVENT_BUS.post(new ModularBoatEvent.PartAdd(this, part))){
+		if(!MinecraftForge.EVENT_BUS.post(new ModularBoatEvent.PartAdd(this, part))){
 			this.boatParts.add(part);
 			if(syncClient && !this.worldObj.isRemote)
 				this.syncParts();
