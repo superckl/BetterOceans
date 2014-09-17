@@ -24,20 +24,17 @@ public class PlayerTickHandler {
 			}else
 				this.tickDelay = 8;
 			((StaminaExtendedProperties)e.player.getExtendedProperties("swimStamina")).playerTick();
-		}if(e.phase == Phase.START/* && e.side == Side.CLIENT*/){
+		}
+		if(e.phase == Phase.START && !e.player.capabilities.isFlying/* && e.side == Side.CLIENT*/){
 			final ItemStack armor = e.player.getCurrentArmor(2);
 			final boolean lifeJacket = armor != null && armor.getItem() == ModItems.lifeJacket;
 			if(lifeJacket && e.player.isInWater() && BlockHelper.getFluidDepth(e.player.worldObj, (int) e.player.posX, (int) e.player.posY, (int) e.player.posZ) > 1)
 				e.player.motionY += 0.05D;
 			if(((StaminaExtendedProperties)e.player.getExtendedProperties("swimStamina")).isExhausted()){
-				if (!e.player.capabilities.isFlying) {
-					e.player.motionX *= .25;
-					e.player.motionZ *= .25;
-					if(!lifeJacket)
-						e.player.motionY -= 0.03999999910593033D; //Jump boost factor in water
-				}
-				//e.player.capabilities.setFlySpeed(0F);
-				//e.player.capabilities.setPlayerWalkSpeed(0F);
+				e.player.motionX *= .25;
+				e.player.motionZ *= .25;
+				if(!lifeJacket)
+					e.player.motionY -= 0.03999999910593033D; //Jump boost factor in water
 				this.wasExhausted = true;
 			}else if(this.wasExhausted)
 				this.wasExhausted = false;

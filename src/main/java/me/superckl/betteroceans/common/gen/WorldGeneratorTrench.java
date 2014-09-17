@@ -160,11 +160,14 @@ public class WorldGeneratorTrench implements IWorldGenerator{
 				return; //Woops!, we've gone to far!
 			if(chunkPair == null){
 				chunkPair = new ChunkCoordIntPair(startX >> 4, startZ >> 4);
-				MinecraftForge.EVENT_BUS.post(new TrenchChunkEvent.Enter(chunkProvider.provideChunk(startX, startZ), this));
+				if(MinecraftForge.EVENT_BUS.post(new TrenchChunkEvent.Enter(chunkProvider.provideChunk(startX, startZ), this)))
+					return;
 			}else if(chunkPair.chunkXPos != startX >> 4 || chunkPair.chunkZPos != startZ >> 4){
-				MinecraftForge.EVENT_BUS.post(new TrenchChunkEvent.Leave(chunkProvider.provideChunk(chunkPair.chunkXPos << 4, chunkPair.chunkZPos << 4), this));
+				if(MinecraftForge.EVENT_BUS.post(new TrenchChunkEvent.Leave(chunkProvider.provideChunk(chunkPair.chunkXPos << 4, chunkPair.chunkZPos << 4), this)))
+					return;
 				chunkPair = new ChunkCoordIntPair(startX >> 4, startZ >> 4);
-				MinecraftForge.EVENT_BUS.post(new TrenchChunkEvent.Enter(chunkProvider.provideChunk(startX, startZ), this));
+				if(MinecraftForge.EVENT_BUS.post(new TrenchChunkEvent.Enter(chunkProvider.provideChunk(startX, startZ), this)))
+					return;
 			}
 			final int floorY = from0+offsetY;
 			//Generate floor

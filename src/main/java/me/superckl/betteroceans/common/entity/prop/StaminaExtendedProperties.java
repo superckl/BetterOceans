@@ -40,7 +40,7 @@ public class StaminaExtendedProperties implements IExtendedEntityProperties{
 		final ItemStack armor = this.player.getCurrentArmor(2);
 		final boolean lifeJacket = armor != null && armor.getItem() == ModItems.lifeJacket;
 		final boolean shouldSwim = this.player.isInWater() && (this.player.motionY != -0.02D || lifeJacket);
-		if(!this.player.capabilities.isCreativeMode && this.player.ridingEntity == null && shouldSwim)
+		if(!this.player.capabilities.isFlying && this.player.ridingEntity == null && shouldSwim)
 			this.swimTick(lifeJacket);
 		else
 			this.nonSwimTick();

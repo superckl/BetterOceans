@@ -8,6 +8,7 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.superckl.betteroceans.common.event.ModularBoatEvent;
 import me.superckl.betteroceans.common.nets.IItemNet;
 import me.superckl.betteroceans.common.nets.INet;
 import me.superckl.betteroceans.common.parts.BoatPart;
@@ -31,6 +32,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -703,7 +705,7 @@ public class EntityBOBoat extends EntityModularBoat implements IEntityAdditional
 	}
 
 	/**
-	 * @param syncClient This should never be true on client worlds. The method, however, checks for remote worlds.
+	 * @param syncClient This should never be true on client worlds. The method, however, checks for remote worlds before syncing.
 	 */
 	public boolean addPart(final BoatPart part, final boolean syncClient, final boolean skipCheck){
 		if(part == null)
@@ -719,10 +721,13 @@ public class EntityBOBoat extends EntityModularBoat implements IEntityAdditional
 			}else if(!BoatHelper.areRequirementsSatisfied(part, this))
 				return false;
 		}
-		this.boatParts.add(part);
-		if(syncClient && !this.worldObj.isRemote)
-			this.syncParts();
-		return true;
+		if(MinecraftForge.EVENT_BUS.post(new ModularBoatEvent.PartAdd(this, part))){
+			this.boatParts.add(part);
+			if(syncClient && !this.worldObj.isRemote)
+				this.syncParts();
+			return true;
+		}
+		return false;
 	}
 
 	@Override
