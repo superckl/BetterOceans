@@ -15,6 +15,7 @@ public class BoatbenchRecipeHandler implements IBoatPartRecipeHandler{
 
 	public static BoatbenchRecipeHandler INSTANCE = new BoatbenchRecipeHandler();
 
+	@Getter
 	private final Map<Fluid, IFluidFuelHandler> fuelHandlers = new HashMap<Fluid, IFluidFuelHandler>();
 
 	private BoatbenchRecipeHandler() {}
@@ -26,15 +27,19 @@ public class BoatbenchRecipeHandler implements IBoatPartRecipeHandler{
 
 	@Override
 	public List<ItemStack> getRequiredItemsFor(final BoatPart part){
+		return this.getRequiredItemsFor(part, false);
+	}
+
+	public List<ItemStack> getRequiredItemsFor(final BoatPart part, final boolean nei){
 		if(this.reverse == null)
 			this.reverse = this.idOverrides.descendingMap().values();
 		for(final IBoatPartRecipeHandler handler:this.reverse)
 			if(handler.shouldHandle(part))
 				return handler.getRequiredItemsFor(part);
-		return part.getCraftingIngredients();
+		return part.getCraftingIngredients(nei);
 	}
 
-	public IBoatPartRecipeHandler registerRecipeOverride(final int priority, final IBoatPartRecipeHandler handler){
+	public IBoatPartRecipeHandler registerRecipeHandler(final int priority, final IBoatPartRecipeHandler handler){
 		final IBoatPartRecipeHandler old = this.idOverrides.put(priority, handler);
 		this.reverse = this.idOverrides.descendingMap().values();
 		return old;

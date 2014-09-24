@@ -51,7 +51,7 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 	@Setter
 	private boolean noUseIngredients;
 	@Getter
-	private final FluidTank tank = new FluidTank(4000);
+	private final FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME*4);
 	/**
 	 * I know it's a terrible name. I like it. Deal with it.
 	 */

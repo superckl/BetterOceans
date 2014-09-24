@@ -59,9 +59,9 @@ public abstract class BoatPart implements Cloneable{
 	public abstract Type getType();
 	/**
 	 * This is called to get the default ingredients.
-	 * This can be overriden in {@link BoatbenchRecipeHandler#registerRecipeOverride(int, IBoatPartRecipeHandler) registerRecipeOverride} if you want to override recipes of parts that are not yours.
+	 * This can be overriden in {@link BoatbenchRecipeHandler#registerRecipeHandler(int, IBoatPartRecipeHandler) registerRecipeOverride} if you want to override recipes of parts that are not yours.
 	 */
-	public abstract List<ItemStack> getCraftingIngredients();
+	public abstract List<ItemStack> getCraftingIngredients(final boolean nei);
 	public abstract Material getMaterial();
 	public abstract ItemStack getCraftingResult();
 	public abstract int getMaxNumberOnBoat();

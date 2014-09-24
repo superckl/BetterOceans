@@ -75,8 +75,8 @@ public abstract class PartEnd extends BoatPart{
 		}
 
 		@Override
-		public List<ItemStack> getCraftingIngredients() {
-			return Arrays.asList(new ItemStack(Blocks.planks, 1));
+		public List<ItemStack> getCraftingIngredients(final boolean nei) {
+			return Arrays.asList(new ItemStack(Blocks.planks, 1, nei ? Short.MAX_VALUE:0));
 		}
 
 		@Override
@@ -123,8 +123,8 @@ public abstract class PartEnd extends BoatPart{
 		}
 
 		@Override
-		public List<ItemStack> getCraftingIngredients() {
-			return Arrays.asList(new ItemStack(Items.iron_ingot, 2));
+		public List<ItemStack> getCraftingIngredients(final boolean nei) {
+			return Arrays.asList(new ItemStack(Items.iron_ingot, 2, nei ? Short.MAX_VALUE:0));
 		}
 
 		@Override

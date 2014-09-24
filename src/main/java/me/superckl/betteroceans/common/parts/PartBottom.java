@@ -98,8 +98,8 @@ public abstract class PartBottom extends BoatPart{
 		private static int partConstructorID = BoatPart.registerPart(PartWoodenBottom.class);
 
 		@Override
-		public List<ItemStack> getCraftingIngredients() {
-			return Arrays.asList(new ItemStack(Blocks.planks, 3));
+		public List<ItemStack> getCraftingIngredients(final boolean nei) {
+			return Arrays.asList(new ItemStack(Blocks.planks, 3, nei ? Short.MAX_VALUE:0));
 		}
 
 		@Override
@@ -139,8 +139,8 @@ public abstract class PartBottom extends BoatPart{
 		private static int partConstructorID = BoatPart.registerPart(PartIronBottom.class);
 
 		@Override
-		public List<ItemStack> getCraftingIngredients() {
-			return Arrays.asList(new ItemStack(Items.iron_ingot, 4), new ItemStack(Blocks.planks, 3));
+		public List<ItemStack> getCraftingIngredients(final boolean nei) {
+			return Arrays.asList(new ItemStack(Items.iron_ingot, 4, nei ? Short.MAX_VALUE:0), new ItemStack(Blocks.planks, 3, nei ? Short.MAX_VALUE:0));
 		}
 
 		@Override

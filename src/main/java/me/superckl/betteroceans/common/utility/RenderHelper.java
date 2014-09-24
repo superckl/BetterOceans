@@ -118,6 +118,8 @@ public class RenderHelper {
 		int tempY = y;
 		while(fluidHeight > 0){
 			final int drawHeight = fluidHeight >= stepHeight ? stepHeight:fluidHeight;
+			if(drawHeight < stepHeight)
+				tempY += stepHeight-fluidHeight;
 			mc.currentScreen.drawTexturedModelRectFromIcon(x, tempY -= stepHeight, tankInfo.fluid.getFluid().getIcon(), width, drawHeight);
 			fluidHeight -= stepHeight;
 		}

@@ -98,6 +98,14 @@ public class PartSelectionManager implements Cloneable{
 		return false;
 	}
 
+	public boolean contains(final BoatPart part){
+		for(final List<BoatPart> parts:this.parts)
+			for(final BoatPart Bpart:parts)
+				if(Bpart.equals(part))
+					return true;
+		return false;
+	}
+
 	@Override
 	public PartSelectionManager clone(){
 		final PartSelectionManager clone = new PartSelectionManager();
