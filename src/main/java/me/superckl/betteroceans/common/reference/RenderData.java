@@ -12,7 +12,7 @@ public class RenderData {
 	public static final ResourceLocation HAMMER_BUTTON = new ResourceLocation(ModData.MOD_ID+":textures/gui/buttoncraft.png");
 	public static final ResourceLocation INTER_BOAT_BENCH = new ResourceLocation(ModData.MOD_ID+":textures/gui/interboatbench.png");
 	public static final ResourceLocation BASIC_BOAT_BENCH = new ResourceLocation(ModData.MOD_ID+":textures/gui/basicboatbench.png");
-	public static final ResourceLocation LANTERN = new ResourceLocation(ModData.MOD_ID+":textures/blocks/lantern.png");
+	public static final ResourceLocation[] LANTERN;
 	public static final ResourceLocation WOOD_BOAT = new ResourceLocation("textures/entity/boat.png");
 	public static final ResourceLocation IRON_BOAT = new ResourceLocation(ModData.MOD_ID+":textures/entity/ironboat.png");
 	public static final ResourceLocation EMPTY_GAUGE = new ResourceLocation(ModData.MOD_ID+":textures/gui/gaugeempty.png");
@@ -20,5 +20,11 @@ public class RenderData {
 	public static final String LIFE_JACKET = ModData.MOD_ID+":textures/armor/lifejacket.png";
 
 	public static IIcon ANIMATED_GAUGE;
+
+	static{
+		LANTERN = new ResourceLocation[5];
+		for(int i = 0; i < 5; i++)
+			RenderData.LANTERN[i] = new ResourceLocation(ModData.MOD_ID+":textures/blocks/BOLantern"+i+".png");
+	}
 
 }

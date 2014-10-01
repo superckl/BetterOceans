@@ -8,10 +8,14 @@ import me.superckl.betteroceans.common.reference.ModTabs;
 import me.superckl.betteroceans.common.reference.RenderData;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,7 +26,7 @@ public class BlockLantern extends BlockContainerBO{
 		super(Material.rock);
 		this.setBlockName("lantern").setStepSound(Block.soundTypeStone).setCreativeTab(ModTabs.tabBlocks);
 		this.setHarvestLevel("pickaxe", 1);
-		this.setBlockBounds(3F*RenderData.pixel, 0F, 3F*RenderData.pixel, 13F*RenderData.pixel, 13F*RenderData.pixel, 13F*RenderData.pixel);
+		this.setBlockBounds(4.5F*RenderData.pixel, 0F, 4.5F*RenderData.pixel, 11.5F*RenderData.pixel, 14F*RenderData.pixel, 11.5F*RenderData.pixel);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -33,6 +37,30 @@ public class BlockLantern extends BlockContainerBO{
 			list.add(new ItemStack(item, 1, i));
 	}
 
+
+
+	@Override
+	public void onBlockPlacedBy(final World world, final int x, final int y, final int z, final EntityLivingBase entity, final ItemStack stack) {
+		//TODO
+		final int l = MathHelper.floor_double(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		final TileEntityLantern te = (TileEntityLantern) world.getTileEntity(x, y, z);
+		if (l== 0 || l == 1)
+			te.setRotation(1F);
+
+		/*if (l == 2)
+        {
+            world.setBlockMetadataWithNotify(x, y, z, 3, 2);
+        }*/
+
+		if (l== 2 || l == 3)
+			te.setRotation(0F);
+	}
+
+	@Override
+	public void registerBlockIcons(final IIconRegister p_149651_1_) {
+		this.blockIcon = Blocks.anvil.getIcon(0, 0);
+	}
+
 	@Override
 	public int damageDropped(final int meta) {
 		return meta;
@@ -40,7 +68,7 @@ public class BlockLantern extends BlockContainerBO{
 
 	@Override
 	public int getLightValue() {
-		return 15;
+		return 14;
 	}
 
 	@Override
@@ -60,6 +88,7 @@ public class BlockLantern extends BlockContainerBO{
 	{
 		return false;
 	}
+
 
 	@Override
 	public TileEntity createNewTileEntity(final World world, final int meta) {
