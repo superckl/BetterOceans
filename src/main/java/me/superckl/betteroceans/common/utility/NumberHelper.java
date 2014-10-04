@@ -1,6 +1,7 @@
 package me.superckl.betteroceans.common.utility;
 
 
+
 public class NumberHelper {
 
 	public static int translateToBitPos(final int number) throws IllegalArgumentException{

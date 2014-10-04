@@ -1,5 +1,9 @@
 package me.superckl.betteroceans.client.gui;
 
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
+
 import me.superckl.betteroceans.client.gui.components.HammerButton;
 import me.superckl.betteroceans.common.container.ContainerBoatbench;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
@@ -15,6 +19,8 @@ import net.minecraft.inventory.Container;
 import net.minecraftforge.fluids.FluidTankInfo;
 
 public class GuiContainerInterBoatbench extends GuiContainerBoatbench{
+
+	private final Rectangle tankRect = new Rectangle(200, 18, 16, 60);
 
 	public GuiContainerInterBoatbench(final Container container, final TileEntityBoatbench te, final PartSelectionManager partManager) {
 		super(container, te, partManager);
@@ -35,8 +41,8 @@ public class GuiContainerInterBoatbench extends GuiContainerBoatbench{
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(final int param1, final int param2){
-		super.drawGuiContainerForegroundLayer(param1, param2);
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
+		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		final String name = I18n.format(StringHelper.formatGUIUnlocalizedName("interboatbench"));
 		this.fontRendererObj.drawString(name, 8, 6, 0x404040);
 		this.fontRendererObj.drawString("Inventory", 32, 76, 0x404040);
@@ -47,7 +53,15 @@ public class GuiContainerInterBoatbench extends GuiContainerBoatbench{
 		else if(te.isShouldHandleFluids())
 			this.fontRendererObj.drawString("No Fuel", 224-this.fontRendererObj.getStringWidth("No Fuel")-7, 6, 0xFF0000);
 		RenderHelper.drawTankOverlay(204, 18);
-
+		mouseX -= this.guiLeft;
+		mouseY -= this.guiTop;
+		if(this.tankRect.contains(mouseX, mouseY))
+			if(info != null && info.fluid != null){
+				final List<String> list = new ArrayList<String>();
+				list.add(info.fluid.getFluid().getLocalizedName(info.fluid));
+				list.add(StringHelper.build("Amount: ", info.fluid.amount, "mb"));
+				this.drawHoveringText(list, mouseX, mouseY, this.fontRendererObj);
+			}
 	}
 
 	@Override
