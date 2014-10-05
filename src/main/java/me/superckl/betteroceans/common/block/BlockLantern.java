@@ -6,6 +6,8 @@ import me.superckl.betteroceans.common.entity.tile.TileEntityLantern;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.reference.ModTabs;
 import me.superckl.betteroceans.common.reference.RenderData;
+import me.superckl.betteroceans.common.utility.LogHelper;
+import me.superckl.betteroceans.common.utility.NumberHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -15,7 +17,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -42,18 +43,31 @@ public class BlockLantern extends BlockContainerBO{
 	@Override
 	public void onBlockPlacedBy(final World world, final int x, final int y, final int z, final EntityLivingBase entity, final ItemStack stack) {
 		//TODO
-		final int l = MathHelper.floor_double(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		LogHelper.info(NumberHelper.normalizeAngle(entity.rotationYaw));
+		final int i = (int) Math.floor(NumberHelper.normalizeAngle(entity.rotationYaw)/360F*9)%8;
+		LogHelper.info(i);
 		final TileEntityLantern te = (TileEntityLantern) world.getTileEntity(x, y, z);
-		if (l== 0 || l == 1)
+		//Using a switch statement here so it's obvious how it changes as it goes around. (turning counterclockwise)
+		switch(i){
+		case 7:
+			te.setRotation(.4F);
+			break;
+		case 6:
 			te.setRotation(1F);
-
-		/*if (l == 2)
-        {
-            world.setBlockMetadataWithNotify(x, y, z, 3, 2);
-        }*/
-
-		if (l== 2 || l == 3)
-			te.setRotation(0F);
+			break;
+		case 5:
+			te.setRotation(-.4F);
+			break;
+		case 3:
+			te.setRotation(.4F);
+			break;
+		case 2:
+			te.setRotation(1F);
+			break;
+		case 1:
+			te.setRotation(-.4F);
+			break;
+		}
 	}
 
 	@Override
@@ -92,6 +106,7 @@ public class BlockLantern extends BlockContainerBO{
 
 	@Override
 	public TileEntity createNewTileEntity(final World world, final int meta) {
+		LogHelper.info("new te");
 		return new TileEntityLantern(new ItemStack(ModItems.lumPowder, 1, meta));
 	}
 

@@ -33,7 +33,7 @@ public class EntityEventHandler {
 		else if(this.fallingEntities.containsKey(e.entityLiving))
 			if(e.entityLiving.isInWater()){
 				final float distance = this.fallingEntities.remove(e.entityLiving).floatValue();
-				e.entityLiving.attackEntityFrom(DamageSource.fall, (float) Math.floor(distance/7F));
+				e.entityLiving.attackEntityFrom(DamageSource.fall, (float) Math.floor(distance/6F));
 			}else if(e.entityLiving.fallDistance < 10F)
 				this.fallingEntities.remove(e.entityLiving); //Cleanup to prevent memory leaks
 	}

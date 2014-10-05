@@ -33,7 +33,7 @@ public class StaminaExtendedProperties implements IExtendedEntityProperties{
 		if(!(entity instanceof EntityPlayer))
 			return;
 		this.player = (EntityPlayer) entity;
-		this.player.getDataWatcher().addObject(27, new Integer(100));
+		this.player.getDataWatcher().addObject(27, new Float(100));
 		this.player.getDataWatcher().addObject(28, new Byte((byte) 0));
 	}
 

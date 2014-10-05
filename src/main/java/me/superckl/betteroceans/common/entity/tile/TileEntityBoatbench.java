@@ -336,7 +336,6 @@ public class TileEntityBoatbench extends TileEntity implements IInventory, IFlui
 	@Override
 	public void onDataPacket(final NetworkManager net, final S35PacketUpdateTileEntity pkt)
 	{
-		LogHelper.debug("Received data packet");
 		final NBTTagCompound comp = pkt.func_148857_g();
 		this.readFromNBT(comp);
 	}
