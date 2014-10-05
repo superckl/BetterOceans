@@ -17,6 +17,7 @@ import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.StringHelper;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -148,6 +149,16 @@ public abstract class BoatPart implements Cloneable{
 
 	public ResourceLocation getTexture(){
 		return this.getMaterial().getDefaultTextureLocation();
+	}
+
+	/**
+	 * Called when the boat this part is attached to it right clicked by a player.
+	 * @param player The player right click the boat
+	 * @param boat The boat being right clicked
+	 * @return If the right click should be ignored
+	 */
+	public boolean onBoatRightClick(final EntityPlayer player, final EntityModularBoat boat){
+		return false;
 	}
 
 	@Override

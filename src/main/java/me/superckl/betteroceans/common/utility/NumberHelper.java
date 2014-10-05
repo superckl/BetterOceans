@@ -39,4 +39,11 @@ public class NumberHelper {
 		return capacity;
 	}
 
+	public static float normalizeAngle(float angle){
+		angle %= 360F;
+		if(angle < 0)
+			angle = 360F-Math.abs(angle);
+		return angle;
+	}
+
 }

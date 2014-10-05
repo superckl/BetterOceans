@@ -114,7 +114,7 @@ public abstract class PartBottom extends BoatPart{
 
 		@Override
 		public double getSpeedModifier(){
-			return 0.96D;
+			return 0.955D;
 		}
 
 		@Override
@@ -155,7 +155,7 @@ public abstract class PartBottom extends BoatPart{
 
 		@Override
 		public double getSpeedModifier(){
-			return 1.04D;
+			return 1.02D;
 		}
 		@Override
 		public double getSinkChanceModifier(){

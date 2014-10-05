@@ -1,5 +1,6 @@
 package me.superckl.betteroceans.common.handler;
 
+import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.common.entity.prop.StaminaExtendedProperties;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.utility.BlockHelper;
@@ -18,6 +19,8 @@ public class PlayerTickHandler {
 	@SubscribeEvent
 	public void onPlayerTick(final PlayerTickEvent e){
 		if(e.side == Side.SERVER && e.phase == Phase.END){
+			if(BetterOceans.getInstance().getConfig().isDisableStamina())
+				return;
 			if(this.tickDelay > 0){
 				this.tickDelay--;
 				return;
@@ -30,6 +33,8 @@ public class PlayerTickHandler {
 			final boolean lifeJacket = armor != null && armor.getItem() == ModItems.lifeJacket;
 			if(lifeJacket && e.player.isInWater() && BlockHelper.getFluidDepth(e.player.worldObj, (int) e.player.posX, (int) e.player.posY, (int) e.player.posZ) > 1)
 				e.player.motionY += 0.05D;
+			if(BetterOceans.getInstance().getConfig().isDisableStamina())
+				return;
 			if(((StaminaExtendedProperties)e.player.getExtendedProperties("swimStamina")).isExhausted()){
 				e.player.motionX *= .25;
 				e.player.motionZ *= .25;

@@ -1,6 +1,8 @@
 package me.superckl.betteroceans.common.entity.prop;
 
 import lombok.Getter;
+import me.superckl.betteroceans.BetterOceans;
+import me.superckl.betteroceans.Config;
 import me.superckl.betteroceans.common.reference.ModItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,12 +20,12 @@ public class StaminaExtendedProperties implements IExtendedEntityProperties{
 
 	@Override
 	public void saveNBTData(final NBTTagCompound compound) {
-		compound.setInteger("swimStamina", this.getStamina());
+		compound.setFloat("swimStamina", this.getStamina());
 	}
 
 	@Override
 	public void loadNBTData(final NBTTagCompound compound) {
-		this.setStamina(compound.getInteger("swimStamina"));
+		this.setStamina(compound.getFloat("swimStamina"));
 	}
 
 	@Override
@@ -53,8 +55,10 @@ public class StaminaExtendedProperties implements IExtendedEntityProperties{
 		this.regenDelay = 4;
 		if(this.isExhausted() || lifeJacket)
 			return lifeJacket;
-		int stamina = this.getStamina()- (lifeJacket ? 1:2);
-		stamina = Math.max(stamina, 0);
+		final Config c = BetterOceans.getInstance().getConfig();
+		final float drain = c.getStaminaDrain();
+		float stamina = this.getStamina()- (lifeJacket ? drain:drain*c.getLifejacketModifier());
+		stamina = Math.max(stamina, 0F);
 		this.setStamina(stamina);
 		if(stamina == 0){
 			this.setExhausted(true);
@@ -70,19 +74,19 @@ public class StaminaExtendedProperties implements IExtendedEntityProperties{
 			return;
 		}else if(this.isExhausted())
 			this.setExhausted(false);
-		int stamina = this.getStamina();
-		if(stamina >= 100)
+		float stamina = this.getStamina();
+		if(stamina >= 100F)
 			return;
-		stamina = Math.min(100, stamina+1);
+		stamina = Math.min(100F, stamina+BetterOceans.getInstance().getConfig().getRegenRate());
 		this.setStamina(stamina);
 	}
 
-	public void setStamina(final int stamina){
-		this.player.getDataWatcher().updateObject(27, new Integer(stamina));
+	public void setStamina(final float stamina){
+		this.player.getDataWatcher().updateObject(27, new Float(stamina));
 	}
 
-	public int getStamina(){
-		return this.player.getDataWatcher().getWatchableObjectInt(27);
+	public float getStamina(){
+		return this.player.getDataWatcher().getWatchableObjectFloat(27);
 	}
 
 	public void setExhausted(final boolean exhausted){

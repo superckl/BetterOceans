@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import lombok.Getter;
-import lombok.Setter;
 import me.superckl.betteroceans.common.event.ModularBoatEvent;
 import me.superckl.betteroceans.common.nets.IItemNet;
 import me.superckl.betteroceans.common.nets.INet;
@@ -46,9 +45,6 @@ public class EntityBOBoat extends EntityModularBoat implements IEntityAdditional
 	private INet attachedNet;
 	@Getter
 	private final List<BoatPart> boatParts = new ArrayList<BoatPart>();
-	@Setter
-	@Getter
-	private boolean renderWithRotation;
 	public int renderYawOffset; //We have to do this manually apparently...
 
 	private boolean isBoatEmpty;
@@ -59,7 +55,6 @@ public class EntityBOBoat extends EntityModularBoat implements IEntityAdditional
 	private double boatZ;
 	private double boatYaw;
 	private double boatPitch;
-	public float length;
 	@SideOnly(Side.CLIENT)
 	private double velocityX;
 	@SideOnly(Side.CLIENT)
@@ -189,6 +184,12 @@ public class EntityBOBoat extends EntityModularBoat implements IEntityAdditional
 	@Override
 	public boolean interactFirst(final EntityPlayer player){
 		if(player.isSneaking()){
+			boolean shouldIgnore = false;
+			for(final BoatPart part:this.boatParts)
+				if(part.onBoatRightClick(player, this))
+					shouldIgnore = true;
+			if(shouldIgnore)
+				return true;
 			if(this.isComplete()){
 				//TODO this should be done in the item
 				if(this.hasNetAttatched()){
@@ -428,6 +429,15 @@ public class EntityBOBoat extends EntityModularBoat implements IEntityAdditional
 					zDir-=Math.min((zDir-boatzDir)*(.6D/turnM), zDir-boatzDir);
 					this.motionZ += zDir * this.speedMultiplier * entitylivingbase.moveForward * 0.04000000074505806D;
 				}
+				/*boolean invert = Math.abs(NumberHelper.normalizeAngle(entitylivingbase.rotationYaw)-(this.rotationYaw+90F)) > 90;
+				if((invert && entitylivingbase.moveForward > 0) || (!invert && entitylivingbase.moveForward < 0)){
+					LogHelper.info("Slowing");
+					//TODO Slow down faster, it breaks when traveling backwards...
+					final double modifier = BoatHelper.compoundSpeedModifiers(this);
+					final double mod = Math.min(1D, 2-modifier);
+					this.motionX *= .96D;
+					this.motionZ *= .96D;
+				}*/
 			}
 
 			d2 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
@@ -487,10 +497,10 @@ public class EntityBOBoat extends EntityModularBoat implements IEntityAdditional
 				this.motionZ *= 0.0D;
 			}
 
-			//final double modifier = BoatHelper.compoundSpeedModifiers(this);
-			this.motionX *= /*modifier**/Math.max(0F, 1F-this.getSinkDepth());
-			this.motionY *= this.isSinking() ? 0D:/*modifier**/Math.max(0F, 1F-this.getSinkDepth());
-			this.motionZ *= /*modifier**/Math.max(0F, 1F-this.getSinkDepth());
+			final double modifier = BoatHelper.compoundSpeedModifiers(this);
+			this.motionX *= modifier*Math.max(0F, 1F-this.getSinkDepth());
+			this.motionY *= this.isSinking() ? 0D:modifier*Math.max(0F, 1F-this.getSinkDepth());
+			this.motionZ *= modifier*Math.max(0F, 1F-this.getSinkDepth());
 
 			this.moveEntity(this.motionX, this.motionY, this.motionZ);
 

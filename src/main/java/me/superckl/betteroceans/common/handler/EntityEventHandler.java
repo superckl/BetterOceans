@@ -3,6 +3,7 @@ package me.superckl.betteroceans.common.handler;
 import java.util.HashMap;
 import java.util.Map;
 
+import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.common.entity.prop.StaminaExtendedProperties;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +18,8 @@ public class EntityEventHandler {
 
 	@SubscribeEvent
 	public void onEntityConstruction(final EntityConstructing e){
+		if(BetterOceans.getInstance().getConfig().isDisableStamina())
+			return;
 		if(e.entity instanceof EntityPlayer)
 			e.entity.registerExtendedProperties("swimStamina", new StaminaExtendedProperties());
 	}
@@ -30,7 +33,7 @@ public class EntityEventHandler {
 		else if(this.fallingEntities.containsKey(e.entityLiving))
 			if(e.entityLiving.isInWater()){
 				final float distance = this.fallingEntities.remove(e.entityLiving).floatValue();
-				e.entityLiving.attackEntityFrom(DamageSource.fall, (float) Math.floor(distance/8F));
+				e.entityLiving.attackEntityFrom(DamageSource.fall, (float) Math.floor(distance/7F));
 			}else if(e.entityLiving.fallDistance < 10F)
 				this.fallingEntities.remove(e.entityLiving); //Cleanup to prevent memory leaks
 	}

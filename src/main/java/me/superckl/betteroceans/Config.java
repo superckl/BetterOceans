@@ -14,6 +14,7 @@ public class Config {
 		public static final String WORLD_GEN = "world gen";
 		public static final String GENERAL = "general";
 		public static final String BIOMES_O_PLENTY = "biomes o plenty";
+		public static final String STAMINA = "stamina";
 	}
 
 	@Getter
@@ -52,6 +53,14 @@ public class Config {
 	private boolean genReefs;
 	@Getter
 	private boolean debugTooltips;
+	@Getter
+	private boolean disableStamina;
+	@Getter
+	private float staminaDrain;
+	@Getter
+	private float lifejacketModifier;
+	@Getter
+	private float regenRate;
 
 	public Config(final File config){
 		this.configFile = new Configuration(config);
@@ -83,6 +92,11 @@ public class Config {
 			this.infiniteSaltwater = this.configFile.getBoolean("Infinite Saltwater", Category.GENERAL, true, "If true, saltwater will emulate vanilla infinite water mechanics.");
 			this.fluidReplace = this.configFile.getBoolean("Replace Aquatic Plants With Fluid", Category.GENERAL, true, "Determines whether aquatic plants are replaced by (salt) water or air when broken.");
 			this.debugTooltips = this.configFile.getBoolean("Tooltip Debugging", Category.GENERAL, false, "Determines if superfluous information will be displayed in some tooltips.");
+
+			this.disableStamina = this.configFile.getBoolean("Disable Swim Stamina", Category.STAMINA, false, "If true, players will be able to swim as in vanilla minecraft.");
+			this.staminaDrain = this.configFile.getFloat("Base Stamina Drain", Category.STAMINA, 2F, 0F, 100F, "Determines how fast stamina drains.");
+			this.lifejacketModifier = this.configFile.getFloat("Life Jacket Drain Modifier", Category.STAMINA, 0.5F, 0F, 1F, "Determines how much the life jacket affects stamina drain. The default value (0.5) cuts the drain in half.");
+			this.regenRate = this.configFile.getFloat("Stamina Regen Rate", Category.STAMINA, 1F, 0F, 100F, "Determines how fast stamina regens.");
 
 			this.seaweedOrKelp = this.configFile.getBoolean("Seaweed or Kelp", Category.BIOMES_O_PLENTY, true, "Allows players to use seaweed where kelp is required in recipes.");
 			this.removeSubbiomes = this.configFile.getBoolean("Remove SubBiomes", Category.BIOMES_O_PLENTY, true, "Remove Biomes O' Plenty's ocean subbiomes such as Coral Reef and Kelp Forest.");

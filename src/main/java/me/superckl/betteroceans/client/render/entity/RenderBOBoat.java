@@ -32,18 +32,17 @@ public class RenderBOBoat extends Render{
 	 * (Render<T extends Entity) and this method has signature public void func_76986_a(T entity, double d, double d1,
 	 * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
 	 */
-	public void doRender(final EntityBOBoat boat, final double par2, final double par4, final double par6, final float par8, final float par9, final boolean doRotate)
+	@Override
+	public void doRender(final Entity par1Entity, final double par2, final double par4, final double par6, final float par8, final float par9)
 	{
+		final EntityBOBoat boat = (EntityBOBoat) par1Entity;
 		if(boat.isSinking()){
 			final EntitySplashFX leak = new EntitySplashFX(boat.worldObj, boat.posX, boat.posY+.02, boat.posZ, boat.motionX, boat.motionY+2, boat.motionZ);
 			boat.worldObj.spawnEntityInWorld(leak);
 		}
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float)par2, (float)par4, (float)par6);
-		if(doRotate && boat.isRenderWithRotation())
-			GL11.glRotatef(180.0F - boat.renderYawOffset++, 1F, 1F, 1F);
-		else
-			GL11.glRotatef(180.0F - par8, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(180.0F - par8, 0.0F, 1.0F, 0.0F);
 		final float f2 = boat.getTimeSinceHit() - par9;
 		float f3 = boat.getDamageTaken() - par9;
 
@@ -59,18 +58,6 @@ public class RenderBOBoat extends Render{
 		GL11.glScalef(-1.0F, -1.0F, 1.0F);
 		this.modelBoat.render(boat, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		GL11.glPopMatrix();
-	}
-
-	/**
-	 * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-	 * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-	 * (Render<T extends Entity) and this method has signature public void func_76986_a(T entity, double d, double d1,
-	 * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-	 */
-	@Override
-	public void doRender(final Entity par1Entity, final double par2, final double par4, final double par6, final float par8, final float par9)
-	{
-		this.doRender((EntityBOBoat)par1Entity, par2, par4, par6, par8, par9, true);
 	}
 
 	@Override

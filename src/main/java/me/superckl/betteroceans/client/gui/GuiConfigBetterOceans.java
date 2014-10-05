@@ -27,6 +27,7 @@ public class GuiConfigBetterOceans extends BOGuiConfig{
 	private static List<IConfigElement> getConfigElements(){
 		final List<IConfigElement> list = new ArrayList<IConfigElement>();
 		list.add(new DummyConfigElement.DummyCategoryElement("General", "betteroceans.configgui.ctgy.general", GeneralCategory.class));
+		list.add(new DummyConfigElement.DummyCategoryElement("Stamina", "betteroceans.configgui.ctgy.stamina", StaminaCategory.class));
 		list.add(new DummyConfigElement.DummyCategoryElement("World Generation", "betteroceans.configgui.ctgy.worldgen", WorldGenCategory.class));
 		if(Loader.isModLoaded("BiomesOPlenty"))
 			list.add(new DummyConfigElement.DummyCategoryElement("Biomes O' Plenty", "betteroceans.configgui.ctgy.bop", BOPCategory.class));
@@ -60,6 +61,21 @@ public class GuiConfigBetterOceans extends BOGuiConfig{
 		protected GuiScreen buildChildScreen(){
 			return new BOGuiConfig(this.owningScreen, new ConfigElement(BetterOceans.getInstance().getConfig().getConfigFile().getCategory(Category.GENERAL)).getChildElements()
 					, ModData.MOD_ID, false, false, LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("config_general")));
+		}
+
+	}
+
+	public static class StaminaCategory extends CategoryEntry{
+
+		public StaminaCategory(final GuiConfig owningScreen,
+				final GuiConfigEntries owningEntryList, final IConfigElement configElement) {
+			super(owningScreen, owningEntryList, configElement);
+		}
+
+		@Override
+		protected GuiScreen buildChildScreen(){
+			return new BOGuiConfig(this.owningScreen, new ConfigElement(BetterOceans.getInstance().getConfig().getConfigFile().getCategory(Category.STAMINA)).getChildElements()
+					, ModData.MOD_ID, false, false, LanguageRegistry.instance().getStringLocalization(StringHelper.formatGUIUnlocalizedName("config_stamina")));
 		}
 
 	}

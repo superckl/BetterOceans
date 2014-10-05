@@ -1,5 +1,6 @@
 package me.superckl.betteroceans.client.handler;
 
+import me.superckl.betteroceans.BetterOceans;
 import me.superckl.betteroceans.common.entity.prop.StaminaExtendedProperties;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.reference.RenderData;
@@ -58,7 +59,8 @@ public class RenderTickHandler{
 			//mc.fontRenderer.drawStringWithShadow(String.format("Depth: %d - %s", depth, StringUtils.capitalize(fluid.getName().toLowerCase())), 5, 5, 0xFFFFFF);
 
 		}
-
+		if(BetterOceans.getInstance().getConfig().isDisableStamina())
+			return;
 		IExtendedEntityProperties staminaProp;
 		if(this.mc.thePlayer != null && this.mc.thePlayer.isInWater() && (staminaProp = this.mc.thePlayer.getExtendedProperties("swimStamina")) != null){
 			Math.ceil(((StaminaExtendedProperties)staminaProp).getStamina()*14F/100F);
