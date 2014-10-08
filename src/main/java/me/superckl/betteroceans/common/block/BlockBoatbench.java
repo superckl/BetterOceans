@@ -33,7 +33,7 @@ public class BlockBoatbench extends BlockContainerBO{
 
 	public BlockBoatbench() {
 		super(Material.rock);
-		this.setBlockName("boatbench").setStepSound(Block.soundTypeWood).setCreativeTab(ModTabs.tabBlocks);
+		this.setBlockName("boatbench").setStepSound(Block.soundTypeStone).setCreativeTab(ModTabs.tabBlocks);
 		this.setHarvestLevel("axe", 0, 0);
 		this.setHarvestLevel("pickaxe", 1, 1);
 	}

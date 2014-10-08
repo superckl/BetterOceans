@@ -10,6 +10,7 @@ import me.superckl.betteroceans.common.item.ItemSeaweed;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.ObjectHolder;
 
@@ -32,6 +33,8 @@ public abstract class ModItems {
 		GameRegistry.registerItem(ModItems.boBucket, Names.BO_BUCKET);
 		GameRegistry.registerItem(ModItems.lumPowder, Names.LUM_POWDER);
 		GameRegistry.registerItem(ModItems.lifeJacket, Names.LIFE_JACKET);
+		OreDictionary.registerOre("listAllveggie", ModItems.itemSeaweed);
+		OreDictionary.registerOre("listAllgreenveggie", ModItems.itemSeaweed);
 	}
 
 	public static void overrideItems(){
