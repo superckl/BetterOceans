@@ -2,6 +2,7 @@ package me.superckl.betteroceans.client.gui;
 
 import me.superckl.betteroceans.common.container.ContainerBasicBoatbench;
 import me.superckl.betteroceans.common.container.ContainerInterBoatbench;
+import me.superckl.betteroceans.common.container.ContainerWaterPurifier;
 import me.superckl.betteroceans.common.entity.tile.TileEntityBoatbench;
 import me.superckl.betteroceans.common.reference.ModData;
 import me.superckl.betteroceans.common.utility.PartSelectionManager;
@@ -22,6 +23,8 @@ public class GuiHandlerBetterOceans implements IGuiHandler{
 				return new ContainerBasicBoatbench(player.inventory, (TileEntityBoatbench) te);
 			case ModData.GUIIDs.INTER_BOAT_BENCH:
 				return new ContainerInterBoatbench(player.inventory, (TileEntityBoatbench) te);
+			case ModData.GUIIDs.WATER_PURIFIER:
+				return new ContainerWaterPurifier();
 			}
 		return null;
 	}
@@ -38,6 +41,8 @@ public class GuiHandlerBetterOceans implements IGuiHandler{
 			case ModData.GUIIDs.INTER_BOAT_BENCH:
 				return new GuiContainerInterBoatbench(new ContainerInterBoatbench(player.inventory, (TileEntityBoatbench) te), (TileEntityBoatbench) te,
 						PartSelectionManager.INTER_BENCH.clone());
+			case ModData.GUIIDs.WATER_PURIFIER:
+				return new GuiContainerWaterPurifier(new ContainerWaterPurifier());
 			}
 		return null;
 	}

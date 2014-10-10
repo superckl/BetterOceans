@@ -106,7 +106,6 @@ public class BlockLantern extends BlockContainerBO{
 
 	@Override
 	public TileEntity createNewTileEntity(final World world, final int meta) {
-		LogHelper.info("new te");
 		return new TileEntityLantern(new ItemStack(ModItems.lumPowder, 1, meta));
 	}
 

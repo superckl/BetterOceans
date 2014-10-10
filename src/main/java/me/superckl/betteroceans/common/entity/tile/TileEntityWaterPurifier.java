@@ -9,7 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -23,34 +22,34 @@ public class TileEntityWaterPurifier extends TileEntity implements IInventory, I
 	private final FluidTank freshWaterTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME*4);
 	@Getter
 	private final ItemStack[] inventory = new ItemStack[4];
-	
+
 	@Override
-	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+	public int fill(final ForgeDirection from, final FluidStack resource, final boolean doFill) {
 		if(resource.getFluid() != ModFluids.saltWater)
 			return 0;
 		return this.saltWaterTank.fill(resource, doFill);
 	}
 
 	@Override
-	public FluidStack drain(ForgeDirection from, FluidStack resource,
-			boolean doDrain) {
+	public FluidStack drain(final ForgeDirection from, final FluidStack resource,
+			final boolean doDrain) {
 		if(resource.getFluid() != this.freshWaterTank.getFluid().getFluid())
 			return null;
 		return this.freshWaterTank.drain(resource.amount, doDrain);
 	}
 
 	@Override
-	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+	public FluidStack drain(final ForgeDirection from, final int maxDrain, final boolean doDrain) {
 		return this.freshWaterTank.drain(maxDrain, doDrain);
 	}
 
 	@Override
-	public boolean canFill(ForgeDirection from, Fluid fluid) {
+	public boolean canFill(final ForgeDirection from, final Fluid fluid) {
 		return fluid == ModFluids.saltWater && this.saltWaterTank.getCapacity() > this.saltWaterTank.getFluidAmount();
 	}
 
 	@Override
-	public boolean canDrain(ForgeDirection from, Fluid fluid) {
+	public boolean canDrain(final ForgeDirection from, final Fluid fluid) {
 		return this.freshWaterTank.getFluid().getFluid() == fluid && this.freshWaterTank.getFluidAmount() > 0;
 	}
 
@@ -58,7 +57,7 @@ public class TileEntityWaterPurifier extends TileEntity implements IInventory, I
 	 * Returns an array {freshWaterTank info, saltWaterTank info}.
 	 */
 	@Override
-	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+	public FluidTankInfo[] getTankInfo(final ForgeDirection from) {
 		return new FluidTankInfo[] {this.freshWaterTank.getInfo(), this.saltWaterTank.getInfo()};
 	}
 
@@ -68,24 +67,24 @@ public class TileEntityWaterPurifier extends TileEntity implements IInventory, I
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int slot) {
+	public ItemStack getStackInSlot(final int slot) {
 		return this.inventory[slot];
 	}
 
 	@Override
-	public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_) {
+	public ItemStack decrStackSize(final int p_70298_1_, final int p_70298_2_) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int p_70304_1_) {
+	public ItemStack getStackInSlotOnClosing(final int p_70304_1_) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setInventorySlotContents(int slot, ItemStack stack) {
+	public void setInventorySlotContents(final int slot, final ItemStack stack) {
 		this.inventory[slot] = stack;
 	}
 
@@ -105,7 +104,7 @@ public class TileEntityWaterPurifier extends TileEntity implements IInventory, I
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer p_70300_1_) {
+	public boolean isUseableByPlayer(final EntityPlayer p_70300_1_) {
 		return true;
 	}
 
@@ -116,7 +115,7 @@ public class TileEntityWaterPurifier extends TileEntity implements IInventory, I
 	public void closeInventory() {}
 
 	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
 		if(slot == 1 || slot == 3)
 			return false;
 		return FluidContainerRegistry.isContainer(stack);

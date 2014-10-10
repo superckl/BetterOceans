@@ -35,6 +35,11 @@ public class ItemBOBucket extends ItemBOFluidContainer{
 	}
 
 	@Override
+	public Item getContainerItem() {
+		return Items.bucket;
+	}
+
+	@Override
 	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer player)
 	{
 		final MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, false);
