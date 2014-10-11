@@ -6,7 +6,6 @@ import me.superckl.betteroceans.common.entity.tile.TileEntityLantern;
 import me.superckl.betteroceans.common.reference.ModItems;
 import me.superckl.betteroceans.common.reference.ModTabs;
 import me.superckl.betteroceans.common.reference.RenderData;
-import me.superckl.betteroceans.common.utility.LogHelper;
 import me.superckl.betteroceans.common.utility.NumberHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -42,10 +41,7 @@ public class BlockLantern extends BlockContainerBO{
 
 	@Override
 	public void onBlockPlacedBy(final World world, final int x, final int y, final int z, final EntityLivingBase entity, final ItemStack stack) {
-		//TODO
-		LogHelper.info(NumberHelper.normalizeAngle(entity.rotationYaw));
 		final int i = (int) Math.floor(NumberHelper.normalizeAngle(entity.rotationYaw)/360F*9)%8;
-		LogHelper.info(i);
 		final TileEntityLantern te = (TileEntityLantern) world.getTileEntity(x, y, z);
 		//Using a switch statement here so it's obvious how it changes as it goes around. (turning counterclockwise)
 		switch(i){

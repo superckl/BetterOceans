@@ -46,7 +46,6 @@ public class ItemLuminescentPowder extends ItemBO{
 
 	@Override
 	public IIcon getIconFromDamage(final int meta) {
-		// TODO Auto-generated method stub
 		return this.icons[meta];
 	}
 

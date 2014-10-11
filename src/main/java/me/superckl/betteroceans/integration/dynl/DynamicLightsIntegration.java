@@ -60,4 +60,9 @@ public class DynamicLightsIntegration implements IIntegrationModule{
 		}
 	}
 
+	@Override
+	public String getName() {
+		return "Dynamic Lights Integration";
+	}
+
 }

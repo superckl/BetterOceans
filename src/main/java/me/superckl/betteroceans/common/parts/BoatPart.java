@@ -197,8 +197,7 @@ public abstract class BoatPart implements Cloneable{
 	@RequiredArgsConstructor
 	public static enum Material{
 		WOOD(RenderData.WOOD_BOAT, new ItemStack(Blocks.planks), 1, .85D),
-		IRON(RenderData.IRON_BOAT, new ItemStack(Items.iron_ingot), 2, 1.2D),//TODO
-		GLASS(null, new ItemStack(Blocks.glass), 1, .6D),//TODO
+		IRON(RenderData.IRON_BOAT, new ItemStack(Items.iron_ingot), 2, 1.2D),
 		UNSUPPORTED(null, null, 0, 0D);
 
 		@Getter

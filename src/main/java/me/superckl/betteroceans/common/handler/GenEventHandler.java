@@ -63,6 +63,7 @@ public class GenEventHandler {
 	 */
 	@SubscribeEvent
 	public void onTrenchLeaveChunk(final TrenchChunkEvent.Leave e){
+		//TODO custom event currently borked
 		final World currentWorld = e.getChunk().worldObj;
 		final Random randomGenerator = currentWorld.rand;
 		final int chunk_X = e.getChunk().xPosition;

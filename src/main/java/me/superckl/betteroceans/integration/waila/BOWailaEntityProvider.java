@@ -20,7 +20,6 @@ public class BOWailaEntityProvider implements IWailaEntityProvider{
 	@Override
 	public Entity getWailaOverride(final IWailaEntityAccessor accessor,
 			final IWailaConfigHandler config) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -53,14 +52,12 @@ public class BOWailaEntityProvider implements IWailaEntityProvider{
 	@Override
 	public List<String> getWailaTail(final Entity entity, final List<String> currenttip,
 			final IWailaEntityAccessor accessor, final IWailaConfigHandler config) {
-		// TODO Auto-generated method stub
 		return currenttip;
 	}
 
 	public static void callbackRegister(final IWailaRegistrar registrar){
 		registrar.addConfig("Better Oceans", "showboatinfo", "Show Boat Info");
 		final BOWailaEntityProvider provider = new BOWailaEntityProvider();
-		//registrar.registerHeadProvider(provider, BlockBoatbench.class);
 		registrar.registerBodyProvider(provider, EntityBOBoat.class);
 	}
 

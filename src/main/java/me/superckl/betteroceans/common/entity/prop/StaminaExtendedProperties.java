@@ -38,7 +38,6 @@ public class StaminaExtendedProperties implements IExtendedEntityProperties{
 	}
 
 	public void playerTick(){
-		//TODO figure out why no drain, it should be that way, but it's not intentional :/
 		final ItemStack armor = this.player.getCurrentArmor(2);
 		final boolean lifeJacket = armor != null && armor.getItem() == ModItems.lifeJacket;
 		final boolean shouldSwim = this.player.isInWater() && (this.player.motionY != -0.02D || lifeJacket);

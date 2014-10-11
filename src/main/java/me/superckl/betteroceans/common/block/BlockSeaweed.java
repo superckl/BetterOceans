@@ -124,12 +124,9 @@ public class BlockSeaweed extends BlockBO{
 	@Override
 	public void onNeighborBlockChange(final World world, final int x, final int y, final int z, final Block block) {
 		if(!this.canBlockStay(world, x, y, z)){
-			//LogHelper.info("Can't stay!");
-			//LogHelper.info(y);
-			//LogHelper.info(world.getBlock(x, y-2, z).getUnlocalizedName());
 			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 			this.breakBlock(world, x, y, z, block, world.getBlockMetadata(x, y, z));
-			world.setBlock(x, y, z, BetterOceans.getInstance().getConfig().isFluidReplace() ? BlockHelper.getWaterReplacement(world, x, y, z):Blocks.air); //TODO
+			world.setBlock(x, y, z, BetterOceans.getInstance().getConfig().isFluidReplace() ? BlockHelper.getWaterReplacement(world, x, y, z):Blocks.air);
 		}
 	}
 

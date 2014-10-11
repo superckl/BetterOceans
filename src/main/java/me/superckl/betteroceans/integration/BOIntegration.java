@@ -14,6 +14,7 @@ import me.superckl.betteroceans.common.gen.BiomeGenBetterOcean;
 import me.superckl.betteroceans.common.utility.BOReflectionHelper;
 import me.superckl.betteroceans.common.utility.BiomeHelper;
 import me.superckl.betteroceans.common.utility.LogHelper;
+import me.superckl.betteroceans.common.utility.StringHelper;
 import net.minecraft.world.biome.BiomeGenBase;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.LoaderState;
@@ -26,6 +27,7 @@ public class BOIntegration implements IIntegrationModule{
 	static{
 		BOIntegration.modules.put(Arrays.asList(new String[] {"BiomesOPlenty"}), "me.superckl.betteroceans.integration.bop.BiomesOPlentyIntegration");
 		BOIntegration.modules.put(Arrays.asList(new String[] {"NotEnoughItems"}), "me.superckl.betteroceans.integration.nei.NotEnoughItemsIntegration");
+		BOIntegration.modules.put(Arrays.asList(new String[] {"Mariculture"}), "me.superckl.betteroceans.integration.mariculture.MaricultureIntegration");
 	}
 
 	@Getter
@@ -44,7 +46,9 @@ public class BOIntegration implements IIntegrationModule{
 				}
 			if(!noGo)
 				try {
-					this.activeModules.add((IIntegrationModule) Class.forName(entry.getValue()).newInstance());
+					final IIntegrationModule module = (IIntegrationModule) Class.forName(entry.getValue()).newInstance();
+					this.activeModules.add(module);
+					LogHelper.info(StringHelper.build("Enabled ", module.getName(), " module."));
 				} catch (final Exception e) {
 					LogHelper.error("Failed to instantiate integration module "+entry.getValue());
 					e.printStackTrace();
@@ -78,6 +82,11 @@ public class BOIntegration implements IIntegrationModule{
 			LogHelper.warn("Something else overrode oceans since Init (or overriding them failed)! You should probably report this (Include a list of possible mods, thanks)... Re-overriding...");
 			BiomeHelper.replaceOceanBiomes();
 		}
+	}
+
+	@Override
+	public String getName() {
+		return "Better Oceans Integration Manager";
 	}
 
 }

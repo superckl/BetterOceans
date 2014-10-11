@@ -69,14 +69,12 @@ public class BOWailaDataProvider implements IWailaDataProvider{
 	public List<String> getWailaTail(final ItemStack itemStack,
 			final List<String> currenttip, final IWailaDataAccessor accessor,
 			final IWailaConfigHandler config) {
-		// TODO Auto-generated method stub
 		return currenttip;
 	}
 
 	public static void callbackRegister(final IWailaRegistrar registrar){
 		registrar.addConfig("Better Oceans", "showbenchinfo", "Show Boatbench Info");
 		final BOWailaDataProvider provider = new BOWailaDataProvider();
-		//registrar.registerHeadProvider(provider, BlockBoatbench.class);
 		registrar.registerStackProvider(provider, BlockBoatbench.class);
 		registrar.registerBodyProvider(provider, BlockBoatbench.class);
 	}

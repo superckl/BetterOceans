@@ -20,7 +20,7 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid=ModData.MOD_ID, name=ModData.MOD_NAME, version=ModData.VERSION, guiFactory = ModData.GUI_FACTORY, dependencies = "after:BiomesOPlenty; after:NotEnoughItems")
+@Mod(modid=ModData.MOD_ID, name=ModData.MOD_NAME, version=ModData.VERSION, guiFactory = ModData.GUI_FACTORY, dependencies = "after:BiomesOPlenty; after:NotEnoughItems; after:Mariculture")
 public class BetterOceans {
 
 	@Instance(ModData.MOD_ID)

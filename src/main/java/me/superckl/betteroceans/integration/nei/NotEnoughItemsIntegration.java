@@ -205,4 +205,9 @@ public class NotEnoughItemsIntegration implements IIntegrationModule{
 
 	}
 
+	@Override
+	public String getName() {
+		return "Not Enough Items Integration";
+	}
+
 }

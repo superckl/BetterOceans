@@ -49,4 +49,9 @@ public class BiomesOPlentyIntegration implements IIntegrationModule{
 	@Override
 	public void postInit() {}
 
+	@Override
+	public String getName() {
+		return "Biomes O' Plenty Integration";
+	}
+
 }
