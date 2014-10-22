@@ -61,6 +61,8 @@ public class Config {
 	private float lifejacketModifier;
 	@Getter
 	private float regenRate;
+	@Getter
+	private float airUseRate;
 
 	public Config(final File config){
 		this.configFile = new Configuration(config);
@@ -92,6 +94,7 @@ public class Config {
 			this.infiniteSaltwater = this.configFile.getBoolean("Infinite Saltwater", Category.GENERAL, true, "If true, saltwater will emulate vanilla infinite water mechanics.");
 			this.fluidReplace = this.configFile.getBoolean("Replace Aquatic Plants With Fluid", Category.GENERAL, true, "Determines whether aquatic plants are replaced by (salt) water or air when broken.");
 			this.debugTooltips = this.configFile.getBoolean("Tooltip Debugging", Category.GENERAL, false, "Determines if superfluous information will be displayed in some tooltips.");
+			this.airUseRate = this.configFile.getFloat("Air Tank Drain Rate",Category.GENERAL, .000083F, 0F, 100F, "Determines how fast a scuba tank will drain. Tanks can hold up to 100 units of air, and this value will be drained every tick.");
 
 			this.disableStamina = this.configFile.getBoolean("Disable Swim Stamina", Category.STAMINA, false, "If true, players will be able to swim as in vanilla minecraft.");
 			this.staminaDrain = this.configFile.getFloat("Base Stamina Drain", Category.STAMINA, 2F, 0F, 100F, "Determines how fast stamina drains.");

@@ -6,6 +6,8 @@ import me.superckl.betteroceans.common.item.ItemCookedSeaweed;
 import me.superckl.betteroceans.common.item.ItemDepthSounder;
 import me.superckl.betteroceans.common.item.ItemLifeJacket;
 import me.superckl.betteroceans.common.item.ItemLuminescentPowder;
+import me.superckl.betteroceans.common.item.ItemScubaHelmet;
+import me.superckl.betteroceans.common.item.ItemScubaTank;
 import me.superckl.betteroceans.common.item.ItemSeaweed;
 import me.superckl.betteroceans.common.utility.RecipeHelper;
 import net.minecraft.init.Items;
@@ -24,6 +26,8 @@ public abstract class ModItems {
 	public static final ItemBOBucket boBucket = new ItemBOBucket();
 	public static final ItemLuminescentPowder lumPowder = new ItemLuminescentPowder();
 	public static final ItemLifeJacket lifeJacket = new ItemLifeJacket();
+	public static final ItemScubaHelmet scubaHelmet = new ItemScubaHelmet();
+	public static final ItemScubaTank scubaTank = new ItemScubaTank();
 
 	public static void init(){
 		GameRegistry.registerItem(ModItems.itemSeaweed, Names.SEAWEED);
@@ -33,6 +37,8 @@ public abstract class ModItems {
 		GameRegistry.registerItem(ModItems.boBucket, Names.BO_BUCKET);
 		GameRegistry.registerItem(ModItems.lumPowder, Names.LUM_POWDER);
 		GameRegistry.registerItem(ModItems.lifeJacket, Names.LIFE_JACKET);
+		GameRegistry.registerItem(ModItems.scubaHelmet, Names.SCUBA_HELMET);
+		GameRegistry.registerItem(ModItems.scubaTank, Names.SCUBA_TANK);
 		OreDictionary.registerOre("listAllveggie", ModItems.itemSeaweed);
 		OreDictionary.registerOre("listAllgreenveggie", ModItems.itemSeaweed);
 	}
@@ -52,6 +58,8 @@ public abstract class ModItems {
 		public static final String BO_BUCKET = "boBucket";
 		public static final String LUM_POWDER = "lumPowder";
 		public static final String LIFE_JACKET = "lifeJacket";
+		public static final String SCUBA_HELMET = "scubaHelmet";
+		public static final String SCUBA_TANK = "scubaTank";
 
 	}
 
