@@ -22,13 +22,13 @@ group= "me.superckl.betteroceans"
 archivesBaseName = "BetterOceans"
 
 minecraft {
-    version = "1.7.10-10.13.0.1208"
+    version = "1.7.10-10.13.2.1230"
     runDir = "eclipse/assets"
 }
 
 dependencies {
     
-	compile "org.projectlombok:lombok:1.14.4"
+	compile "org.projectlombok:lombok:1.14.8"
 
 }
 
