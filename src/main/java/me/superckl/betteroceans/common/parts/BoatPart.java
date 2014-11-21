@@ -34,6 +34,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public abstract class BoatPart implements Cloneable{
 
+	public static final int NUM_PARTS = 10;
 	//Used for networking
 	public static int nextID = 0;
 	@Getter
@@ -48,9 +49,16 @@ public abstract class BoatPart implements Cloneable{
 	public static <T extends BoatPart> int registerPart(final Class<T> partClass, final Object ... arguments){
 		BoatPart.parts.put(BoatPart.nextID, new ConstructorWrapper<T>(partClass, arguments));
 		LogHelper.debug(StringHelper.build("Registered boat part ", partClass.getCanonicalName(), " with ID ", BoatPart.nextID));
+		if(BoatPart.nextID < BoatPart.NUM_PARTS && !partClass.getCanonicalName().contains("me.superckl.betteroceans.parts"))
+			LogHelper.warn("A non-standard boatpart was registered before the standard parts! This will most likely break display name mechanics for parts! Please report this to superckl: "+partClass.getCanonicalName());
 		return BoatPart.nextID++;
 	}
 
+	/**
+	 * Retrieves a part by it's id. This will throw a NPE if the part is not found.
+	 * @param id The id of the part to retrieve.
+	 * @return The retrieved part.
+	 */
 	public static BoatPart deserialize(final int id){
 		return BoatPart.parts.get(id).newInstance();
 	}
@@ -60,7 +68,7 @@ public abstract class BoatPart implements Cloneable{
 	public abstract Type getType();
 	/**
 	 * This is called to get the default ingredients.
-	 * This can be overriden in {@link BoatbenchRecipeHandler#registerRecipeHandler(int, IBoatPartRecipeHandler) registerRecipeOverride} if you want to override recipes of parts that are not yours.
+	 * This can be overridden in {@link BoatbenchRecipeHandler#registerRecipeHandler(int, IBoatPartRecipeHandler) registerRecipeOverride} if you want to override recipes of parts that are not yours.
 	 */
 	public abstract List<ItemStack> getCraftingIngredients(final boolean nei);
 	public abstract Material getMaterial();
