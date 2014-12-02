@@ -88,8 +88,8 @@ public class NotEnoughItemsIntegration implements IIntegrationModule{
 		public List<String> handleTooltip(final GuiRecipe gui,
 				final List<String> currenttip, final int recipe) {
 			final Point offset = gui.getRecipePosition(recipe);
-			final int leftX = offset.x+152;
-			final int rightX = leftX+16;
+			final int leftX = offset.x+147;
+			final int rightX = leftX+15;
 			final int bottomY = offset.y+63;
 			final int topY = bottomY-60;
 			final Point mouse = GuiDraw.getMousePosition();

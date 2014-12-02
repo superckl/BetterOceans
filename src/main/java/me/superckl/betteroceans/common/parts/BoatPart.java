@@ -49,7 +49,7 @@ public abstract class BoatPart implements Cloneable{
 	public static <T extends BoatPart> int registerPart(final Class<T> partClass, final Object ... arguments){
 		BoatPart.parts.put(BoatPart.nextID, new ConstructorWrapper<T>(partClass, arguments));
 		LogHelper.debug(StringHelper.build("Registered boat part ", partClass.getCanonicalName(), " with ID ", BoatPart.nextID));
-		if(BoatPart.nextID < BoatPart.NUM_PARTS && !partClass.getCanonicalName().contains("me.superckl.betteroceans.parts"))
+		if(BoatPart.nextID < BoatPart.NUM_PARTS && !partClass.getCanonicalName().contains("me.superckl.betteroceans.common.parts"))
 			LogHelper.warn("A non-standard boatpart was registered before the standard parts! This will most likely break display name mechanics for parts! Please report this to superckl: "+partClass.getCanonicalName());
 		return BoatPart.nextID++;
 	}
