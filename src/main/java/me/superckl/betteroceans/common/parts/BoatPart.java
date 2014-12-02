@@ -55,7 +55,7 @@ public abstract class BoatPart implements Cloneable{
 	}
 
 	/**
-	 * Retrieves a part by it's id. This will throw a NPE if the part is not found.
+	 * Retrieves a part by its id. This will throw a NPE if the part is not found.
 	 * @param id The id of the part to retrieve.
 	 * @return The retrieved part.
 	 */
